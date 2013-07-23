@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'EJDBKit' target in the 'EJDBKit' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
