@@ -80,9 +80,9 @@ setenv_i386()
 #
 
 unset OUTDIR
-OUTDIR="ejdb"
+OUTDIR="`pwd`/ejdb"
 
-pushd ../vendor/ejdb/tcejdb
+pushd vendor/ejdb/tcejdb
 
 rm -rf $OUTDIR/build
 mkdir $OUTDIR/build
@@ -119,7 +119,7 @@ make install
 
 popd
 
-pushd build/ios
+pushd ejdb
 
 # Copy includes and man pages
 cp -r $OUTDIR/build/armv7/* .
