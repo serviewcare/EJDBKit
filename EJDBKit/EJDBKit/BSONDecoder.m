@@ -3,6 +3,7 @@
 
 @interface BSONDecoder ()
 @property (strong,nonatomic) NSMutableDictionary *decodedDict;
+@property (strong,nonatomic) NSMutableArray *decodedArray;
 @end
 
 
@@ -14,6 +15,7 @@
     if (self)
     {
         _decodedDict = [[NSMutableDictionary alloc]initWithCapacity:10];
+        _decodedArray = [[NSMutableArray alloc]init];
     }
     return self;
 }
@@ -51,7 +53,7 @@
         }
         else if (type == BSON_ARRAY)
         {
-            
+            [self decodeArrayIntoDictionary:_decodedDict fromIterator:iterator];
         }
         else if (type == BSON_OBJECT)
         {
@@ -60,6 +62,7 @@
     }
     return [NSDictionary dictionaryWithDictionary:_decodedDict];
 }
+
 
 - (void)decodeStringIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
 {
@@ -121,6 +124,56 @@
     BSONDecoder *decoder = [[BSONDecoder alloc]init];
     NSDictionary *subobject = [decoder decodeFromIterator:subiterator];
     [dict setValue:subobject forKey:key];
+}
+
+- (void)decodeArrayIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+{
+    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
+    bson obj;
+    bson_init(&obj);
+    bson_iterator_subobject(&iterator, &obj);
+    bson_iterator arrayIterator;
+    bson_iterator_init(&arrayIterator, &obj);
+    
+    
+    while (bson_iterator_more(&arrayIterator))
+    {
+        bson_type type = bson_iterator_next(&arrayIterator);
+        
+        if (type == BSON_STRING)
+        {
+            NSLog(@"dec string");
+        }
+        else if (type == BSON_OID)
+        {
+            NSLog(@"dec oid");
+        }
+        else if (type == BSON_INT)
+        {
+            NSLog(@"dec int");
+        }
+        else if (type == BSON_BOOL)
+        {
+            NSLog(@"dec bool");
+        }
+        else if (type == BSON_DOUBLE)
+        {
+            NSLog(@"dec double");
+        }
+        else if (type == BSON_DATE)
+        {
+            NSLog(@"dec date");
+        }
+        else if (type == BSON_ARRAY)
+        {
+            NSLog(@"dec array");
+        }
+        else if (type == BSON_OBJECT)
+        {
+            //[self decodeObjectIntoDictionary:_decodedDict fromIterator:iterator];
+            NSLog(@"dec object");
+        }
+    }    
 }
 
 @end

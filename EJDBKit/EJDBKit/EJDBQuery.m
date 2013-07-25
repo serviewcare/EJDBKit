@@ -34,7 +34,7 @@
        bson_iterator_init(&iterator, data);
        BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
        NSDictionary *dict = [bsonDecoder decodeFromIterator:iterator];
-       NSLog(@"dict %@",dict);
+       //NSLog(@"dict %@",dict);
        [array addObject:dict];
        bson_del(data);
     }
