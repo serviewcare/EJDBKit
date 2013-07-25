@@ -1,5 +1,7 @@
 #import "EJDBDatabase.h"
+#import "BSONObject.m"
 #import "EJDBCollection.h"
+#import "EJDBQuery.h"
 
 @interface EJDBDatabase ()
 @property (copy,nonatomic) NSString *dbPath;
@@ -53,6 +55,21 @@
         return collection;
     }
     return nil;
+}
+
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(__autoreleasing NSError *)error
+{
+    BSONObject *bsonQuery = [[BSONObject alloc]initAsQuery];
+    [bsonQuery encodeDictionary:query];
+    [bsonQuery finish];
+    EJQ *ejqQuery = ejdbcreatequery(_db, bsonQuery.bson, NULL, 0, NULL);
+    if (ejqQuery == NULL)
+    {
+        error = [NSError errorWithDomain:@"jdubd.me.ejdbkit" code:1 userInfo:@{NSLocalizedDescriptionKey: @"couldn't create query!"}];
+        return nil;
+    }
+    EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithEJQuery:ejqQuery collection:collection];
+    return ejdbQuery;
 }
 
 - (void)close

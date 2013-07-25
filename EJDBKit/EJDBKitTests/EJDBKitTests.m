@@ -83,10 +83,15 @@
     [obj encodeDictionary:[self simpleObjectTestDictionary]];
     BOOL success = [fooCollection saveObject:obj];
     STAssertTrue(success, @"Simple object should save successfully!");
+    NSError *err = nil;
+    EJDBQuery *qry = [_db createQuery:@{@"name":@"Jeebus Jehosophat"} forCollection:fooCollection error:err];
+    [qry execute];
+    ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
 }
 
 - (void)testComplexObjectSavedSuccessfully
 {
+    return;
     EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
     BSONObject *obj = [[BSONObject alloc]init];
     [obj encodeDictionary:[self complexObjectTestDictionary]];

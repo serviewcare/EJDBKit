@@ -6,6 +6,8 @@
 
 @property (nonatomic,getter = bson,readonly) bson *bson;
 
+- (id)initAsQuery;
+
 - (void)encodeDictionary:(NSDictionary *)dictionary;
 
 - (void)finish;

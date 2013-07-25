@@ -2,6 +2,7 @@
 #include <tcejdb/ejdb.h>
 
 @class EJDBCollection;
+@class EJDBQuery;
 
 @interface EJDBDatabase : NSObject
 
@@ -18,6 +19,8 @@
 - (EJDBCollection *)createCollectionWithName:(NSString *)name;
 
 - (EJDBCollection *)createCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options;
+
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(__autoreleasing NSError *)error;
 
 - (void)close;
 
