@@ -58,7 +58,6 @@
     {
         [self appendArray:value forKey:key];
     }
-    bson_init_as_query(self.bson);
 }
 
 - (void)appendNumber:(BSONNumber *)number forKey:(NSString *)key
@@ -133,7 +132,7 @@
 
 - (void)dealloc
 {   
-    bson_del(&_bsonObj);
+    bson_destroy(&_bsonObj);
 }
 
 @end

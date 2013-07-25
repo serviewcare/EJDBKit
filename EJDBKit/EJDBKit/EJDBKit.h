@@ -4,6 +4,7 @@
 #import "EJDBCollection.h"
 #import "EJDBQuery.h"
 #import "BSONObject.h"
+#import "BSONDecoder.h"
 #import "BSONNumber.h"
 
 
