@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
 #include <tcejdb/ejdb.h>
 
-@class EJDBRecord;
+@class BSONObject;
 
 @interface EJDBCollection : NSObject
 @property (assign,nonatomic) EJCOLL *collection;
 
 - (id)initWithName:(NSString *)name collection:(EJCOLL *)collection;
 
-- (BOOL)saveRecord:(EJDBRecord *)record;
+- (BOOL)saveObject:(BSONObject *)bsonObject;
 
 @end

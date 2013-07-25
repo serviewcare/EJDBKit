@@ -2,4 +2,7 @@
 
 #import "EJDBDatabase.h"
 #import "EJDBCollection.h"
-#import "EJDBRecord.h"
+#import "BSONObject.h"
+#import "BSONNumber.h"
+
+

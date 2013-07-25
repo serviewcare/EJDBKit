@@ -10,9 +10,10 @@
 		5213BBFC179F4C2F00E34A62 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52182D19179F38410051B52B /* libtcejdb.a */; };
 		5213BBFE179F4DBA00E34A62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
 		5213BC01179F987900E34A62 /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5213BC00179F987900E34A62 /* EJDBCollection.m */; };
-		5213BC05179FAC4100E34A62 /* EJDBRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 5213BC04179FAC4100E34A62 /* EJDBRecord.m */; };
 		52182D1A179F38410051B52B /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52182D19179F38410051B52B /* libtcejdb.a */; };
 		52182D1D179F39430051B52B /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 52182D1C179F39430051B52B /* EJDBDatabase.m */; };
+		5220C82717A0103D005E95CB /* BSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5220C82617A0103D005E95CB /* BSONObject.m */; };
+		5220C83617A125B8005E95CB /* BSONNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5220C83517A125B8005E95CB /* BSONNumber.m */; };
 		52EC76D4179F31B000EEC86D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
 		52EC76D9179F31B000EEC86D /* EJDBKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52EC76D8179F31B000EEC86D /* EJDBKit.h */; };
 		52EC76E3179F31B000EEC86D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E2179F31B000EEC86D /* SenTestingKit.framework */; };
@@ -50,11 +51,13 @@
 		5213BBFD179F4DBA00E34A62 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5213BBFF179F987900E34A62 /* EJDBCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBCollection.h; sourceTree = "<group>"; };
 		5213BC00179F987900E34A62 /* EJDBCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBCollection.m; sourceTree = "<group>"; };
-		5213BC03179FAC4100E34A62 /* EJDBRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBRecord.h; sourceTree = "<group>"; };
-		5213BC04179FAC4100E34A62 /* EJDBRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBRecord.m; sourceTree = "<group>"; };
 		52182D19179F38410051B52B /* libtcejdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtcejdb.a; path = ../ejdb/lib/libtcejdb.a; sourceTree = "<group>"; };
 		52182D1B179F39430051B52B /* EJDBDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBDatabase.h; sourceTree = "<group>"; };
 		52182D1C179F39430051B52B /* EJDBDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBDatabase.m; sourceTree = "<group>"; };
+		5220C82517A0103D005E95CB /* BSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONObject.h; sourceTree = "<group>"; };
+		5220C82617A0103D005E95CB /* BSONObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONObject.m; sourceTree = "<group>"; };
+		5220C83417A125B8005E95CB /* BSONNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONNumber.h; sourceTree = "<group>"; };
+		5220C83517A125B8005E95CB /* BSONNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONNumber.m; sourceTree = "<group>"; };
 		52EC76D0179F31B000EEC86D /* libEJDBKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEJDBKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EC76D3179F31B000EEC86D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		52EC76D7179F31B000EEC86D /* EJDBKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EJDBKit-Prefix.pch"; sourceTree = "<group>"; };
@@ -133,8 +136,10 @@
 				52182D1C179F39430051B52B /* EJDBDatabase.m */,
 				5213BBFF179F987900E34A62 /* EJDBCollection.h */,
 				5213BC00179F987900E34A62 /* EJDBCollection.m */,
-				5213BC03179FAC4100E34A62 /* EJDBRecord.h */,
-				5213BC04179FAC4100E34A62 /* EJDBRecord.m */,
+				5220C82517A0103D005E95CB /* BSONObject.h */,
+				5220C82617A0103D005E95CB /* BSONObject.m */,
+				5220C83417A125B8005E95CB /* BSONNumber.h */,
+				5220C83517A125B8005E95CB /* BSONNumber.m */,
 				52EC76D6179F31B000EEC86D /* Supporting Files */,
 			);
 			path = EJDBKit;
@@ -267,7 +272,8 @@
 			files = (
 				52182D1D179F39430051B52B /* EJDBDatabase.m in Sources */,
 				5213BC01179F987900E34A62 /* EJDBCollection.m in Sources */,
-				5213BC05179FAC4100E34A62 /* EJDBRecord.m in Sources */,
+				5220C82717A0103D005E95CB /* BSONObject.m in Sources */,
+				5220C83617A125B8005E95CB /* BSONNumber.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

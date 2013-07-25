@@ -5,7 +5,6 @@
 @property (copy,nonatomic) NSString *dbPath;
 @end
 
-
 @implementation EJDBDatabase
 
 - (id)initWithPath:(NSString *)path
@@ -55,7 +54,6 @@
     }
     return nil;
 }
-
 
 - (void)close
 {

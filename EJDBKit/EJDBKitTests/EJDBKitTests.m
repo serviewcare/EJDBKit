@@ -25,38 +25,43 @@
     [super tearDown];
 }
 
-- (NSArray *)simpleTestFields
+- (NSDictionary *)simpleObjectTestDictionary
 {
-    EJDBField *name = [[EJDBField alloc]initWithKey:@"name" fieldType:EJDBFieldTypeString value:@"Joe blow"];
-    EJDBField *age = [[EJDBField alloc]initWithKey:@"age" fieldType:EJDBFieldTypeInt value:@36];
-    EJDBField *money = [[EJDBField alloc]initWithKey:@"money" fieldType:EJDBFieldTypeDouble value:@1234567.89];
-    EJDBField *isMarried = [[EJDBField alloc]initWithKey:@"isMarried" fieldType:EJDBFieldTypeBool value:@NO];
-    EJDBField *date = [[EJDBField alloc]initWithKey:@"date" fieldType:EJDBFieldTypeDate value:[NSDate date]];
-    
-    return [NSArray arrayWithObjects:name,age,money,isMarried,date, nil];
+    return
+    @{
+      @"name" : @"Jeebus Jehosophat",
+      @"age"  : [BSONNumber intNumberFromNumber:@2000],
+      @"date" : [NSDate date],
+      @"isMarried" : [BSONNumber boolNumberFromNumber:[NSNumber numberWithBool:YES]],
+      @"money" : [BSONNumber doubleNumberFromNumber:@123.456]
+    };
 }
 
-- (NSArray *)complexTestNonObjectArrayFields
+- (NSDictionary *)complexObjectTestDictionary
 {
-    NSMutableArray *fields = [NSMutableArray arrayWithArray:[self simpleTestFields]];
-    EJDBField *val1 = [[EJDBField alloc]initWithKey:@"val1" fieldType:EJDBFieldTypeString value:@"This is val1."];
-    EJDBField *val2 = [[EJDBField alloc]initWithKey:@"val1" fieldType:EJDBFieldTypeInt value:@22];
-    EJDBField *arr = [[EJDBField alloc]initWithKey:@"arr" fieldType:EJDBFieldTypeArray value:@[val1,val2]];
-    [fields addObject:arr];
-    return [NSArray arrayWithArray:fields];
-}
-
-- (NSArray *)complexTestObjectArrayFields
-{
-    NSMutableArray *fields = [NSMutableArray arrayWithArray:[self simpleTestFields]];
-    //EJDBRecord *record = [[EJDBRecord alloc]init];
-    EJDBRecord *record1 = [[EJDBRecord alloc]initWithFields:[self simpleTestFields]];
-    EJDBRecord *record2 = [[EJDBRecord alloc]initWithFields:[self simpleTestFields]];
-    EJDBField *field1 = [[EJDBField alloc]initWithKey:@"otherPeople" fieldType:EJDBFieldTypeObjectArray value:record1];
-    EJDBField *field2 = [[EJDBField alloc]initWithKey:@"otherPeople" fieldType:EJDBFieldTypeObjectArray value:record2];
-    [fields addObject:field1];
-    [fields addObject:field2];
-    return [NSArray arrayWithArray:fields];
+    return
+    @{
+      @"name" : @"Jeebus Jehosophat",
+      @"age"  : [BSONNumber intNumberFromNumber:@2000],
+      @"date" : [NSDate date],
+      @"isMarried" : [BSONNumber boolNumberFromNumber:[NSNumber numberWithBool:YES]],
+      @"money" : [BSONNumber doubleNumberFromNumber:@123.456],
+      @"address" :
+           @{
+              @"street" : @"21 Jump street",
+              @"city" : @"Heaven"
+            },
+      @"aScalarArray" :
+           @[
+              [BSONNumber intNumberFromNumber:@1],
+              [BSONNumber intNumberFromNumber:@2]
+            ],
+      @"anObjectArray" :
+           @[
+              @{@"obj1": @"val1"},
+              @{@"obj2" : @"val2"}
+            ]
+     };
 }
 
 - (void)testCollectionDoesNotExist
@@ -69,53 +74,27 @@
 {
     EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
     STAssertNotNil(fooCollection, @"collection should not be nil!");
-    
 }
 
-- (void)testSingleRecordSavedSuccessfully
+- (void)testSimpleObjectSavedSuccessfully
 {
-    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo"];
-    EJDBRecord *record = [[EJDBRecord alloc]init];
-    for (EJDBField *field in [self simpleTestFields])
-    {
-        [record addField:field];
-    }
-    [record close];
-    BOOL success = [fooCollection saveRecord:record];
-    STAssertTrue(success, @"collection should save record successfully!");
-    ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
+    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
+    BSONObject *obj = [[BSONObject alloc]init];
+    [obj encodeDictionary:[self simpleObjectTestDictionary]];
+    BOOL success = [fooCollection saveObject:obj];
+    STAssertTrue(success, @"Simple object should save successfully!");
 }
 
-- (void)testSingleRecordWithConvenienceInitSavedSuccessfully
+- (void)testComplexObjectSavedSuccessfully
 {
-    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo"];
-    EJDBRecord *record = [[EJDBRecord alloc]initWithFields:[self simpleTestFields]];
-    [record close];
-    BOOL success = [fooCollection saveRecord:record];
-    STAssertTrue(success, @"collection should save record successfully with convenience initializer!");
+    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
+    BSONObject *obj = [[BSONObject alloc]init];
+    [obj encodeDictionary:[self complexObjectTestDictionary]];
+    BOOL success = [fooCollection saveObject:obj];
+    STAssertTrue(success, @"Complex object should save successfully!");
 }
 
-/*
-- (void)testSingleRecordWithArraySavedSuccessfully
-{
-    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo"];
-    EJDBRecord *record = [[EJDBRecord alloc]initWithFields:[self complexTestNonObjectArrayFields]];
-    [record close];
-    BOOL success = [fooCollection saveRecord:record];
-    STAssertTrue(success, @"record with array should save successfully!");
-    //ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
-}
 
-- (void)testSingleRecordWithArrayObjectsSavedSuccessfully
-{
-    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo"];
-    EJDBRecord *record = [[EJDBRecord alloc]initWithFields:[self complexTestObjectArrayFields]];
-    [record close];
-    BOOL success = [fooCollection saveRecord:record];
-    STAssertTrue(success, @"record with array should save successfully!");
-    ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
-}
-*/
-
+//ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
 
 @end
