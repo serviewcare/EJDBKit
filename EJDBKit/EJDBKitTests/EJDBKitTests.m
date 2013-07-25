@@ -67,7 +67,8 @@
       @"address" :
            @{
               @"street" : @"21 Jump street",
-              @"city" : @"Heaven"
+              @"city" : @"Heaven",
+              @"nums": @[@"1",@"2",@"3"]
             },
       @"aScalarArray" :
            @[
@@ -77,7 +78,7 @@
       @"anObjectArray" :
            @[
               @{@"obj1": @"val1"},
-              @{@"obj2" : @"val2"}
+              @{@"obj2" : @"val2",@"objarr" : @[@{@"1":@"one"},@{@"2":@"two"},@{@"3":@"three"}]}
             ]
      };
 }
@@ -105,7 +106,7 @@
     NSError *err = nil;
     EJDBQuery *qry = [_db createQuery:@{@"name":@"Jeebus Jehosophat"} forCollection:fooCollection error:err];
     [qry execute];
-    //ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
+    ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
 }
 
 - (void)testSimpleObjectWithSubObjectSavedSuccessfully

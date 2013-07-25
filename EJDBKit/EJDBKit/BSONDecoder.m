@@ -20,160 +20,127 @@
     return self;
 }
 
-
 - (NSDictionary *)decodeFromIterator:(bson_iterator)iterator
 {
     while (bson_iterator_more(&iterator))
     {
         bson_type type = bson_iterator_next(&iterator);
-
-        if (type == BSON_STRING)
-        {
-            [self decodeStringIntoDictionary:_decodedDict fromIterator:iterator];
-        }
-        else if (type == BSON_OID)
-        {
-            [self decodeOIDIntoDictionary:_decodedDict fromIterator:iterator];
-        }
-        else if (type == BSON_INT)
-        {
-            [self decodeIntegerIntoDictionary:_decodedDict fromIterator:iterator];
-        }
-        else if (type == BSON_BOOL)
-        {
-            [self decodeBoolIntoDictionary:_decodedDict fromIterator:iterator];
-        }
-        else if (type == BSON_DOUBLE)
-        {
-            [self decodeDoubleIntoDictionary:_decodedDict fromIterator:iterator];
-        }
-        else if (type == BSON_DATE)
-        {
-            [self decodeDateIntoDictionary:_decodedDict fromIterator:iterator];
-        }
-        else if (type == BSON_ARRAY)
-        {
-            [self decodeArrayIntoDictionary:_decodedDict fromIterator:iterator];
-        }
-        else if (type == BSON_OBJECT)
-        {
-            [self decodeObjectIntoDictionary:_decodedDict fromIterator:iterator];
-        }
+        
+        NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
+        id value = [self valueFromIterator:iterator forBSONType:type];
+        [_decodedDict setValue:value forKey:key];
     }
     return [NSDictionary dictionaryWithDictionary:_decodedDict];
 }
 
-
-- (void)decodeStringIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+- (id)valueFromIterator:(bson_iterator)iterator forBSONType:(bson_type)type
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
-    NSString *value = [NSString stringWithCString:bson_iterator_string(&iterator) encoding:NSUTF8StringEncoding];
-    [dict setValue:value forKey:key];
+    id value = nil;
+    
+    if (type == BSON_STRING)
+    {
+        value = [self decodeStringFromIterator:iterator];
+    }
+    else if (type == BSON_OID)
+    {
+        value = [self decodeOIDFromIterator:iterator];
+    }
+    else if (type == BSON_INT)
+    {
+        value = [self decodeIntegerFromIterator:iterator];
+    }
+    else if (type == BSON_BOOL)
+    {
+        value = [self decodeBoolFromIterator:iterator];
+    }
+    else if (type == BSON_DOUBLE)
+    {
+        value = [self decodeDoubleFromIterator:iterator];
+    }
+    else if (type == BSON_DATE)
+    {
+        value = [self decodeDateFromIterator:iterator];
+    }
+    else if (type == BSON_ARRAY)
+    {
+        value = [self decodeArrayFromIterator:iterator];
+    }
+    else if (type == BSON_OBJECT)
+    {
+        value = [self decodeDictionaryFromIterator:iterator];
+    }
+    return value;
 }
 
-- (void)decodeOIDIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+- (NSString *)decodeStringFromIterator:(bson_iterator)iterator
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
+     return [NSString stringWithCString:bson_iterator_string(&iterator) encoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)decodeOIDFromIterator:(bson_iterator)iterator
+{
     bson_oid_t *oid = bson_iterator_oid(&iterator);
     char str[24];
     bson_oid_to_string(oid, str);
-    NSString *value = [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
-    [dict setValue:value forKey:key];
-
+    return [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
+    
 }
 
-- (void)decodeIntegerIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+- (BSONNumber *)decodeIntegerFromIterator:(bson_iterator)iterator
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
     int intValue = bson_iterator_int(&iterator);
-    BSONNumber *value = [BSONNumber intNumberFromNumber:[NSNumber numberWithInt:intValue]];
-    [dict setValue:value forKey:key];
+    return [BSONNumber intNumberFromNumber:[NSNumber numberWithInt:intValue]];
 }
 
-- (void)decodeBoolIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+- (BSONNumber *)decodeBoolFromIterator:(bson_iterator)iterator
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
     bool boolValue = bson_iterator_bool(&iterator);
-    BSONNumber *value = [BSONNumber boolNumberFromNumber:[NSNumber numberWithBool:boolValue]];
-    [dict setValue:value forKey:key];
+    return [BSONNumber boolNumberFromNumber:[NSNumber numberWithBool:boolValue]];
 }
 
-- (void)decodeDoubleIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+- (BSONNumber *)decodeDoubleFromIterator:(bson_iterator)iterator
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
     double doubleValue = bson_iterator_double(&iterator);
-    BSONNumber *value = [BSONNumber doubleNumberFromNumber:[NSNumber numberWithDouble:doubleValue]];
-    [dict setValue:value forKey:key];
+    return [BSONNumber doubleNumberFromNumber:[NSNumber numberWithDouble:doubleValue]];
 }
 
-- (void)decodeDateIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+- (NSDate *)decodeDateFromIterator:(bson_iterator)iterator
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
-    NSDate *value = [NSDate dateWithTimeIntervalSince1970:bson_iterator_date(&iterator)];
-    [dict setValue:value forKey:key];
+    return [NSDate dateWithTimeIntervalSince1970:bson_iterator_date(&iterator)];
 }
 
-- (void)decodeObjectIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+
+- (NSDictionary *)decodeDictionaryFromIterator:(bson_iterator)iterator
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
     bson obj;
     bson_init(&obj);
     bson_iterator_subobject(&iterator, &obj);
     bson_iterator subiterator;
     bson_iterator_init(&subiterator, &obj);
     BSONDecoder *decoder = [[BSONDecoder alloc]init];
-    NSDictionary *subobject = [decoder decodeFromIterator:subiterator];
-    [dict setValue:subobject forKey:key];
+    return [decoder decodeFromIterator:subiterator];
 }
 
-- (void)decodeArrayIntoDictionary:(NSMutableDictionary *)dict fromIterator:(bson_iterator)iterator
+- (NSArray *)decodeArrayFromIterator:(bson_iterator)iterator
 {
-    NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
+    //NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
     bson obj;
     bson_init(&obj);
     bson_iterator_subobject(&iterator, &obj);
     bson_iterator arrayIterator;
     bson_iterator_init(&arrayIterator, &obj);
-    
-    
+    NSMutableArray *array = [NSMutableArray array];
     while (bson_iterator_more(&arrayIterator))
     {
         bson_type type = bson_iterator_next(&arrayIterator);
-        
-        if (type == BSON_STRING)
+        if (type != BSON_EOO)
         {
-            NSLog(@"dec string");
+            id value = [self valueFromIterator:arrayIterator forBSONType:type];
+            [array addObject:value];
         }
-        else if (type == BSON_OID)
-        {
-            NSLog(@"dec oid");
-        }
-        else if (type == BSON_INT)
-        {
-            NSLog(@"dec int");
-        }
-        else if (type == BSON_BOOL)
-        {
-            NSLog(@"dec bool");
-        }
-        else if (type == BSON_DOUBLE)
-        {
-            NSLog(@"dec double");
-        }
-        else if (type == BSON_DATE)
-        {
-            NSLog(@"dec date");
-        }
-        else if (type == BSON_ARRAY)
-        {
-            NSLog(@"dec array");
-        }
-        else if (type == BSON_OBJECT)
-        {
-            //[self decodeObjectIntoDictionary:_decodedDict fromIterator:iterator];
-            NSLog(@"dec object");
-        }
-    }    
+    }
+    return [NSArray arrayWithArray:array];
 }
+
 
 @end
