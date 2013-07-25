@@ -37,6 +37,24 @@
     };
 }
 
+- (NSDictionary *)simpleObjectWithSubObjectDictionary
+{
+    return
+    @{
+      @"name" : @"Jeebus Jehosophat",
+      @"age"  : [BSONNumber intNumberFromNumber:@2000],
+      @"date" : [NSDate date],
+      @"isMarried" : [BSONNumber boolNumberFromNumber:[NSNumber numberWithBool:YES]],
+      @"money" : [BSONNumber doubleNumberFromNumber:@123.456],
+      @"address" :
+        @{
+            @"street" : @"21 Jump street",
+            @"city" : @"Heaven"
+         }
+     };
+    
+}
+
 - (NSDictionary *)complexObjectTestDictionary
 {
     return
@@ -78,6 +96,7 @@
 
 - (void)testSimpleObjectSavedSuccessfully
 {
+    return;
     EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
     BSONObject *obj = [[BSONObject alloc]init];
     [obj encodeDictionary:[self simpleObjectTestDictionary]];
@@ -86,8 +105,22 @@
     NSError *err = nil;
     EJDBQuery *qry = [_db createQuery:@{@"name":@"Jeebus Jehosophat"} forCollection:fooCollection error:err];
     [qry execute];
+    //ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
+}
+
+- (void)testSimpleObjectWithSubObjectSavedSuccessfully
+{
+    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
+    BSONObject *obj = [[BSONObject alloc]init];
+    [obj encodeDictionary:[self simpleObjectWithSubObjectDictionary]];
+    BOOL success = [fooCollection saveObject:obj];
+    STAssertTrue(success, @"Simple object should save successfully!");
+    NSError *err = nil;
+    EJDBQuery *qry = [_db createQuery:@{@"name":@"Jeebus Jehosophat"} forCollection:fooCollection error:err];
+    [qry execute];
     ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
 }
+
 
 - (void)testComplexObjectSavedSuccessfully
 {
