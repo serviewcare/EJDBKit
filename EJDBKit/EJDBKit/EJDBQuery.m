@@ -19,12 +19,11 @@
     return self;
 }
 
-- (void)execute
+- (NSArray *)execute
 {
     uint32_t count = 0;
     TCLIST *r = ejdbqryexecute(_collection.collection, _ejQuery, &count, 0, NULL);
-    NSMutableArray *array = [[NSMutableArray alloc]init];
-    
+    NSMutableArray *results = [[NSMutableArray alloc]init];
     for (int i = 0; i < TCLISTNUM(r);i++)
     {
        void *p =  TCLISTVALPTR(r, i);
@@ -34,11 +33,11 @@
        bson_iterator_init(&iterator, data);
        BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
        NSDictionary *dict = [bsonDecoder decodeFromIterator:iterator];
-       NSLog(@"dict %@",dict);
-       [array addObject:dict];
+       [results addObject:dict];
        bson_del(data);
     }
     ejdbquerydel(_ejQuery);
+    return [NSArray arrayWithArray:results];
 }
 
 @end

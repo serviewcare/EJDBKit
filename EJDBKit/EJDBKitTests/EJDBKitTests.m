@@ -13,7 +13,7 @@
     NSString *dbPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"test.ejdb"];
     [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
     _db = [[EJDBDatabase alloc]initWithPath:dbPath];
-    BOOL success = [_db open];
+    BOOL success = [_db openWithError:NULL];
     STAssertTrue(success, @"Db should open successfully!");
     
 }
@@ -91,10 +91,12 @@
 
 - (void)testCollectionCreatedSuccessfully
 {
-    EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
+    EJDBCollection *fooCollection = [_db ensureCollectionWithName:@"foo" options:NULL error:NULL];
     STAssertNotNil(fooCollection, @"collection should not be nil!");
 }
 
+
+/*
 - (void)testSimpleObjectSavedSuccessfully
 {
     return;
@@ -137,7 +139,7 @@
 
     ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
 }
-
+*/
 
 //ejdbexport(_db.db, "/var/tmp/ejdbexport", NULL, JBJSONEXPORT, NULL);
 

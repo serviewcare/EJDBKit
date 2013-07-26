@@ -109,7 +109,6 @@
     return [NSDate dateWithTimeIntervalSince1970:bson_iterator_date(&iterator)];
 }
 
-
 - (NSDictionary *)decodeDictionaryFromIterator:(bson_iterator)iterator
 {
     bson obj;
@@ -123,7 +122,6 @@
 
 - (NSArray *)decodeArrayFromIterator:(bson_iterator)iterator
 {
-    //NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
     bson obj;
     bson_init(&obj);
     bson_iterator_subobject(&iterator, &obj);
@@ -139,8 +137,8 @@
             [array addObject:value];
         }
     }
+
     return [NSArray arrayWithArray:array];
 }
-
 
 @end

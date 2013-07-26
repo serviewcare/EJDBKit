@@ -6,7 +6,6 @@
 
 @end
 
-
 @implementation EJDBCollection
 
 - (id)initWithName:(NSString *)name collection:(EJCOLL *)collection

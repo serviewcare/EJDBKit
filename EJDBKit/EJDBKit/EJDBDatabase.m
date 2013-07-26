@@ -20,14 +20,16 @@
     return self;
 }
 
-- (BOOL)open
+- (BOOL)openWithError:(NSError *__autoreleasing)error
 {
-    return [self openWithMode:JBOWRITER | JBOCREAT | JBOTRUNC];
+    return [self openWithMode:(JBOWRITER | JBOCREAT | JBOTRUNC) error:error];
 }
 
-- (BOOL)openWithMode:(int)mode
+- (BOOL)openWithMode:(int)mode error:(NSError *__autoreleasing)error
 {
-    return ejdbopen(_db, [_dbPath cStringUsingEncoding:NSUTF8StringEncoding], mode);
+    BOOL success = ejdbopen(_db, [_dbPath cStringUsingEncoding:NSUTF8StringEncoding], mode);
+    if (!success) [self populateError:error];
+    return success;
 }
 
 - (EJDBCollection *)collectionWithName:(NSString *)name
@@ -41,23 +43,24 @@
     return nil;
 }
 
-- (EJDBCollection *)createCollectionWithName:(NSString *)name
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name error:(NSError *__autoreleasing)error
 {
-    return [self createCollectionWithName:name options:NULL];
+    return [self ensureCollectionWithName:name options:NULL error:error];
 }
 
-- (EJDBCollection *)createCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options error:(NSError *__autoreleasing)error
 {
     EJCOLL *coll = ejdbcreatecoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding],options);
-    if (coll != NULL)
+    if (coll == NULL)
     {
-        EJDBCollection *collection = [[EJDBCollection alloc]initWithName:name collection:coll];
-        return collection;
+        [self populateError:error];
+        return nil;
     }
-    return nil;
+    EJDBCollection *collection = [[EJDBCollection alloc]initWithName:name collection:coll];
+    return collection;
 }
 
-- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(__autoreleasing NSError *)error
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
 {
     BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
     [bsonQuery encodeDictionary:query];
@@ -71,6 +74,27 @@
     EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithEJQuery:ejqQuery collection:collection];
     return ejdbQuery;
 }
+
+- (int)errorCode
+{
+    return ejdbecode(_db);
+}
+
+- (NSString *)errorMessageFromCode:(int)errorCode
+{
+    return [NSString stringWithCString:ejdberrmsg(errorCode) encoding:NSUTF8StringEncoding];
+}
+
+- (void)populateError:(NSError *)error
+{
+    if (error != NULL)
+    {
+        int errorCode = [self errorCode];
+        error = [NSError errorWithDomain:@"com.softmotions.ejdbkit"
+                                    code:errorCode userInfo:@{NSLocalizedDescriptionKey : [self errorMessageFromCode:errorCode]}];
+    }
+}
+
 
 - (void)close
 {
