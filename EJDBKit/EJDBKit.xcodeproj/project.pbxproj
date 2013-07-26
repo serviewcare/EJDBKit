@@ -384,10 +384,10 @@
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../ejdb/lib\"",
+					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -401,10 +401,10 @@
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../ejdb/lib\"",
+					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -415,21 +415,21 @@
 		52EC76F9179F31B000EEC86D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
 				INFOPLIST_FILE = "EJDBKitTests/EJDBKitTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../ejdb/lib\"",
+					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -437,21 +437,21 @@
 		52EC76FA179F31B000EEC86D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
 				INFOPLIST_FILE = "EJDBKitTests/EJDBKitTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../ejdb/lib\"",
+					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
