@@ -10,7 +10,7 @@ THERE BE DRAGONS HERE! The framework is NOT yet complete (alpha...very alpha)! D
 and gnashing of the teeth! You..have...been...warned!!!
 
 Ok..so if you're still here, it's not all doom and gloom as I intend to actively work on this project
-at least until I'm satisfied it is a complete and more imporantly, a correct implementation of ejdb.
+at least until I'm satisfied it is complete and more importantly, a correct Objective-C implementation of ejdb.
 
 Building
 =================
