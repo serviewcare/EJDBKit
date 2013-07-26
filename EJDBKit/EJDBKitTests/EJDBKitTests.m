@@ -99,7 +99,7 @@
 {
     return;
     EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
-    BSONObject *obj = [[BSONObject alloc]init];
+    BSONEncoder *obj = [[BSONEncoder alloc]init];
     [obj encodeDictionary:[self simpleObjectTestDictionary]];
     BOOL success = [fooCollection saveObject:obj];
     STAssertTrue(success, @"Simple object should save successfully!");
@@ -113,7 +113,7 @@
 {
     return;
     EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
-    BSONObject *obj = [[BSONObject alloc]init];
+    BSONEncoder *obj = [[BSONEncoder alloc]init];
     [obj encodeDictionary:[self simpleObjectWithSubObjectDictionary]];
     BOOL success = [fooCollection saveObject:obj];
     STAssertTrue(success, @"Simple object should save successfully!");
@@ -127,7 +127,7 @@
 - (void)testComplexObjectSavedSuccessfully
 {
     EJDBCollection *fooCollection = [_db createCollectionWithName:@"foo" options:NULL];
-    BSONObject *obj = [[BSONObject alloc]init];
+    BSONEncoder *obj = [[BSONEncoder alloc]init];
     [obj encodeDictionary:[self complexObjectTestDictionary]];
     BOOL success = [fooCollection saveObject:obj];
     STAssertTrue(success, @"Complex object should save successfully!");

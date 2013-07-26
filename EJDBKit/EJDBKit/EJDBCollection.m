@@ -1,5 +1,5 @@
 #import "EJDBCollection.h"
-#import "BSONObject.h"
+#import "BSONEncoder.h"
 
 @interface EJDBCollection ()
 @property (copy,nonatomic) NSString *name;
@@ -20,7 +20,7 @@
     return self;
 }
 
-- (BOOL)saveObject:(BSONObject *)bsonObject
+- (BOOL)saveObject:(BSONEncoder *)bsonObject
 {
     [bsonObject finish];
     bson_oid_t oid;

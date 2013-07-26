@@ -1,5 +1,5 @@
 #import "EJDBDatabase.h"
-#import "BSONObject.m"
+#import "BSONEncoder.h"
 #import "EJDBCollection.h"
 #import "EJDBQuery.h"
 
@@ -59,7 +59,7 @@
 
 - (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(__autoreleasing NSError *)error
 {
-    BSONObject *bsonQuery = [[BSONObject alloc]initAsQuery];
+    BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
     [bsonQuery encodeDictionary:query];
     [bsonQuery finish];
     EJQ *ejqQuery = ejdbcreatequery(_db, bsonQuery.bson, NULL, 0, NULL);

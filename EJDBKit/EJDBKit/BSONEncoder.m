@@ -1,11 +1,11 @@
-#import "BSONObject.h"
+#import "BSONEncoder.h"
 #import "BSONNumber.h"
 
-@interface BSONObject ()
+@interface BSONEncoder ()
 @property (assign,nonatomic) bson bsonObj;
 @end
 
-@implementation BSONObject
+@implementation BSONEncoder
 
 - (id)init
 {

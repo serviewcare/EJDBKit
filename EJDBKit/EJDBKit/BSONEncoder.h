@@ -2,7 +2,7 @@
 #include <tcejdb/ejdb.h>
 
 
-@interface BSONObject : NSObject
+@interface BSONEncoder : NSObject
 
 @property (nonatomic,getter = bson,readonly) bson *bson;
 

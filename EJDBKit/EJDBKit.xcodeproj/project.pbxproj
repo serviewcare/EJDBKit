@@ -12,7 +12,7 @@
 		5213BC01179F987900E34A62 /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5213BC00179F987900E34A62 /* EJDBCollection.m */; };
 		52182D1A179F38410051B52B /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52182D19179F38410051B52B /* libtcejdb.a */; };
 		52182D1D179F39430051B52B /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 52182D1C179F39430051B52B /* EJDBDatabase.m */; };
-		5220C82717A0103D005E95CB /* BSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5220C82617A0103D005E95CB /* BSONObject.m */; };
+		5220C82717A0103D005E95CB /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5220C82617A0103D005E95CB /* BSONEncoder.m */; };
 		5220C83617A125B8005E95CB /* BSONNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5220C83517A125B8005E95CB /* BSONNumber.m */; };
 		529524A417A14581007418CE /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 529524A317A14580007418CE /* EJDBQuery.m */; };
 		529524A717A17E8A007418CE /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 529524A617A17E8A007418CE /* BSONDecoder.m */; };
@@ -56,8 +56,8 @@
 		52182D19179F38410051B52B /* libtcejdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtcejdb.a; path = ../ejdb/lib/libtcejdb.a; sourceTree = "<group>"; };
 		52182D1B179F39430051B52B /* EJDBDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBDatabase.h; sourceTree = "<group>"; };
 		52182D1C179F39430051B52B /* EJDBDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBDatabase.m; sourceTree = "<group>"; };
-		5220C82517A0103D005E95CB /* BSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONObject.h; sourceTree = "<group>"; };
-		5220C82617A0103D005E95CB /* BSONObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONObject.m; sourceTree = "<group>"; };
+		5220C82517A0103D005E95CB /* BSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoder.h; sourceTree = "<group>"; };
+		5220C82617A0103D005E95CB /* BSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoder.m; sourceTree = "<group>"; };
 		5220C83417A125B8005E95CB /* BSONNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONNumber.h; sourceTree = "<group>"; };
 		5220C83517A125B8005E95CB /* BSONNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONNumber.m; sourceTree = "<group>"; };
 		529524A217A14580007418CE /* EJDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBQuery.h; sourceTree = "<group>"; };
@@ -144,8 +144,8 @@
 				5213BC00179F987900E34A62 /* EJDBCollection.m */,
 				529524A217A14580007418CE /* EJDBQuery.h */,
 				529524A317A14580007418CE /* EJDBQuery.m */,
-				5220C82517A0103D005E95CB /* BSONObject.h */,
-				5220C82617A0103D005E95CB /* BSONObject.m */,
+				5220C82517A0103D005E95CB /* BSONEncoder.h */,
+				5220C82617A0103D005E95CB /* BSONEncoder.m */,
 				529524A517A17E8A007418CE /* BSONDecoder.h */,
 				529524A617A17E8A007418CE /* BSONDecoder.m */,
 				5220C83417A125B8005E95CB /* BSONNumber.h */,
@@ -282,7 +282,7 @@
 			files = (
 				52182D1D179F39430051B52B /* EJDBDatabase.m in Sources */,
 				5213BC01179F987900E34A62 /* EJDBCollection.m in Sources */,
-				5220C82717A0103D005E95CB /* BSONObject.m in Sources */,
+				5220C82717A0103D005E95CB /* BSONEncoder.m in Sources */,
 				5220C83617A125B8005E95CB /* BSONNumber.m in Sources */,
 				529524A417A14581007418CE /* EJDBQuery.m in Sources */,
 				529524A717A17E8A007418CE /* BSONDecoder.m in Sources */,
