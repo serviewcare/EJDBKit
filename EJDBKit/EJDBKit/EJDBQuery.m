@@ -19,10 +19,23 @@
     return self;
 }
 
-- (NSArray *)execute
+- (NSDictionary *)fetchObject
+{
+    NSArray *array = [self fetchWithFlags:JBQRYFINDONE];
+    if ([array count] > 0) return array[0];
+    return nil;
+}
+
+- (NSArray *)fetchObjects
+{
+    return [self fetchWithFlags:0];
+}
+
+
+- (NSArray *)fetchWithFlags:(int)queryFlags
 {
     uint32_t count = 0;
-    TCLIST *r = ejdbqryexecute(_collection.collection, _ejQuery, &count, 0, NULL);
+    TCLIST *r = ejdbqryexecute(_collection.collection, _ejQuery, &count, queryFlags, NULL);
     NSMutableArray *results = [[NSMutableArray alloc]init];
     for (int i = 0; i < TCLISTNUM(r);i++)
     {

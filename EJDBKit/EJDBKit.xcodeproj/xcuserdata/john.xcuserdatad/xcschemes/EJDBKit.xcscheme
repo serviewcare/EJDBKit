@@ -37,6 +37,11 @@
                BlueprintName = "EJDBKitTests"
                ReferencedContainer = "container:EJDBKit.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "EJDBKitTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

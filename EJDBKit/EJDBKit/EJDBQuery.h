@@ -8,5 +8,6 @@
 @property (assign,nonatomic,readonly) EJQ *ejQuery;
 
 - (id)initWithEJQuery:(EJQ *)query collection:(EJDBCollection *)collection;
-- (NSArray *)execute;
+- (NSDictionary *)fetchObject;
+- (NSArray *)fetchObjects;
 @end

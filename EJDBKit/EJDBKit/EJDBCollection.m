@@ -19,11 +19,38 @@
     return self;
 }
 
+- (BOOL)saveObject:(NSDictionary *)dictionary
+{
+    BSONEncoder *bsonObject = [[BSONEncoder alloc]init];
+    [bsonObject encodeDictionary:dictionary];
+    [bsonObject finish];
+    bson_oid_t oid;
+    return ejdbsavebson(_collection, bsonObject.bson, &oid);
+}
+
+- (BOOL)saveObjects:(NSArray *)objects
+{
+    for (NSDictionary *dictionary in objects)
+    {
+        BSONEncoder *bsonObject = [[BSONEncoder alloc]init];
+        [bsonObject encodeDictionary:dictionary];
+        [bsonObject finish];
+        bson_oid_t oid;
+        BOOL success = ejdbsavebson(_collection, bsonObject.bson, &oid);
+        if (!success) return NO;
+    }
+    return YES;
+}
+
+
+/*
 - (BOOL)saveObject:(BSONEncoder *)bsonObject
 {
     [bsonObject finish];
     bson_oid_t oid;
     return ejdbsavebson(_collection, bsonObject.bson, &oid);
 }
+*/
+
 
 @end

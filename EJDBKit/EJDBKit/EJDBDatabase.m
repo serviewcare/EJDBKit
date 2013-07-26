@@ -3,6 +3,13 @@
 #import "EJDBCollection.h"
 #import "EJDBQuery.h"
 
+/* 
+   Yes...I'm doing something unholy here but I need to know some things that I can't get from ejdb.h.
+   Example: How the hell do I get a name of a collection??? This smells bad, I will have to talk to the folks over at softmotions
+   but for now, it's the only solution I can come up with.
+ */
+#include <tcejdb/ejdb_private.h>
+
 @interface EJDBDatabase ()
 @property (copy,nonatomic) NSString *dbPath;
 @end
@@ -22,7 +29,7 @@
 
 - (BOOL)openWithError:(NSError *__autoreleasing)error
 {
-    return [self openWithMode:(JBOWRITER | JBOCREAT | JBOTRUNC) error:error];
+    return [self openWithMode:( JBOREADER | JBOWRITER | JBOCREAT) error:error];
 }
 
 - (BOOL)openWithMode:(int)mode error:(NSError *__autoreleasing)error
@@ -32,6 +39,11 @@
     return success;
 }
 
+- (BOOL)isOpen
+{
+    return ejdbisopen(_db);
+}
+
 - (EJDBCollection *)collectionWithName:(NSString *)name
 {
     EJCOLL *coll = ejdbgetcoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -39,6 +51,26 @@
     {
         EJDBCollection *collection = [[EJDBCollection alloc]initWithName:name collection:coll];
         return collection;
+    }
+    return nil;
+}
+
+- (NSArray *)collections
+{
+    NSMutableArray *openCollections = [NSMutableArray array];
+    TCLIST *collectionList = ejdbgetcolls(_db);
+    if (collectionList != NULL)
+    {
+        for (int i = 0; i < TCLISTNUM(collectionList); i++)
+        {
+            EJCOLL *coll = TCLISTVALPTR(collectionList, i);
+            /* coll->cname just doesn't feel right. Look at top of this file for explanation. */
+            NSString *collectionName = [NSString stringWithCString:coll->cname encoding:NSUTF8StringEncoding];
+            EJDBCollection *collection = [[EJDBCollection alloc]initWithName:collectionName collection:coll];
+            [openCollections addObject:collection];
+        }
+        tclistdel(collectionList);
+        return [NSArray arrayWithArray:openCollections];
     }
     return nil;
 }
@@ -60,6 +92,47 @@
     return collection;
 }
 
+- (BOOL)removeCollectionWithName:(NSString *)name
+{
+    return [self removeCollectionWithName:name unlinkFile:YES];
+}
+
+- (BOOL)removeCollectionWithName:(NSString *)name unlinkFile:(BOOL)unlinkFile
+{
+    return ejdbrmcoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding], unlinkFile);
+}
+
+- (NSArray *)findObjectsWithQuery:(NSDictionary *)query inCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
+{
+    return [self findObjectsWithQuery:query hints:nil inCollection:collection error:error];
+}
+
+- (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
+                            error:(NSError *__autoreleasing)error
+{
+    BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
+    [bsonQuery encodeDictionary:query];
+    [bsonQuery finish];
+    BSONEncoder *bsonHints;
+    BOOL isHintsNull = queryHints == nil ? YES : NO;
+    if (!isHintsNull)
+    {
+        bsonHints = [[BSONEncoder alloc]initAsQuery];
+        [bsonHints encodeDictionary:queryHints];
+        [bsonHints finish];
+    }
+    EJQ *ejq = ejdbcreatequery(_db, bsonQuery.bson, NULL, 0, !isHintsNull ? bsonHints.bson : NULL);
+    if (ejq == NULL)
+    {
+        [self populateError:error];
+        return nil;
+    }
+    EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithEJQuery:ejq collection:collection];
+    return [ejdbQuery fetchObjects];
+}
+
+
+/*
 - (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
 {
     BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
@@ -68,12 +141,13 @@
     EJQ *ejqQuery = ejdbcreatequery(_db, bsonQuery.bson, NULL, 0, NULL);
     if (ejqQuery == NULL)
     {
-        error = [NSError errorWithDomain:@"jdubd.me.ejdbkit" code:1 userInfo:@{NSLocalizedDescriptionKey: @"couldn't create query!"}];
+        [self populateError:error];
         return nil;
     }
     EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithEJQuery:ejqQuery collection:collection];
     return ejdbQuery;
 }
+*/
 
 - (int)errorCode
 {

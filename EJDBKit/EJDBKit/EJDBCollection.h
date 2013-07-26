@@ -8,6 +8,9 @@
 
 - (id)initWithName:(NSString *)name collection:(EJCOLL *)collection;
 
-- (BOOL)saveObject:(BSONEncoder *)bsonObject;
+- (BOOL)saveObject:(NSDictionary *)dictionary;
+
+- (BOOL)saveObjects:(NSArray *)objects;
+
 
 @end
