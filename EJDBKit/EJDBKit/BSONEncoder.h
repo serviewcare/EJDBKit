@@ -2,7 +2,7 @@
 #include <tcejdb/ejdb.h>
 
 /**
- This class encodes a dictionary to a bson object. It is not meant for internal use only.
+ This class encodes a dictionary to a bson object. It is meant for internal use only.
 */
 @interface BSONEncoder : NSObject
 

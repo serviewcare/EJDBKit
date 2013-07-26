@@ -2,8 +2,9 @@
 #import "BSONNumber.h"
 
 @interface BSONDecoder ()
+
 @property (strong,nonatomic) NSMutableDictionary *decodedDict;
-@property (strong,nonatomic) NSMutableArray *decodedArray;
+
 @end
 
 
@@ -15,7 +16,6 @@
     if (self)
     {
         _decodedDict = [[NSMutableDictionary alloc]initWithCapacity:10];
-        _decodedArray = [[NSMutableArray alloc]init];
     }
     return self;
 }
