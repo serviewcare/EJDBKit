@@ -6,8 +6,7 @@ For more information on EJDB check out [ejdb.org](http://ejdb.org).
 
 Current Status
 =================
-THERE BE DRAGONS HERE! The framework is NOT yet complete! DO NOT use it in a production environment
-or to make your next killer app. Not heeding this warning will probably cause you much pain, wailing
+THERE BE DRAGONS HERE! The framework is NOT yet complete (alpha...very alpha)! DO NOT use it in a production environment or to make your next killer app! Not heeding this warning will probably cause you much pain, wailing
 and gnashing of the teeth! You..have...been...warned!!!
 
 Ok..so if you're still here, it's not all doom and gloom as I intend to actively work on this project
@@ -33,7 +32,7 @@ this should be as simple as running the shell script (under EJDBKit folder):
 Usage
 ==================
 
-WATCH THIS SPACE!!! :)
+WATCH THIS SPACE!!! :) For the curious (or potential collaborators), you can look at the documentation in the code. Doxyfile is forthcoming!
 
 
 iOS versions supported
