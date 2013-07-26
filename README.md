@@ -10,20 +10,20 @@ or to make your next killer app. Not heeding this warning will probably cause yo
 and gnashing of the teeth! You..have...been...warned!!!
 
 Ok..so if you're still here, it's not all doom and gloom as I intend to actively work on this project
-at least until I'm satisfied it is a complete and more imporantly correct implementation of ejdb.
+at least until I'm satisfied it is a complete and more imporantly, a correct implementation of ejdb.
 
 Building
 =================
 There are a few steps but it's not too bad! :)
 
-1st) Obviously...clone this project.
-2nd) After it's cloned, the ejdb dependancy is included as a submodule so you'll have to get it via:
+1. Obviously...clone this project.
+2. After it's cloned, the ejdb dependancy is included as a submodule so you'll have to get it via:
 	git submodule init
 	git submodule update
-3rd) After the submodule is pulled down. You'll need to build the tcejdb libraries...fortunately
+3. After the submodule is pulled down. You'll need to build the tcejdb libraries...fortunately
 this should be as simple as:
 	./ejdb-build.sh (under EJDBKit folder).
-4th) After a bunch of compilation/building/etc you should be good to go!
+4. After a bunch of compilation/building/etc you should be good to go!
 
 Usage
 ==================
