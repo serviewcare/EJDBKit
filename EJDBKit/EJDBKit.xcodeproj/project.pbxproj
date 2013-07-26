@@ -24,7 +24,6 @@
 		52EC76E6179F31B000EEC86D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
 		52EC76E9179F31B000EEC86D /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D0179F31B000EEC86D /* libEJDBKit.a */; };
 		52EC76EF179F31B000EEC86D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52EC76ED179F31B000EEC86D /* InfoPlist.strings */; };
-		52EC76F2179F31B000EEC86D /* EJDBKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52EC76F1179F31B000EEC86D /* EJDBKitTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,8 +75,6 @@
 		52EC76E4179F31B000EEC86D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		52EC76EC179F31B000EEC86D /* EJDBKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EJDBKitTests-Info.plist"; sourceTree = "<group>"; };
 		52EC76EE179F31B000EEC86D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		52EC76F0179F31B000EEC86D /* EJDBKitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EJDBKitTests.h; sourceTree = "<group>"; };
-		52EC76F1179F31B000EEC86D /* EJDBKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EJDBKitTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,8 +166,6 @@
 		52EC76EA179F31B000EEC86D /* EJDBKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				52EC76F0179F31B000EEC86D /* EJDBKitTests.h */,
-				52EC76F1179F31B000EEC86D /* EJDBKitTests.m */,
 				5294231117A274C4007FFD63 /* EJDBDatabaseTests.h */,
 				5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */,
 				52EC76EB179F31B000EEC86D /* Supporting Files */,
@@ -298,7 +293,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52EC76F2179F31B000EEC86D /* EJDBKitTests.m in Sources */,
 				5294231317A274C4007FFD63 /* EJDBDatabaseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
