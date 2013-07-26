@@ -11,8 +11,6 @@
 @property (nonatomic,readonly) BOOL boolValue;
 @property (nonatomic,readonly) double doubleValue;
 
-
-
 + (BSONNumber *)intNumberFromNumber:(NSNumber *)number;
 
 + (BSONNumber *)longlongNumberFromNumber:(NSNumber *)number;

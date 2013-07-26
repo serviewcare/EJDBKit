@@ -42,15 +42,4 @@
     return YES;
 }
 
-
-/*
-- (BOOL)saveObject:(BSONEncoder *)bsonObject
-{
-    [bsonObject finish];
-    bson_oid_t oid;
-    return ejdbsavebson(_collection, bsonObject.bson, &oid);
-}
-*/
-
-
 @end

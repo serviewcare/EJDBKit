@@ -5,7 +5,6 @@
 
 @implementation BSONNumber
 
-
 + (BSONNumber *)intNumberFromNumber:(NSNumber *)number
 {
     BSONNumber *intNumber = [[BSONNumber alloc]initWithIntValue:[number intValue]];
