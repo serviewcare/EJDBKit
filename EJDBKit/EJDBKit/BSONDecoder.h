@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#include <tcejdb/ejdb.h>
 
 /**
  This class decodes a bson object to a dictionary representation. It is meant for internal use only.

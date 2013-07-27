@@ -1,10 +1,6 @@
 #import <Foundation/Foundation.h>
-
-#import "EJDBDatabase.h"
-#import "EJDBCollection.h"
-#import "EJDBQuery.h"
-#import "BSONEncoder.h"
-#import "BSONDecoder.h"
-
+#import <EJDBKit/EJDBDatabase.h>
+#import <EJDBKit/EJDBCollection.h>
+#import <EJDBKit/EJDBQuery.h>
 
 

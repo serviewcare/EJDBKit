@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#include <tcejdb/ejdb.h>
+
 
 @class EJDBCollection;
 @class EJDBQuery;
