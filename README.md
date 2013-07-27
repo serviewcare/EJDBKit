@@ -40,6 +40,7 @@ Open a database:
 ```objc
  EJDBDatabase *db = [[EJDBDatabase alloc] initWithPath:@"some/path" 
                                           dbFileName:@"foo.db"];
+ [db openWithError:NULL];
 ```
 
 Create a collection:
