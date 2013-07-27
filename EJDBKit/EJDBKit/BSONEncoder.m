@@ -61,6 +61,10 @@
     {
         [self appendData:value forKey:key];
     }
+    else if ([value isKindOfClass:[NSNull class]])
+    {
+        [self appendNull:value forKey:key];
+    }
     else
     {
         [NSException raise:@"Unsupported BSON Type" format:@"Cannot encode class: %@",NSStringFromClass([value class])];
@@ -156,6 +160,12 @@
 {
     const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
     bson_append_binary(&_bsonObj, cKeyString, BSON_BINDATA, [data bytes], [data length]);
+}
+
+- (void)appendNull:(NSNull *)nullData forKey:(NSString *)key
+{
+    const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    bson_append_null(&_bsonObj, cKeyString);
 }
 
 - (void)finish

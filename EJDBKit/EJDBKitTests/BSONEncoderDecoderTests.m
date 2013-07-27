@@ -105,19 +105,64 @@
     STAssertTrue([inDictionary isEqualToDictionary:outDictionary], @"Encoded and Decoded dictionaries should be the same!");
 }
 
+
+- (void)testEncodingDecodingNSData
+{
+    NSData *imageDataIn = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
+                                                          pathForResource:@"ejdblogo3" ofType:@"png"]];
+    NSDictionary *inDictionary = @{@"name":@"logo",@"image": imageDataIn};
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    [collection saveObject:inDictionary];
+    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"logo"} inCollection:collection error:NULL];
+    NSDictionary *outDictionary = results[0];
+    NSData *imageDataOut = [outDictionary objectForKey:@"image"];
+    STAssertTrue([imageDataIn isEqualToData:imageDataOut], @"Image in and Image out data should be equal!");
+}
+
+- (void)testEncodingDecodingNSNull
+{
+    NSDictionary *inDictionary = @{@"name": @"null obj",@"nullval":[NSNull null]};
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    [collection saveObject:inDictionary];
+    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"null obj"} inCollection:collection error:NULL];
+    NSDictionary *outDictionary = results[0];
+    STAssertTrue([[inDictionary objectForKey:@"nullval"]
+                  isEqual:[outDictionary objectForKey:@"nullval"]], @"Out null obj should match in!");
+}
+
 - (void)testShouldThrowExceptionOnInvalidOID
 {
+    BOOL threwException = NO;
     NSDictionary *inDictionary = @{@"_id": @"123"};
     BSONEncoder *encoder = [[BSONEncoder alloc]init];
     @try {
         [encoder encodeDictionary:inDictionary];
     }
     @catch (NSException *exception) {
-        STAssertEqualObjects(exception.reason, @"The value: 123 is not a valid oid.", @"Exception reason and given string should match!");
+        threwException = YES;
     }
     @finally {
         [encoder finish];
         encoder = nil;
+        STAssertTrue(threwException, @"Encoding should have thrown an Exception for invalid oid!");
+    }
+}
+
+- (void)testShouldThrowExceptionOnUnsupportedType
+{
+    BOOL threwException = NO;
+    NSDictionary *inDictionary = @{@"unsupported type" : [NSSet setWithArray:@[@1,@2]]};
+    BSONEncoder *encoder = [[BSONEncoder alloc]init];
+    @try {
+        [encoder encodeDictionary:inDictionary];
+    }
+    @catch (NSException *exception) {
+        threwException = YES;
+    }
+    @finally {
+        [encoder finish];
+        encoder = nil;
+        STAssertTrue(threwException, @"Encoding should have thrown an Exception for unsupported type!");
     }
 }
 
