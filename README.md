@@ -6,11 +6,10 @@ For more information on EJDB check out [ejdb.org](http://ejdb.org).
 
 Current Status
 =================
-THERE BE DRAGONS HERE! The framework is NOT yet complete (alpha...very alpha)! DO NOT use it in a production environment or to make your next killer app! Not heeding this warning will probably cause you much pain, wailing
-and gnashing of the teeth! You..have...been...warned!!!
+*THERE BE DRAGONS HERE!* The framework is *NOT* yet complete (alpha...very alpha)! *DO NOT* use it in a production environment or to make your next killer app! Not heeding this warning will probably cause you much pain, wailing
+and gnashing of the teeth! You have been warned!!!
 
-Ok..so if you're still here, it's not all doom and gloom as I intend to actively work on this project
-at least until I'm satisfied it is complete and more importantly, a correct Objective-C implementation of ejdb.
+Ok,so if you're still here, it's not all doom and gloom as I intend to actively work on this project at least until I'm satisfied it is complete and more importantly, a correct Objective-C implementation of ejdb.
 
 Building
 =================
@@ -32,7 +31,83 @@ this should be as simple as running the shell script (under EJDBKit folder):
 Usage
 ==================
 
-WATCH THIS SPACE!!! :) For the curious (or potential collaborators), you can look at the documentation in the code. Doxyfile is forthcoming!
+*EJDBDatabase* - This is the object you will likely use most often. It allows you to open/close a database and create/remove/query collections.
+
+Example:
+
+Open a database:
+
+```objc
+ EJDBDatabase *db = [[EJDBDatabase alloc] initWithPath:@"some/path" 
+                                          dbFileName:@"foo.db"];
+```
+
+Create a collection:
+
+```objc
+ EJDBCollection *collection = [db ensureCollectionWithName:@"foo" error:NULL];
+
+```
+
+*EJDBCollection* - This is the object through which you can save objects to the database, i.e. the collection in the database.
+
+Using your newly created collection you can now
+insert an object into the collection via a standard NSDictionary instance:
+
+```objc
+NSDictionary *dict1 = @{@"first name" : @"foo",@"last name" : @"bar"};
+[collection saveObject:dict];
+```
+Or...multiple objects at once:
+
+```objc
+[collection saveObjects:@[dict1,dict2,dict3]];
+```
+
+So at this point you're probably wondering what object types are supported for inserting/fetching, here they are:
+
+| Supported Objective-C types |
+|----------|
+| NSString |
+| NSNumber |
+| NSDate   |
+| NSDictionary|
+| NSArray|
+| NSData |
+| NSNull |
+
+Querying a collection:
+
+```objc
+//Find all objects whose first name starts with 'f'
+NSDictionary *theQuery = @{@"first name":@{@"$begin":@"f"}};
+
+NSArray *results = [_db findObjectsWithQuery:theQuery 
+						inCollection:collection error:NULL];
+//results will contain dict1 as created in the preceeding section.
+```
+
+Querying with hints (order by,etc)
+
+```objc
+NSDictionary *theQuery = @{@"first name":@{@"$begin":@"f"}};
+
+//Only return the 'first name' column, analagous to select `first name` from foo
+NSDictionary *hints = @{@"$fields":@{@"first name": @1};
+
+NSArray *results = [_db findObjectsWithQuery:theQuery
+						hints:hints
+						inCollection:collection error:NULL];
+```
+
+Don't need your collection anymore? Just remove it like so:
+
+```objc
+[db removeCollectionWithName:@"foo"];
+```
+
+That's about it for now. Do watch this space as it will be updated
+shortly with even more information about how to use the framework. Pretty easy so far, right? :)
 
 
 iOS versions supported
@@ -48,4 +123,4 @@ will become. So contact me at darkstar.jd AT gmail if you're interested!
 
 License
 ==============
-In the spirit of cooperation and working together, for the parts that I created/create, the license is LGPL (same as ejdb). Anything else is licensed under its corresponding license.
+LGPL (same as ejdb). Anything other source according to its corresponding license.
