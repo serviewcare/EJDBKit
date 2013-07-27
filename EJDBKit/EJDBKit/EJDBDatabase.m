@@ -12,17 +12,19 @@
 
 @interface EJDBDatabase ()
 @property (copy,nonatomic) NSString *dbPath;
+@property (copy,nonatomic) NSString *dbFileName;
 @end
 
 @implementation EJDBDatabase
 
-- (id)initWithPath:(NSString *)path
+- (id)initWithPath:(NSString *)path dbFileName:(NSString *)fileName
 {
     self = [super init];
     if (self)
     {
         _db = ejdbnew();
         _dbPath = [path copy];
+        _dbFileName = [fileName copy];
     }
     return self;
 }
@@ -34,7 +36,19 @@
 
 - (BOOL)openWithMode:(int)mode error:(NSError *__autoreleasing)error
 {
-    BOOL success = ejdbopen(_db, [_dbPath cStringUsingEncoding:NSUTF8StringEncoding], mode);
+    BOOL success = YES;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:_dbPath])
+    {
+        success = [fileManager createDirectoryAtPath:_dbPath withIntermediateDirectories:YES attributes:NULL error:&error];
+        if (!success)
+        {
+            [NSException raise:@"Could not create db path!" format:@"Error is: %@",error.localizedDescription];
+            return NO;
+        }
+    }
+    NSString *dbFilePath = [_dbPath stringByAppendingPathComponent:_dbFileName];
+    success = ejdbopen(_db, [dbFilePath cStringUsingEncoding:NSUTF8StringEncoding], mode);
     if (!success) [self populateError:error];
     return success;
 }

@@ -17,6 +17,7 @@
 		529524A417A14581007418CE /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 529524A317A14580007418CE /* EJDBQuery.m */; };
 		529524A717A17E8A007418CE /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 529524A617A17E8A007418CE /* BSONDecoder.m */; };
 		52D916B817A3AB7900B0060D /* BSONEncoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916B717A3AB7900B0060D /* BSONEncoderTests.m */; };
+		52D916BB17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */; };
 		52EC76D4179F31B000EEC86D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
 		52EC76D9179F31B000EEC86D /* EJDBKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52EC76D8179F31B000EEC86D /* EJDBKit.h */; };
 		52EC76E3179F31B000EEC86D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E2179F31B000EEC86D /* SenTestingKit.framework */; };
@@ -66,6 +67,8 @@
 		529524A617A17E8A007418CE /* BSONDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONDecoder.m; sourceTree = "<group>"; };
 		52D916B617A3AB7900B0060D /* BSONEncoderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoderTests.h; sourceTree = "<group>"; };
 		52D916B717A3AB7900B0060D /* BSONEncoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoderTests.m; sourceTree = "<group>"; };
+		52D916B917A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EJDBDatabase+DBTestExtensions.h"; sourceTree = "<group>"; };
+		52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EJDBDatabase+DBTestExtensions.m"; sourceTree = "<group>"; };
 		52EC76D0179F31B000EEC86D /* libEJDBKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEJDBKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EC76D3179F31B000EEC86D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		52EC76D7179F31B000EEC86D /* EJDBKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EJDBKit-Prefix.pch"; sourceTree = "<group>"; };
@@ -168,6 +171,8 @@
 				5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */,
 				52D916B617A3AB7900B0060D /* BSONEncoderTests.h */,
 				52D916B717A3AB7900B0060D /* BSONEncoderTests.m */,
+				52D916B917A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.h */,
+				52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */,
 				52EC76EB179F31B000EEC86D /* Supporting Files */,
 			);
 			path = EJDBKitTests;
@@ -294,6 +299,7 @@
 			files = (
 				5294231317A274C4007FFD63 /* EJDBDatabaseTests.m in Sources */,
 				52D916B817A3AB7900B0060D /* BSONEncoderTests.m in Sources */,
+				52D916BB17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

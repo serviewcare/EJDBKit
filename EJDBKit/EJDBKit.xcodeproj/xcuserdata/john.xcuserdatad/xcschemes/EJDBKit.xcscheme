@@ -41,9 +41,6 @@
                <Test
                   Identifier = "EJDBKitTests">
                </Test>
-               <Test
-                  Identifier = "BSONEncoderTests">
-               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>

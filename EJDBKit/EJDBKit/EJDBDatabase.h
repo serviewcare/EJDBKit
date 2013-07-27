@@ -14,9 +14,11 @@
 
 /** 
  Initializes the object with the path of the db.
- @param path - The full path of where the database will reside.
+ @param path - The full path of where the database will reside excluding the database file name.
+ @param fileName - The file name (without path) of the database file.
+ @discussion - The fileName is appended to path. If the path does not exist it is created.
 */
-- (id)initWithPath:(NSString *)path;
+- (id)initWithPath:(NSString *)path dbFileName:(NSString *)fileName;
 
 /** 
  Opens the database in reader, writer and create mode.

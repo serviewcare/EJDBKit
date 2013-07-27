@@ -70,7 +70,24 @@
 - (void)appendString:(NSString *)string forKey:(NSString *)key
 {
     const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
-    bson_append_string(&_bsonObj, cKeyString, [string cStringUsingEncoding:NSUTF8StringEncoding]);
+    const char *cString = [string cStringUsingEncoding:NSUTF8StringEncoding];
+    if(strcmp(cKeyString, "_id") == 0)
+    {
+        if(!ejdbisvalidoidstr(cString))
+        {
+            [NSException raise:@"Invalid oid value!" format:@"The value %@ is not a valid oid",string];
+            exit(1);
+            return;
+        }
+        bson_oid_t oid;
+        bson_oid_from_string(&oid, cString);
+        bson_append_oid(&_bsonObj, cKeyString,&oid);
+    }
+    else
+    {
+        bson_append_string(&_bsonObj, cKeyString, cString);    
+    }
+    
 }
 
 - (void)appendNumber:(NSNumber *)number forKey:(NSString *)key

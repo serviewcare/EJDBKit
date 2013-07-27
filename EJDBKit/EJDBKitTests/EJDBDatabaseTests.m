@@ -3,9 +3,10 @@
 #import "EJDBCollection.h"
 
 
-
 @interface EJDBDatabaseTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
+@property (copy,nonatomic) NSString *dbParentDir;
+@property (copy,nonatomic) NSString *dbFileName;
 @end
 
 @implementation EJDBDatabaseTests
@@ -13,9 +14,9 @@
 - (void)setUp
 {
     [super setUp];
-    NSString *dbPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"test.ejdb"];
-    [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
-    _db = [[EJDBDatabase alloc]initWithPath:dbPath];
+    _dbParentDir = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"ejdbtest"]copy];
+    _dbFileName = [@"test.db" copy];
+    _db = [[EJDBDatabase alloc]initWithPath:_dbParentDir dbFileName:_dbFileName];
     BOOL success = [_db openWithError:NULL];
     STAssertTrue(success, @"Db should open successfully!");
 }
@@ -24,6 +25,10 @@
 {
     [_db removeCollectionWithName:@"foo"];
     [_db close];
+    [[NSFileManager defaultManager] removeItemAtPath:_dbParentDir error:nil];
+    _dbParentDir = nil;
+    _dbFileName = nil;
+    _db = nil;
     [super tearDown];
 }
 
@@ -64,7 +69,8 @@
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
     NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
-    [collection saveObjects:@[obj1,obj2]];
+    NSDictionary *obj3 = @{@"name" : @"alisha doesit", @"age" : @25, @"address": @"42nd street"};
+    [collection saveObjects:@[obj1,obj2,obj3]];
     NSArray *results = [_db findObjectsWithQuery:@{@"name":@{@"$begin":@"j"}} inCollection:collection error:NULL];
     STAssertNotNil(results, @"results should not be nil!");
     STAssertTrue([results count] == 2, @"results count should be exactly 2");
@@ -102,6 +108,5 @@
     BOOL success = [collection saveObjects:@[obj1,obj2]];
     STAssertTrue(success, @"objects should be saved successfully!");
 }
-
 
 @end
