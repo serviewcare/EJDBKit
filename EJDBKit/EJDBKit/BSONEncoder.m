@@ -75,8 +75,7 @@
     {
         if(!ejdbisvalidoidstr(cString))
         {
-            [NSException raise:@"Invalid oid value!" format:@"The value %@ is not a valid oid",string];
-            exit(1);
+            [NSException raise:@"Invalid oid value!" format:@"The value: %@ is not a valid oid.",string];
             return;
         }
         bson_oid_t oid;

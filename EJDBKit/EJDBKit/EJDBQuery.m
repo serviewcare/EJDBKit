@@ -31,7 +31,6 @@
     return [self fetchWithFlags:0];
 }
 
-
 - (NSArray *)fetchWithFlags:(int)queryFlags
 {
     uint32_t count = 0;
