@@ -1,5 +1,4 @@
 #import "BSONEncoder.h"
-#import "BSONNumber.h"
 
 @interface BSONEncoder ()
 @property (assign,nonatomic) bson bsonObj;
@@ -38,13 +37,13 @@
 
 - (void)encodeObject:(id)value forKey:(NSString *)key
 {
-    if ([value isKindOfClass:[BSONNumber class]])
-    {
-        [self appendNumber:value forKey:key];
-    }
-    else if ([value isKindOfClass:[NSString class]])
+    if ([value isKindOfClass:[NSString class]])
     {
         [self appendString:value forKey:key];
+    }
+    else if ([value isKindOfClass:[NSNumber class]])
+    {
+        [self appendNumber:value forKey:key];
     }
     else if ([value isKindOfClass:[NSDate class]])
     {
@@ -58,25 +57,13 @@
     {
         [self appendArray:value forKey:key];
     }
-}
-
-- (void)appendNumber:(BSONNumber *)number forKey:(NSString *)key
-{
-    const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
-    if (number.isDouble)
+    else if ([value isKindOfClass:[NSData class]])
     {
-        bson_append_double(&_bsonObj, cKeyString,number.doubleValue);
+        [self appendData:value forKey:key];
     }
-    else if (number.isLongLong) {
-        bson_append_long(&_bsonObj, cKeyString, number.longlongValue);
-    }
-    else if (number.isInt)
+    else
     {
-        bson_append_int(&_bsonObj, cKeyString, number.intValue);
-    }
-    else if (number.isBool)
-    {
-        bson_append_bool(&_bsonObj, cKeyString, number.boolValue);
+        [NSException raise:@"Unsupported BSON Type" format:@"Cannot encode class: %@",NSStringFromClass([value class])];
     }
 }
 
@@ -84,6 +71,35 @@
 {
     const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
     bson_append_string(&_bsonObj, cKeyString, [string cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
+- (void)appendNumber:(NSNumber *)number forKey:(NSString *)key
+{
+    const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    switch (*[number objCType]) {
+        case 'c':
+            bson_append_bool(&_bsonObj, cKeyString, [number boolValue]);
+            break;
+        case 'i':
+        case 'l':
+        {
+            bson_append_int(&_bsonObj, cKeyString, [number intValue]);
+            break;
+        }
+        case 'q':
+        {
+            bson_append_long(&_bsonObj, cKeyString, [number longLongValue]);
+            break;
+        }
+        case 'f':
+        case 'd':
+        default:
+        {
+            bson_append_double(&_bsonObj, cKeyString, [number doubleValue]);
+            break;
+        }
+    }
 }
 
 - (void)appendDate:(NSDate *)date forKey:(NSString *)key
@@ -118,6 +134,12 @@
         }
     }
     bson_append_finish_array(&_bsonObj);
+}
+
+- (void)appendData:(NSData *)data forKey:(NSString *)key
+{
+    const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    bson_append_binary(&_bsonObj, cKeyString, BSON_BINDATA, [data bytes], [data length]);
 }
 
 - (void)finish

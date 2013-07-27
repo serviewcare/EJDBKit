@@ -1,12 +1,10 @@
 #import "BSONDecoder.h"
-#import "BSONNumber.h"
 
 @interface BSONDecoder ()
 
 @property (strong,nonatomic) NSMutableDictionary *decodedDict;
 
 @end
-
 
 @implementation BSONDecoder
 
@@ -28,46 +26,54 @@
         
         NSString *key = [NSString stringWithCString:bson_iterator_key(&iterator) encoding:NSUTF8StringEncoding];
         id value = [self valueFromIterator:iterator forBSONType:type];
-        [_decodedDict setValue:value forKey:key];
+        if (value != nil) [_decodedDict setValue:value forKey:key];
     }
     return [NSDictionary dictionaryWithDictionary:_decodedDict];
 }
 
 - (id)valueFromIterator:(bson_iterator)iterator forBSONType:(bson_type)type
 {
-    id value = nil;
+    id value;
     
-    if (type == BSON_STRING)
-    {
-        value = [self decodeStringFromIterator:iterator];
-    }
-    else if (type == BSON_OID)
-    {
-        value = [self decodeOIDFromIterator:iterator];
-    }
-    else if (type == BSON_INT)
-    {
-        value = [self decodeIntegerFromIterator:iterator];
-    }
-    else if (type == BSON_BOOL)
-    {
-        value = [self decodeBoolFromIterator:iterator];
-    }
-    else if (type == BSON_DOUBLE)
-    {
-        value = [self decodeDoubleFromIterator:iterator];
-    }
-    else if (type == BSON_DATE)
-    {
-        value = [self decodeDateFromIterator:iterator];
-    }
-    else if (type == BSON_ARRAY)
-    {
-        value = [self decodeArrayFromIterator:iterator];
-    }
-    else if (type == BSON_OBJECT)
-    {
-        value = [self decodeDictionaryFromIterator:iterator];
+    switch (type) {
+        case BSON_STRING:
+            value = [self decodeStringFromIterator:iterator];
+            break;
+        case BSON_OID:
+            value = [self decodeOIDFromIterator:iterator];
+            break;
+        case BSON_BOOL:
+        case BSON_INT:
+        case BSON_LONG:
+        case BSON_DOUBLE:
+        {
+            value = [self decodeNumberFromIterator:iterator type:type];
+            break;
+        }
+        case BSON_DATE:
+            value = [self decodeDateFromIterator:iterator];
+            break;
+        case BSON_TIMESTAMP:
+            value = [self decodeTimestampFromIterator:iterator];
+            break;
+        case BSON_ARRAY:
+            value = [self decodeArrayFromIterator:iterator];
+            break;
+        case BSON_OBJECT:
+            value = [self decodeDictionaryFromIterator:iterator];
+            break;
+        case BSON_BINDATA:
+            value = [self decodeDataFromIterator:iterator];
+            break;
+        case BSON_NULL:
+            value = [NSNull null];
+            break;
+        case BSON_EOO:
+            value = nil;
+            break;
+        default:
+            [NSException raise:@"Unsupported BSON Type" format:@"cannot decode element: %d",type];
+            break;
     }
     return value;
 }
@@ -86,22 +92,24 @@
     
 }
 
-- (BSONNumber *)decodeIntegerFromIterator:(bson_iterator)iterator
+- (NSNumber *)decodeNumberFromIterator:(bson_iterator)iterator type:(bson_type)type
 {
-    int intValue = bson_iterator_int(&iterator);
-    return [BSONNumber intNumberFromNumber:[NSNumber numberWithInt:intValue]];
-}
-
-- (BSONNumber *)decodeBoolFromIterator:(bson_iterator)iterator
-{
-    bool boolValue = bson_iterator_bool(&iterator);
-    return [BSONNumber boolNumberFromNumber:[NSNumber numberWithBool:boolValue]];
-}
-
-- (BSONNumber *)decodeDoubleFromIterator:(bson_iterator)iterator
-{
-    double doubleValue = bson_iterator_double(&iterator);
-    return [BSONNumber doubleNumberFromNumber:[NSNumber numberWithDouble:doubleValue]];
+    NSNumber *number;
+    
+    switch (type) {
+        case BSON_BOOL:
+            number = [NSNumber numberWithBool:bson_iterator_bool(&iterator)];
+            break;
+        case BSON_INT:
+            number = [NSNumber numberWithInt:bson_iterator_int(&iterator)];
+            break;
+        case BSON_LONG:
+            number = [NSNumber numberWithLongLong:bson_iterator_long(&iterator)];
+        default:
+            number = [NSNumber numberWithDouble:bson_iterator_double(&iterator)];
+            break;
+    }
+    return number;
 }
 
 - (NSDate *)decodeDateFromIterator:(bson_iterator)iterator
@@ -109,15 +117,9 @@
     return [NSDate dateWithTimeIntervalSince1970:bson_iterator_date(&iterator)];
 }
 
-- (NSDictionary *)decodeDictionaryFromIterator:(bson_iterator)iterator
+- (NSDate *)decodeTimestampFromIterator:(bson_iterator)iterator
 {
-    bson obj;
-    bson_init(&obj);
-    bson_iterator_subobject(&iterator, &obj);
-    bson_iterator subiterator;
-    bson_iterator_init(&subiterator, &obj);
-    BSONDecoder *decoder = [[BSONDecoder alloc]init];
-    return [decoder decodeFromIterator:subiterator];
+    return [NSDate dateWithTimeIntervalSince1970:bson_iterator_time_t(&iterator)/1000.0];
 }
 
 - (NSArray *)decodeArrayFromIterator:(bson_iterator)iterator
@@ -139,6 +141,22 @@
     }
 
     return [NSArray arrayWithArray:array];
+}
+
+- (NSDictionary *)decodeDictionaryFromIterator:(bson_iterator)iterator
+{
+    bson obj;
+    bson_init(&obj);
+    bson_iterator_subobject(&iterator, &obj);
+    bson_iterator subiterator;
+    bson_iterator_init(&subiterator, &obj);
+    BSONDecoder *decoder = [[BSONDecoder alloc]init];
+    return [decoder decodeFromIterator:subiterator];
+}
+
+- (NSData *)decodeDataFromIterator:(bson_iterator)iterator
+{
+    return [NSData dataWithBytes:bson_iterator_bin_data(&iterator) length:bson_iterator_bin_len(&iterator)];
 }
 
 @end
