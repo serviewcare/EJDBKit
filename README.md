@@ -58,7 +58,7 @@ Or...multiple objects at once:
 [collection saveObjects:@[dict1,dict2,obj]];
 ```
 
-So at this point you're probably wondering what object types are supported for inserting/fetching, here they are:
+So at this point you're probably wondering what object types are supported (inside your NSDictionary or Custom class) for inserting/fetching, here they are:
 
 | Supported Foundation types |
 |----------|
