@@ -42,10 +42,20 @@ insert an object into the collection via a standard NSDictionary instance:
 NSDictionary *dict1 = @{@"first name" : @"foo",@"last name" : @"bar"};
 [collection saveObject:dict];
 ```
+
+Or even your own custom NSObject subclass that adopts the BSONArchiving protocol (see below for more details):
+
+```objc
+// It doth conform to BSONArchiving thus it shall be saved!
+
+CustomArchivableClass *obj = [[CustomArchivableClass alloc init]];
+[collection saveObject:obj];
+```
+
 Or...multiple objects at once:
 
 ```objc
-[collection saveObjects:@[dict1,dict2,dict3]];
+[collection saveObjects:@[dict1,dict2,obj]];
 ```
 
 So at this point you're probably wondering what object types are supported for inserting/fetching, here they are:
@@ -60,7 +70,7 @@ So at this point you're probably wondering what object types are supported for i
 | NSData |
 | NSNull |
 
-Custom classes:
+**Custom classes:**
 
 You can have your own custom NSObject subclass supported for inserting/fetching by adopting the BSONArchiving protocol:
 
@@ -101,7 +111,7 @@ You can have your own custom NSObject subclass supported for inserting/fetching 
 
 ```
 
-For example this will work:
+For example, this will work:
 
 ```objc
 
