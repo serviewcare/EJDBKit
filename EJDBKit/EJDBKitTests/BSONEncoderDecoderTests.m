@@ -9,6 +9,7 @@
 */
 
 @interface CustomArchivableClass : NSObject <BSONArchiving>
+
 @property (copy,nonatomic) NSString *oid;
 @property (copy,nonatomic) NSString *name;
 @property (strong,nonatomic) NSNumber *age;

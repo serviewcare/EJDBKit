@@ -50,7 +50,7 @@ Or...multiple objects at once:
 
 So at this point you're probably wondering what object types are supported for inserting/fetching, here they are:
 
-| Supported Objective-C types |
+| Supported Foundation types |
 |----------|
 | NSString |
 | NSNumber |
@@ -59,6 +59,94 @@ So at this point you're probably wondering what object types are supported for i
 | NSArray|
 | NSData |
 | NSNull |
+
+Custom classes:
+
+You can have your own custom NSObject subclass supported for inserting/fetching by adopting the BSONArchiving protocol:
+
+```objc
+
+@protocol BSONArchiving <NSObject>
+
+/** 
+ This method will be called when the code wants to return an OID (in other words the _id field). For obvious
+ reasons having a property name called _id may not be such a good idea. You must return the name
+ of the property in the class that will represent the OID.
+*/
+- (NSString *)oidPropertyName;
+
+/**
+ This method will be called when the code wants to encode your object into BSON. You must provide a
+ dictionary with a key named "type", it's value being the name of the class. You can optionally provide a key named "_id"
+ if you'd like to pass your own OID but you must make sure it is a valid OID otherwise the object will not be saved.
+ If you don't follow the rules, an exception will be thrown!
+*/
+- (NSDictionary *)toDictionary;
+
+/**
+ This method will be called when the code wants to decode your object from BSON. If the query you specified contains the "_id" key it will be returned as the name you specified in the oidPropertyName method. This makes it convenient to use with key/value coding (i.e. enumerate the keys and set the values without having to set each property manually).
+ Please note: If the query does return an "_id" key/value and you return a nil or some non-existent property name
+ an exception will be thrown!
+*/
+- (void)fromDictionary:(NSDictionary *)dictionary;
+
+```
+
+For example this will work:
+
+```objc
+
+@interface CustomArchivableClass : NSObject <BSONArchiving>
+
+@property (copy,nonatomic) NSString *oid;
+@property (copy,nonatomic) NSString *name;
+@property (strong,nonatomic) NSNumber *age;
+
+@end
+
+
+@implementation CustomArchivableClass
+
+- (NSString *)oidPropertyName
+{
+    return @"oid";
+}
+
+- (NSDictionary *)toDictionary
+{
+    return @{@"type": NSStringFromClass([self class]), @"name" : _name, @"age" : _age};
+}
+
+- (void)fromDictionary:(NSDictionary *)dictionary
+{
+    for (id key in [dictionary keyEnumerator])
+    {
+        [self setValue:[dictionary objectForKey:key] forKey:key];
+    }
+}
+@end
+
+```
+
+This won't!:
+
+```objc
+
+@interface BogusOIDClass : CustomArchivableClass
+
+@end
+
+@implementation BogusOIDClass
+
+- (NSDictionary *)toDictionary
+{
+    return @{@"type" : NSStringFromClass([self class]), @"_id" : @"123", @"name" : self.name, @"age" : self.age };
+}
+
+@end
+```
+
+
 
 Querying a collection:
 

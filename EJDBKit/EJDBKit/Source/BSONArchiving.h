@@ -20,7 +20,7 @@
  This method will be called when the code wants to encode your object into BSON. You must provide a
  dictionary with a key named "type", it's value being the name of the class. You can optionally provide a key named "_id"
  if you'd like to pass your own OID but you must make sure it is a valid OID otherwise the object will not be saved.
- In fact, since it's asserted that the OID is valid, if it isn't, the assertion fails...and you know what happens then! :)
+ If you don't follow the rules, an exception will be thrown!
 */
 - (NSDictionary *)toDictionary;
 
@@ -29,7 +29,7 @@
  the "_id" key it will be returned as the name you specified in the oidPropertyName method. This makes it convenient
  to use with key/value coding (i.e. enumerate the keys and set the values without having to set each property manually).
  Please note: If the query does return an "_id" key/value and you return a nil or some non-existent property name
- your code will blow sky high!!!!
+ an exception will be thrown!
 */
 - (void)fromDictionary:(NSDictionary *)dictionary;
 
