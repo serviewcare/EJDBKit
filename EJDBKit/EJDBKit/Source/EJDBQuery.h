@@ -5,6 +5,7 @@
 
 /**
  This class wraps the EJQ query object and provides a facility for fetching one or more objects.
+ Please note: If the object contains a "type" key it will be removed before being returned!!
 */
 @interface EJDBQuery : NSObject
 
@@ -20,9 +21,9 @@
 
 /** 
  Fetch a single object.
- @return - The returned object.
+ @return - The returned object or nil if none were found.
 */
-- (NSDictionary *)fetchObject;
+- (id)fetchObject;
 
 /**
  Fetch an array of objects.

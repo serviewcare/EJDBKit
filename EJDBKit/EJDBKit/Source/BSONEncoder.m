@@ -1,4 +1,6 @@
 #import "BSONEncoder.h"
+#import "BSONArchiving.h"
+
 
 @interface BSONEncoder ()
 @property (assign,nonatomic) bson bsonObj;
@@ -65,9 +67,16 @@
     {
         [self appendNull:value forKey:key];
     }
+    else if ([value conformsToProtocol:@protocol(BSONArchiving)])
+    {
+        [self appendDictionary:[value toDictionary] forKey:key];
+    }
     else
     {
-        [NSException raise:@"Unsupported BSON Type" format:@"Cannot encode class: %@",NSStringFromClass([value class])];
+        NSException *exception = [NSException exceptionWithName:@"Unsupported BSON Type!"
+                                                         reason:[NSString stringWithFormat:@"Cannot encode class: %@!",NSStringFromClass([value class])]
+                                                       userInfo:nil];
+        @throw exception;
     }
 }
 
@@ -79,8 +88,10 @@
     {
         if(!ejdbisvalidoidstr(cString))
         {
-            [NSException raise:@"Invalid oid value!" format:@"The value: %@ is not a valid oid.",string];
-            return;
+            NSException *exception = [NSException exceptionWithName:@"Invalid OID value!"
+                                            reason:[NSString stringWithFormat:@"The value: %@ is not a valid OID!",string]
+                                            userInfo:nil];
+            @throw exception;
         }
         bson_oid_t oid;
         bson_oid_from_string(&oid, cString);

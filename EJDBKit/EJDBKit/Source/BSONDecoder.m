@@ -1,5 +1,6 @@
 #import "BSONDecoder.h"
 
+
 @interface BSONDecoder ()
 
 @property (strong,nonatomic) NSMutableDictionary *decodedDict;
@@ -72,8 +73,13 @@
             value = nil;
             break;
         default:
-            [NSException raise:@"Unsupported BSON Type" format:@"cannot decode element: %d",type];
+        {
+            NSException *exception = [NSException exceptionWithName:@"Unsupported BSON Type"
+                                     reason:[NSString stringWithFormat:@"cannot decode element: %d",type]
+                                                           userInfo:nil];
+            @throw exception;
             break;
+        }
     }
     return value;
 }

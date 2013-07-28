@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #include "tcejdb/ejdb.h"
+#import "BSONArchiving.h"
 
 /**
  This class encodes a dictionary to a bson object. It is meant for internal use only.

@@ -82,6 +82,7 @@
 		5237E9B917A520F10014A63A /* tchdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tchdb.h; sourceTree = "<group>"; };
 		5237E9BA17A520F10014A63A /* tctdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tctdb.h; sourceTree = "<group>"; };
 		5237E9BB17A520F10014A63A /* tcutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcutil.h; sourceTree = "<group>"; };
+		5237E9FF17A533130014A63A /* BSONArchiving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONArchiving.h; sourceTree = "<group>"; };
 		5294231117A274C4007FFD63 /* EJDBDatabaseTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBDatabaseTests.h; sourceTree = "<group>"; };
 		5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBDatabaseTests.m; sourceTree = "<group>"; };
 		52D916B617A3AB7900B0060D /* BSONEncoderDecoderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoderDecoderTests.h; sourceTree = "<group>"; };
@@ -138,6 +139,7 @@
 				5237E99F17A520D70014A63A /* EJDBDatabase.h */,
 				5237E9A017A520D70014A63A /* EJDBDatabase.m */,
 				5237E9A117A520D70014A63A /* EJDBKit.h */,
+				5237E9FF17A533130014A63A /* BSONArchiving.h */,
 				5237E9A217A520D70014A63A /* EJDBQuery.h */,
 				5237E9A317A520D70014A63A /* EJDBQuery.m */,
 			);

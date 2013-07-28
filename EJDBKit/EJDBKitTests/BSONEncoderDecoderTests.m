@@ -8,6 +8,49 @@
  Yeah, so I'm lazy...what of it? :)
 */
 
+@interface CustomArchivableClass : NSObject <BSONArchiving>
+@property (copy,nonatomic) NSString *oid;
+@property (copy,nonatomic) NSString *name;
+@property (strong,nonatomic) NSNumber *age;
+
+@end
+
+@implementation CustomArchivableClass
+
+- (NSString *)oidPropertyName
+{
+    return @"oid";
+}
+
+- (NSDictionary *)toDictionary
+{
+    return @{@"type": NSStringFromClass([self class]), @"name" : _name, @"age" : _age};
+}
+
+- (void)fromDictionary:(NSDictionary *)dictionary
+{
+    for (id key in [dictionary keyEnumerator])
+    {
+        [self setValue:[dictionary objectForKey:key] forKey:key];
+    }
+}
+@end
+
+@interface BogusOIDClass : CustomArchivableClass
+
+@end
+
+@implementation BogusOIDClass
+
+- (NSDictionary *)toDictionary
+{
+    return @{@"type" : NSStringFromClass([self class]), @"_id" : @"123", @"name" : self.name, @"age" : self.age };
+}
+
+@end
+
+
+
 @interface BSONEncoderDecoderTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
 @end
@@ -130,40 +173,51 @@
                   isEqual:[outDictionary objectForKey:@"nullval"]], @"Out null obj should match in!");
 }
 
-- (void)testShouldThrowExceptionOnInvalidOID
+
+- (void)testShouldEncodeDecodeCustomClass
 {
-    BOOL threwException = NO;
+    CustomArchivableClass *obj = [[CustomArchivableClass alloc]init];
+    obj.name = @"foo";
+    obj.age = @22;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    [collection saveObject:obj];
+    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:collection error:NULL];
+    CustomArchivableClass *outObj = results[0];
+    STAssertTrue([outObj isKindOfClass:[CustomArchivableClass class]],@"Saved object should be an Instance of CustomArchivableClass!");
+}
+
+
+- (void)testBogusOIDClassShouldThrowException
+{
+    BogusOIDClass *bogusObj = [[BogusOIDClass alloc]init];
+    bogusObj.name = @"bogus";
+    bogusObj.age = @1;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    STAssertThrows([collection saveObject:bogusObj], @"Should throw an exception when attempting to save an object with a bogus OID!");
+}
+
+- (void)testSavingNonSupportedObjectShouldThrowexception
+{
+    NSSet *unsupportedObj = [NSSet setWithObject:@"Something"];
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    ;
+    STAssertThrows([collection saveObject:unsupportedObj], @"Should throw an exception when attempting to save an object with an unsupported type!");
+}
+
+
+- (void)testInvalidOIDShouldThrowException
+{
     NSDictionary *inDictionary = @{@"_id": @"123"};
     BSONEncoder *encoder = [[BSONEncoder alloc]init];
-    @try {
-        [encoder encodeDictionary:inDictionary];
-    }
-    @catch (NSException *exception) {
-        threwException = YES;
-    }
-    @finally {
-        [encoder finish];
-        encoder = nil;
-        STAssertTrue(threwException, @"Encoding should have thrown an Exception for invalid oid!");
-    }
+    STAssertThrows([encoder encodeDictionary:inDictionary], @"Should throw an exception when attempting to create an object with an Invalid OID!");
 }
 
 - (void)testShouldThrowExceptionOnUnsupportedType
 {
-    BOOL threwException = NO;
+
     NSDictionary *inDictionary = @{@"unsupported type" : [NSSet setWithArray:@[@1,@2]]};
     BSONEncoder *encoder = [[BSONEncoder alloc]init];
-    @try {
-        [encoder encodeDictionary:inDictionary];
-    }
-    @catch (NSException *exception) {
-        threwException = YES;
-    }
-    @finally {
-        [encoder finish];
-        encoder = nil;
-        STAssertTrue(threwException, @"Encoding should have thrown an Exception for unsupported type!");
-    }
+    STAssertThrows([encoder encodeDictionary:inDictionary], @"Should throw an exception when attempting to create an object with an unsupported class!");
 }
 
 @end
