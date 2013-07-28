@@ -8,7 +8,7 @@
    Example: How the hell do I get a name of a collection??? This smells bad, I will have to talk to the folks over at softmotions
    but for now, it's the only solution I can come up with.
  */
-#include <tcejdb/ejdb_private.h>
+#include "tcejdb/ejdb_private.h"
 
 @interface EJDBDatabase ()
 @property (copy,nonatomic) NSString *dbPath;

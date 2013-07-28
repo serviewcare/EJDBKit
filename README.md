@@ -119,38 +119,24 @@ git submodule update
 If you just want to just use the framework, after completing the above steps
 you need to do a few more things:
 
-5) Run the shell script (again, under EJDBKit folder):
+5) Drag the contents of the Source folder over into your project and make sure to check the **Copy items into destination groups' folder** when presented with the Add Files dialog.
 
-```
-./build-universal.sh
-```
-Once the script finishes running you'll have a folder named build and contained within it you'll find a file name **libEJDBKit.a**. This is the universal library that you'll need to include in your project.
-
-6) Drag the **libEJDBKit.a** file into your project and make sure to check the **Copy items into destination groups' folder** when presented with the Add Files dialog.
+6) Drag the **libtcejdb.a** file located under **EJDBKit/ejdb/lib** into your project and make sure to check the **Copy items into destination groups' folder** when presented with the Add Files dialog.
 
 7) Link the **libz.dylib** library in **"Link Binary With Libraries"** by pressing the + button and selecting it from the provided list.
 
-8) Next you need to add the tcejdb header files into your project. You'll find
-the folder under **EJDBKit/ejdb/include/**. Drag the **tcejdb** folder into
-your project and make sure to check the **Copy items into destination groups' folder** when presented with the Add Files dialog.
-
-9) In your precompiled header file (.pch) add the following statement:
-```
-#include "tcejdb/ejdb.h"
-
-```
-
-10) Add the following import statement where you'd like to use the framework:
+8) Add the following import statement where you'd like to use the framework:
 
 ```objc
-#import <EJDBKit/EJDBKit.h>
+#import "EJDBKit.h"
 
 ```
 
 And you're all set.
 
-I find it unholy having to add the tcejdb header files to the project and having to write the include statement in the .pch file but unfortunately I haven't yet figured out how to get it working any other way (any build masters out there willing to help??).
-Rest assured, I will be working on simplifying all of this as much as possible.
+It would be great to have this code as a static library and I have attempted it. Unfortunately, I
+haven't been successful in making easy,straightforward or work completely. Static lib build masters
+are welcome to assist!! :)
 
 iOS versions supported
 =======================
