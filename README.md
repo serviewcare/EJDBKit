@@ -135,7 +135,7 @@ you need to do a few more things:
 And you're all set.
 
 It would be great to have this code as a static library and I have attempted it. Unfortunately, I
-haven't been successful in making easy,straightforward or work completely. Static lib build masters
+haven't been successful in making it easy to use,straightforward or work completely for that matter :(. Static lib build masters
 are welcome to assist!! :)
 
 iOS versions supported
