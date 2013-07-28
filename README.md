@@ -126,7 +126,7 @@ you need to do a few more things:
 ```
 Once the script finishes running you'll have a folder named build and contained within it you'll find a file name **libEJDBKit.a**. This is the universal library that you'll need to include in your project.
 
-6) In your project's settings, under **Build Phases**, add the **libEJDBKit.a** file to the **"Link Binary With Libraries"** panel by dragging it into the list.
+6) Drag the **libEJDBKit.a** file into your project and make sure to check the **Copy items into destination groups' folder** when presented with the Add Files dialog.
 
 7) Link the **libz.dylib** library in **"Link Binary With Libraries"** by pressing the + button and selecting it from the provided list.
 
@@ -136,7 +136,7 @@ your project and make sure to check the **Copy items into destination groups' fo
 
 9) In your precompiled header file (.pch) add the following statement:
 ```
-#include <tcejdb/ejdb.h>
+#include "tcejdb/ejdb.h"
 
 ```
 
