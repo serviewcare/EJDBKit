@@ -205,7 +205,7 @@ Or, if you want to fetch a custom object (remember the same rules apply when fet
 MyCustomClass *obj = [collection fetchObjectWithOID:@"SomeValidOID"];
 ```
 
-Don't need your object anymore, go ahead and remove it then:
+Don't need your object anymore? Go ahead and remove it then:
 
 ```objc
 [collection removeObject:obj];
