@@ -90,7 +90,6 @@
     STAssertNil([results[0] valueForKey:@"address"], @"address field should not exist!");
 }
 
-
 //Maybe the next 2 methods should be brought into collection tests instead of here.
 - (void)testSaveObjectSuccessfully
 {

@@ -2,54 +2,12 @@
 #import "BSONEncoder.h"
 #import "EJDBCollection.h"
 #import "EJDBDatabase+DBTestExtensions.h"
+#import "ArchivableClasses.h"
 
 /**
  Some of these test objects are shamelessly ripped from the official ejdb github repo at https://github.com/Softmotions/ejdb
  Yeah, so I'm lazy...what of it? :)
 */
-
-@interface CustomArchivableClass : NSObject <BSONArchiving>
-
-@property (copy,nonatomic) NSString *oid;
-@property (copy,nonatomic) NSString *name;
-@property (strong,nonatomic) NSNumber *age;
-
-@end
-
-@implementation CustomArchivableClass
-
-- (NSString *)oidPropertyName
-{
-    return @"oid";
-}
-
-- (NSDictionary *)toDictionary
-{
-    return @{@"type": NSStringFromClass([self class]), @"name" : _name, @"age" : _age};
-}
-
-- (void)fromDictionary:(NSDictionary *)dictionary
-{
-    for (id key in [dictionary keyEnumerator])
-    {
-        [self setValue:[dictionary objectForKey:key] forKey:key];
-    }
-}
-@end
-
-@interface BogusOIDClass : CustomArchivableClass
-
-@end
-
-@implementation BogusOIDClass
-
-- (NSDictionary *)toDictionary
-{
-    return @{@"type" : NSStringFromClass([self class]), @"_id" : @"123", @"name" : self.name, @"age" : self.age };
-}
-
-@end
-
 
 
 @interface BSONEncoderDecoderTests ()
@@ -149,7 +107,6 @@
     STAssertTrue([inDictionary isEqualToDictionary:outDictionary], @"Encoded and Decoded dictionaries should be the same!");
 }
 
-
 - (void)testEncodingDecodingNSData
 {
     NSData *imageDataIn = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
@@ -174,7 +131,6 @@
                   isEqual:[outDictionary objectForKey:@"nullval"]], @"Out null obj should match in!");
 }
 
-
 - (void)testShouldEncodeDecodeCustomClass
 {
     CustomArchivableClass *obj = [[CustomArchivableClass alloc]init];
@@ -187,24 +143,22 @@
     STAssertTrue([outObj isKindOfClass:[CustomArchivableClass class]],@"Saved object should be an Instance of CustomArchivableClass!");
 }
 
-
-- (void)testBogusOIDClassShouldThrowException
+- (void)testBogusOIDClassShouldFail
 {
     BogusOIDClass *bogusObj = [[BogusOIDClass alloc]init];
     bogusObj.name = @"bogus";
     bogusObj.age = @1;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    STAssertThrows([collection saveObject:bogusObj], @"Should throw an exception when attempting to save an object with a bogus OID!");
+    STAssertFalse([collection saveObject:bogusObj], @"Saving an object with an invalid OID should fail!");
 }
 
-- (void)testSavingNonSupportedObjectShouldThrowexception
+- (void)testSavingNonSupportedObjectShouldFail
 {
     NSSet *unsupportedObj = [NSSet setWithObject:@"Something"];
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     ;
-    STAssertThrows([collection saveObject:unsupportedObj], @"Should throw an exception when attempting to save an object with an unsupported type!");
+    STAssertFalse([collection saveObject:unsupportedObj], @"Saving an unsupported object should fail!");
 }
-
 
 - (void)testInvalidOIDShouldThrowException
 {

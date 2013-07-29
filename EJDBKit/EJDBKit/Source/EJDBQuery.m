@@ -42,32 +42,9 @@
        void *p =  TCLISTVALPTR(r, i);
        bson *data = bson_create();
        bson_init_with_data(data, p);
-       bson_iterator iterator;
-       bson_iterator_init(&iterator, data);
        BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
-       NSDictionary *dict = [bsonDecoder decodeFromIterator:iterator];
-       NSString *type = [dict objectForKey:@"type"];
-       if (type)
-       {
-            Class aClass = NSClassFromString(type);
-            id obj = [[aClass alloc]init];
-            NSAssert([obj conformsToProtocol:@protocol(BSONArchiving)],@"Custom class must conform to the BSONArchiving protocol!");
-            NSMutableDictionary *modifiedDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-            [modifiedDict removeObjectForKey:@"type"];
-            NSString *oid = [modifiedDict objectForKey:@"_id"];
-            if (oid)
-            {
-                [modifiedDict setValue:[modifiedDict objectForKey:@"_id"] forKey:[obj oidPropertyName]];
-                [modifiedDict removeObjectForKey:@"_id"];
-            }
-            [obj fromDictionary:[NSDictionary dictionaryWithDictionary:modifiedDict]];
-            [results addObject:obj];
-       }
-       else
-       {
-           [results addObject:dict];
-       }
-       
+       id obj = [bsonDecoder decodeObjectFromBSON:data];
+       [results addObject:obj];
        bson_del(data);
     }
     ejdbquerydel(_ejQuery);

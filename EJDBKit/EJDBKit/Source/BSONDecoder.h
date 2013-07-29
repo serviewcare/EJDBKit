@@ -3,15 +3,15 @@
 
 /**
  This class decodes a bson object to a dictionary representation. It is meant for internal use only.
- It also a work in progress, as it does not support all the bson types that exist.
 */
 @interface BSONDecoder : NSObject
 
 /**
- Decode the underlying bson object(s) from the supplied iterator.
- @param iterator - The bson iterator to use for decoding.
- @return dictionary - The dictionary representation of the underlying bson object.
+ Decode the bson object into an NSDictionary or an object that implements the BSONArchiving protocol.
+ If an object, it must contain a "type" key whose value is the name of a class it will be decoded into
+ otherwise an exception will be thrown.
+ @param bsonObject - The bson object to be decoded.
 */
-- (NSDictionary *)decodeFromIterator:(bson_iterator)iterator;
+- (id)decodeObjectFromBSON:(bson *)bsonObject;
 
 @end

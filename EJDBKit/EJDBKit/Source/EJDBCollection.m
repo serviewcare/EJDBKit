@@ -1,5 +1,6 @@
 #import "EJDBCollection.h"
 #import "BSONEncoder.h"
+#import "BSONDecoder.h"
 
 @interface EJDBCollection ()
 @property (copy,nonatomic) NSString *name;
@@ -19,6 +20,50 @@
     return self;
 }
 
+
++ (BOOL)isSupportedObject:(id)object
+{
+    BOOL isArchivable = [object conformsToProtocol:@protocol(BSONArchiving)];
+    BOOL isDictionary = [object isKindOfClass:[NSDictionary class]];
+    
+    if (!isArchivable && !isDictionary)
+    {
+        return NO;
+    }
+    return YES;
+}
+
++ (BOOL)isValidOID:(NSString *)OID
+{
+    if (!OID) return NO;
+    const char *oidCString = [OID cStringUsingEncoding:NSUTF8StringEncoding];
+    if (!ejdbisvalidoidstr(oidCString)) return NO;
+    return YES;
+}
+
+/**
+ * Load BSON object with specified 'oid'.
+ * If loaded bson is not NULL it must be freed by bson_del().
+ * @param coll
+ * @param oid
+ * @return BSON object if exists otherwise return NULL.
+ */
+//EJDB_EXPORT bson* ejdbloadbson(EJCOLL *coll, const bson_oid_t *oid);
+
+
+- (id)fetchObjectWithOID:(NSString *)OID
+{
+    if (![EJDBCollection isValidOID:OID]) return nil;
+    
+    bson_oid_t oid;
+    bson_oid_from_string(&oid, [OID cStringUsingEncoding:NSUTF8StringEncoding]);
+    bson *bsonObj = ejdbloadbson(_collection, &oid);
+    if (bsonObj == NULL) return nil;
+    BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
+    return [bsonDecoder decodeObjectFromBSON:bsonObj];
+}
+
+
 - (BOOL)saveObject:(id)object
 {
    return [self saveObjects:@[object]];
@@ -28,35 +73,34 @@
 {
     for (id object in objects)
     {
-        BOOL isArchivable = [object conformsToProtocol:@protocol(BSONArchiving)];
-        BOOL isDictionary = [object isKindOfClass:[NSDictionary class]];
-        
-        if (!isArchivable && !isDictionary)
-        {
-            NSException *exception = [NSException exceptionWithName:@"Unsupported Type!"
-                                                             reason:@"The object to save must be either a Dictionary or a class that adopts the BSONArchiving protocol!"
-                                                           userInfo:nil];
-            @throw exception;
-        }
-
-        NSDictionary *dictionaryToSave;
+        if (![EJDBCollection isSupportedObject:object]) return NO;
  
-        dictionaryToSave = isArchivable ? [object toDictionary] : object;
+        NSDictionary *dictionary = [object respondsToSelector:@selector(toDictionary)] ? [object toDictionary] : object;
+        BOOL isArchivable = [object conformsToProtocol:@protocol(BSONArchiving)];
         bson_oid_t oid;
-        NSString *oidStr = [dictionaryToSave objectForKey:@"_id"];
+        NSString *oidStr;
+        NSMutableDictionary *dictionaryToSave = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+        
+        if (isArchivable && [object respondsToSelector:@selector(oidPropertyName)])
+        {
+            oidStr = [object valueForKey:[object oidPropertyName]];
+            if (!oidStr) oidStr = [dictionary valueForKey:@"_id"];
+            if (oidStr) [dictionaryToSave setValue:oidStr forKey:@"_id"];
+        }
+        else
+        {
+            oidStr = [dictionary objectForKey:@"_id"];
+        }
+        
         if (oidStr)
         {
+            if (![EJDBCollection isValidOID:oidStr]) return NO;
             const char *oidCString = [oidStr cStringUsingEncoding:NSUTF8StringEncoding];
-            if (!ejdbisvalidoidstr(oidCString))
-            {
-                NSException *exception = [NSException exceptionWithName:@"Invalid OID value!"                                                                 reason:[NSString stringWithFormat:@"The value: %@ is not a valid oid.",oidStr] userInfo:nil];
-                @throw exception;
-            }
             bson_oid_from_string(&oid, oidCString);
         }
         
         BSONEncoder *bsonObject = [[BSONEncoder alloc]init];
-        [bsonObject encodeDictionary:dictionaryToSave];
+        [bsonObject encodeDictionary:[NSDictionary dictionaryWithDictionary:dictionaryToSave]];
         [bsonObject finish];
 
         BOOL success = ejdbsavebson(_collection, bsonObject.bson, &oid);
@@ -65,5 +109,41 @@
     
     return YES;
 }
+
+- (BOOL)removeObject:(id)object
+{
+    BOOL isDictionary = [object isKindOfClass:[NSDictionary class]];
+    BOOL isArchivable = [object conformsToProtocol:@protocol(BSONArchiving)];
+    NSString *oid = nil;
+    
+    if (!isDictionary && !isArchivable) return NO;
+    
+    if (isDictionary)
+    {
+        oid = [object objectForKey:@"_id"];
+        if (!oid) return NO;
+    }
+    else
+    {
+        oid = [object valueForKey:[object oidPropertyName]];
+    }
+
+    return [self removeObjectWithOID:oid];
+}
+
+
+- (BOOL)removeObjectWithOID:(NSString *)OID
+{
+    if (![EJDBCollection isValidOID:OID]) return NO;
+    bson_oid_t oid;
+    bson_oid_from_string(&oid, [OID cStringUsingEncoding:NSUTF8StringEncoding]);
+    return ejdbrmbson(_collection, &oid);
+}
+
+- (BOOL)setIndexOption:(EJDBIndexOptions)options forFieldPath:(NSString *)fieldPath
+{
+    return ejdbsetindex(_collection,[fieldPath cStringUsingEncoding:NSUTF8StringEncoding], options);
+}
+
 
 @end

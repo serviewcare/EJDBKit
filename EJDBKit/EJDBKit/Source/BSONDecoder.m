@@ -1,5 +1,5 @@
 #import "BSONDecoder.h"
-
+#import "BSONArchiving.h"
 
 @interface BSONDecoder ()
 
@@ -30,6 +30,39 @@
         if (value != nil) [_decodedDict setValue:value forKey:key];
     }
     return [NSDictionary dictionaryWithDictionary:_decodedDict];
+}
+
+- (id)decodeObjectFromBSON:(bson *)bsonObject
+{
+    bson_iterator iterator;
+    bson_iterator_init(&iterator, bsonObject);
+    NSDictionary *decodedDictionary = [self decodeFromIterator:iterator];
+    NSString *type = [decodedDictionary objectForKey:@"type"];
+    if (type)
+    {
+        Class aClass = NSClassFromString(type);
+        id obj = [[aClass alloc]init];
+        if (![obj conformsToProtocol:@protocol(BSONArchiving)])
+        {
+            NSException *exception = [NSException exceptionWithName:@"Unsupported BSON Type!"
+                                                             reason:[NSString stringWithFormat:@"Cannot encode class: %@!",NSStringFromClass([obj class])]
+                                                           userInfo:nil];
+            obj = nil;
+            @throw exception;
+        }
+        
+        NSMutableDictionary *modifiedDict = [NSMutableDictionary dictionaryWithDictionary:decodedDictionary];
+        [modifiedDict removeObjectForKey:@"type"];
+        NSString *oid = [modifiedDict objectForKey:@"_id"];
+        if (oid)
+        {
+            [modifiedDict setValue:[modifiedDict objectForKey:@"_id"] forKey:[obj oidPropertyName]];
+            [modifiedDict removeObjectForKey:@"_id"];
+        }
+        [obj fromDictionary:[NSDictionary dictionaryWithDictionary:modifiedDict]];
+        return obj;
+    }
+    return decodedDictionary;
 }
 
 - (id)valueFromIterator:(bson_iterator)iterator forBSONType:(bson_type)type

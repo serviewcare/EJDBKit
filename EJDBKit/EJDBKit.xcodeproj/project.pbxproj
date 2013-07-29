@@ -21,6 +21,8 @@
 		5237E9AB17A520D70014A63A /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A017A520D70014A63A /* EJDBDatabase.m */; };
 		5237E9AC17A520D70014A63A /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A317A520D70014A63A /* EJDBQuery.m */; };
 		5237E9AD17A520D70014A63A /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A317A520D70014A63A /* EJDBQuery.m */; };
+		5267ADCF17A64B0C00F22C6E /* EJDBCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5267ADCE17A64B0C00F22C6E /* EJDBCollectionTests.m */; };
+		5267ADD217A64F5B00F22C6E /* ArchivableClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 5267ADD117A64F5B00F22C6E /* ArchivableClasses.m */; };
 		5294231317A274C4007FFD63 /* EJDBDatabaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */; };
 		52D916B817A3AB7900B0060D /* BSONEncoderDecoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */; };
 		52D916BB17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */; };
@@ -83,6 +85,10 @@
 		5237E9BA17A520F10014A63A /* tctdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tctdb.h; sourceTree = "<group>"; };
 		5237E9BB17A520F10014A63A /* tcutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcutil.h; sourceTree = "<group>"; };
 		5237E9FF17A533130014A63A /* BSONArchiving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONArchiving.h; sourceTree = "<group>"; };
+		5267ADCD17A64B0C00F22C6E /* EJDBCollectionTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBCollectionTests.h; sourceTree = "<group>"; };
+		5267ADCE17A64B0C00F22C6E /* EJDBCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBCollectionTests.m; sourceTree = "<group>"; };
+		5267ADD017A64F5B00F22C6E /* ArchivableClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchivableClasses.h; sourceTree = "<group>"; };
+		5267ADD117A64F5B00F22C6E /* ArchivableClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchivableClasses.m; sourceTree = "<group>"; };
 		5294231117A274C4007FFD63 /* EJDBDatabaseTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBDatabaseTests.h; sourceTree = "<group>"; };
 		5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBDatabaseTests.m; sourceTree = "<group>"; };
 		52D916B617A3AB7900B0060D /* BSONEncoderDecoderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoderDecoderTests.h; sourceTree = "<group>"; };
@@ -130,18 +136,18 @@
 			isa = PBXGroup;
 			children = (
 				5237E9AE17A520F10014A63A /* tcejdb */,
+				5237E9A117A520D70014A63A /* EJDBKit.h */,
+				5237E99F17A520D70014A63A /* EJDBDatabase.h */,
+				5237E9A017A520D70014A63A /* EJDBDatabase.m */,
+				5237E99D17A520D70014A63A /* EJDBCollection.h */,
+				5237E99E17A520D70014A63A /* EJDBCollection.m */,
+				5237E9A217A520D70014A63A /* EJDBQuery.h */,
+				5237E9A317A520D70014A63A /* EJDBQuery.m */,
+				5237E9FF17A533130014A63A /* BSONArchiving.h */,
 				5237E99917A520D70014A63A /* BSONDecoder.h */,
 				5237E99A17A520D70014A63A /* BSONDecoder.m */,
 				5237E99B17A520D70014A63A /* BSONEncoder.h */,
 				5237E99C17A520D70014A63A /* BSONEncoder.m */,
-				5237E99D17A520D70014A63A /* EJDBCollection.h */,
-				5237E99E17A520D70014A63A /* EJDBCollection.m */,
-				5237E99F17A520D70014A63A /* EJDBDatabase.h */,
-				5237E9A017A520D70014A63A /* EJDBDatabase.m */,
-				5237E9A117A520D70014A63A /* EJDBKit.h */,
-				5237E9FF17A533130014A63A /* BSONArchiving.h */,
-				5237E9A217A520D70014A63A /* EJDBQuery.h */,
-				5237E9A317A520D70014A63A /* EJDBQuery.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -229,6 +235,10 @@
 				5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */,
 				52D916B617A3AB7900B0060D /* BSONEncoderDecoderTests.h */,
 				52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */,
+				5267ADD017A64F5B00F22C6E /* ArchivableClasses.h */,
+				5267ADD117A64F5B00F22C6E /* ArchivableClasses.m */,
+				5267ADCD17A64B0C00F22C6E /* EJDBCollectionTests.h */,
+				5267ADCE17A64B0C00F22C6E /* EJDBCollectionTests.m */,
 				52D916B917A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.h */,
 				52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */,
 				52EC76EB179F31B000EEC86D /* Supporting Files */,
@@ -364,6 +374,8 @@
 				5237E9A917A520D70014A63A /* EJDBCollection.m in Sources */,
 				5237E9AB17A520D70014A63A /* EJDBDatabase.m in Sources */,
 				5237E9AD17A520D70014A63A /* EJDBQuery.m in Sources */,
+				5267ADCF17A64B0C00F22C6E /* EJDBCollectionTests.m in Sources */,
+				5267ADD217A64F5B00F22C6E /* ArchivableClasses.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
