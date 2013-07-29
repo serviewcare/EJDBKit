@@ -211,7 +211,7 @@ Don't need your object anymore? Go ahead and remove it then:
 [collection removeObject:obj];
 ```
 
-Or give remove it by supplying an OID:
+Or remove it by supplying an OID:
 
 ```objc
 [collection removeObjectWithOID:@"SomeValidOID"];
