@@ -7,9 +7,10 @@ Current Status
 =================
 
 It is definitely in a useable state but I would wait a bit before using it
-in a production environment. Having said that, I plan on actively working on
-this project until, at the very least, I'm satisfied it is a complete and correct
-implementation.
+in a production environment as it may change quite a bit before 
+a first "stable" release(0.1.0).
+Having said that, I plan on actively working on this project until, 
+at the very least, I'm satisfied it is a complete and correct implementation.
 
 Usage
 ==================
@@ -189,6 +190,31 @@ NSDictionary *hints = @{@"$fields":@{@"first name": @1};
 NSArray *results = [_db findObjectsWithQuery:theQuery
 						hints:hints
 						inCollection:collection error:NULL];
+```
+
+Want to fetch a specific object without querying? No problem (you do need to supply a valid OID though):
+
+```objc
+
+NSDictionary *dictionary = [collection fetchObjectWithOID:@"SomeValidOID"];
+```
+
+Or, if you want to fetch a custom object (remember the same rules apply when fetching a custom class):
+
+```objc
+MyCustomClass *obj = [collection fetchObjectWithOID:@"SomeValidOID"];
+```
+
+Don't need your object anymore, go ahead and remove it then:
+
+```objc
+[collection removeObject:obj];
+```
+
+Or give remove it by supplying an OID:
+
+```objc
+[collection removeObjectWithOID:@"SomeValidOID"];
 ```
 
 Don't need your collection anymore? Just remove it like so:
