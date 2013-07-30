@@ -37,8 +37,6 @@
     STAssertTrue([_db isOpen], @"Database should be open!");
 }
 
-
-
 - (void)testCollectionDoesNotExist
 {
     EJDBCollection *collection = [_db collectionWithName:@"foo"];
@@ -48,6 +46,13 @@
 - (void)testCollectionCreationSuccess
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    STAssertNotNil(collection, @"Collection should be created with success!");
+}
+
+- (void)testCollectionCreationFail
+{
+    NSError *error;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"" error:error];
     STAssertNotNil(collection, @"Collection should be created with success!");
 }
 
@@ -132,6 +137,37 @@
     NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
     BOOL success = [collection saveObjects:@[obj1,obj2]];
     STAssertTrue(success, @"objects should be saved successfully!");
+}
+
+- (void)testTransactionCommit
+{
+    NSError *error;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    error = [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection) {
+        NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
+        NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @36, @"address": @"13 elm street"};
+        [collection saveObjects:@[obj1,obj2]];
+        return YES;
+    }];
+
+    STAssertNil(error, @"Error after transaction commit should be nil!");
+    NSArray *results = [_db findObjectsWithQuery:@{@"age" : @36} inCollection:collection error:NULL];
+    STAssertTrue([results count] == 2, @"Results of query after commiting transaction should be exactly 2!");
+}
+
+- (void)testTransactionAbort
+{
+    NSError *error;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    error = [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection) {
+        NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
+        NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
+        [collection saveObjects:@[obj1,obj2]];
+        return NO;
+    }];
+    STAssertNil(error, @"Error after transaction abort should be nil!");
+    NSArray *results = [_db findObjectsWithQuery:@{@"age" : @36} inCollection:collection error:NULL];
+    STAssertTrue([results count] == 0, @"Results of query after aborting transaction should be exactly 0!");
 }
 
 @end

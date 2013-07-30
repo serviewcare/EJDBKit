@@ -128,5 +128,4 @@
     STAssertEquals([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
 }
 
-
 @end

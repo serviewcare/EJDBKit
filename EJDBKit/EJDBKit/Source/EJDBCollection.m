@@ -20,7 +20,6 @@
     return self;
 }
 
-
 + (BOOL)isSupportedObject:(id)object
 {
     BOOL isArchivable = [object conformsToProtocol:@protocol(BSONArchiving)];

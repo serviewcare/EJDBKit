@@ -4,6 +4,11 @@
 @class EJDBCollection;
 @class EJDBQuery;
 
+/** Transaction block definition. Used for executing statements in transaction. 
+ @return YES - if you'd like to commit the transaction. NO - if you'd like to abort it.
+ */
+typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
+
 /**
  This class wraps the EJDB object and provides the ability to manipulate the underlying db,collections,etc.
 */
@@ -40,7 +45,6 @@
  @return - YES if open. NO if not.
 */
 - (BOOL)isOpen;
-
 
 /**
  Gets a dictionary of data about the database such as collections and their respective indexes, options,etc.
@@ -124,7 +128,17 @@
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
                             error:(NSError *__autoreleasing)error;
 
-//- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error;
+/**
+ Executes the statements by the provided EJDBTransactionBlock as a transaction.
+ The block gives you access to the EJDBCollection specified in the collection argument.
+ The block must return either a YES, if you'd like to commit the transaction or NO if you'd like to abort it.
+ 
+ @param collection - The collection the transaction will occur in.
+ @param transaction - The EJDBTransactiobBlock, this is where your inserts/updates/etc go.
+ @return - nil if the transaction occurred with no errors or an NSError if an error occurred.
+ 
+*/
+- (NSError *)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction;
 
 /** Close the database. */
 - (void)close;

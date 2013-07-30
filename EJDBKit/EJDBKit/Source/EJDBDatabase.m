@@ -150,23 +150,33 @@
     return [ejdbQuery fetchObjects];
 }
 
-
-/*
-- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
+- (NSError *)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction
 {
-    BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
-    [bsonQuery encodeDictionary:query];
-    [bsonQuery finish];
-    EJQ *ejqQuery = ejdbcreatequery(_db, bsonQuery.bson, NULL, 0, NULL);
-    if (ejqQuery == NULL)
+    NSError *error = nil;
+    if(ejdbtranbegin(collection.collection))
+    {
+        BOOL shouldCommit = transaction(collection);
+        if (shouldCommit)
+        {
+            if(!ejdbtrancommit(collection.collection))
+            {
+                [self populateError:error];
+            }
+        }
+        else
+        {
+            if(!ejdbtranabort(collection.collection))
+            {
+                [self populateError:error];
+            }
+        }
+    }
+    else
     {
         [self populateError:error];
-        return nil;
     }
-    EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithEJQuery:ejqQuery collection:collection];
-    return ejdbQuery;
+    return error;
 }
-*/
 
 - (int)errorCode
 {
@@ -187,7 +197,6 @@
                                     code:errorCode userInfo:@{NSLocalizedDescriptionKey : [self errorMessageFromCode:errorCode]}];
     }
 }
-
 
 - (void)close
 {
