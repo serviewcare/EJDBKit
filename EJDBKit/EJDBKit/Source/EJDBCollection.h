@@ -63,6 +63,23 @@ EJDBIndexOptions;
 */
 - (BOOL)saveObjects:(NSArray *)objects;
 
+
+/**
+ Updates the collection that match the criteria specified in the query dictionary.
+ This is mainly a convenience method for when/if you don't want to specifiy hints.
+ @param - The query dictionary.
+ @return - The count of objects updated in the collection.
+*/
+- (int)updateWithQuery:(NSDictionary *)query;
+
+/** 
+ Updates the collection that match the criteria specified in the query dictionary.
+ @param query - The query dictionary.
+ @param hints - The query hints (if any). If you don't want to give any hints pass a NULL.
+ @return - The count of objects updated in the collection.
+*/
+- (int)updateWithQuery:(NSDictionary *)query hints:(NSDictionary *)hints;
+
 /**
  Removes the object from the collection.
  @param object - The object must either be an NSDictionary that contains an "_id" key or a class that adopts the BSONArchiving protocol.
@@ -86,5 +103,11 @@ EJDBIndexOptions;
 */
 - (BOOL)setIndexOption:(EJDBIndexOptions)options forFieldPath:(NSString *)fieldPath;
 
+
+/**
+Synchronize content of a EJDB collection database with the file on device.
+@return - YES if successful. NO if not.
+*/
+- (BOOL)synchronize;
 
 @end

@@ -41,16 +41,6 @@
     return YES;
 }
 
-/**
- * Load BSON object with specified 'oid'.
- * If loaded bson is not NULL it must be freed by bson_del().
- * @param coll
- * @param oid
- * @return BSON object if exists otherwise return NULL.
- */
-//EJDB_EXPORT bson* ejdbloadbson(EJCOLL *coll, const bson_oid_t *oid);
-
-
 - (id)fetchObjectWithOID:(NSString *)OID
 {
     if (![EJDBCollection isValidOID:OID]) return nil;
@@ -62,7 +52,6 @@
     BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
     return [bsonDecoder decodeObjectFromBSON:bsonObj];
 }
-
 
 - (BOOL)saveObject:(id)object
 {
@@ -110,6 +99,27 @@
     return YES;
 }
 
+- (int)updateWithQuery:(NSDictionary *)query
+{
+    return [self updateWithQuery:query hints:NULL];
+}
+
+- (int)updateWithQuery:(NSDictionary *)query hints:(NSDictionary *)hints
+{
+    BSONEncoder *queryBsonEncoder = [[BSONEncoder alloc]initAsQuery];
+    [queryBsonEncoder encodeDictionary:query];
+    [queryBsonEncoder finish];
+    bson *queryHints = NULL;
+    if (hints)
+    {
+        BSONEncoder *queryHintsBsonEncoder = [[BSONEncoder alloc]initAsQuery];
+        [queryBsonEncoder encodeDictionary:hints];
+        [queryBsonEncoder finish];
+        queryHints = queryHintsBsonEncoder.bson;
+    }
+    return ejdbupdate(_collection, queryBsonEncoder.bson, NULL, 0, queryHints, NULL);
+}
+
 - (BOOL)removeObject:(id)object
 {
     BOOL isDictionary = [object isKindOfClass:[NSDictionary class]];
@@ -145,5 +155,9 @@
     return ejdbsetindex(_collection,[fieldPath cStringUsingEncoding:NSUTF8StringEncoding], options);
 }
 
+- (BOOL)synchronize
+{
+    return ejdbsyncoll(_collection);
+}
 
 @end

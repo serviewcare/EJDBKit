@@ -37,6 +37,8 @@
     STAssertTrue([_db isOpen], @"Database should be open!");
 }
 
+
+
 - (void)testCollectionDoesNotExist
 {
     EJDBCollection *collection = [_db collectionWithName:@"foo"];
@@ -54,6 +56,30 @@
     [_db ensureCollectionWithName:@"foo" error:NULL];
     [_db removeCollectionWithName:@"foo"];
     STAssertNil([_db collectionWithName:@"foo"], @"Collection should not exist!");
+}
+
+/**
+    This is more informational rather than a test. Might just remove this later.
+*/
+- (void)testmetadata
+{
+    EJDBCollection *collection1 = [_db ensureCollectionWithName:@"a" error:NULL];
+    [collection1 setIndexOption:EJDBIndexStringCaseInsensitive forFieldPath:@"name"];
+    [collection1 setIndexOption:EJDBIndexNumber forFieldPath:@"age"];
+    NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
+    NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
+    NSDictionary *obj3 = @{@"name" : @"alisha doesit", @"age" : @25, @"address": @"42nd street"};
+    [collection1 saveObjects:@[obj1,obj2,obj3]];
+    //NSDictionary *metadata = [_db metadata];
+    //NSLog(@"METADATA: \n %@",metadata);
+}
+
+- (void)testCollectionNames
+{
+    [_db ensureCollectionWithName:@"a" error:NULL];
+    [_db ensureCollectionWithName:@"b" error:NULL];
+    NSArray *collectionNames = [_db collectionNames];
+    STAssertTrue([collectionNames count] == 2, @"Collection count should be exactly 2!.");
 }
 
 - (void)testOpenCollections

@@ -41,6 +41,18 @@
 */
 - (BOOL)isOpen;
 
+
+/**
+ Gets a dictionary of data about the database such as collections and their respective indexes, options,etc.
+*/
+- (NSDictionary *)metadata;
+
+/**
+ Get a list of the collection's names in the database.
+ @param - Array of collection names.
+*/
+- (NSArray *)collectionNames;
+
 /**
  Fetches a collection with the name provided.
  @param name - The name of the collection.

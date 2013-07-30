@@ -1,14 +1,8 @@
 #import "EJDBDatabase.h"
 #import "BSONEncoder.h"
+#import "BSONDecoder.h"
 #import "EJDBCollection.h"
 #import "EJDBQuery.h"
-
-/* 
-   Yes...I'm doing something unholy here but I need to know some things that I can't get from ejdb.h.
-   Example: How the hell do I get a name of a collection??? This smells bad, I will have to talk to the folks over at softmotions
-   but for now, it's the only solution I can come up with.
- */
-#include "tcejdb/ejdb_private.h"
 
 @interface EJDBDatabase ()
 @property (copy,nonatomic) NSString *dbPath;
@@ -58,6 +52,26 @@
     return ejdbisopen(_db);
 }
 
+- (NSDictionary *)metadata
+{
+   bson *bson = ejdbmeta(_db);
+   BSONDecoder *decoder = [[BSONDecoder alloc]init];
+   NSDictionary *metaDataDictionary = [decoder decodeObjectFromBSON:bson];
+   return metaDataDictionary;
+}
+
+- (NSArray *)collectionNames
+{
+    NSDictionary *metadata = [self metadata];
+    NSMutableArray *collectionNames = [NSMutableArray array];
+    for (NSDictionary *collection in [metadata objectForKey:@"collections"])
+    {
+        [collectionNames addObject:[collection objectForKey:@"name"]];
+    }
+    return collectionNames;
+}
+
+
 - (EJDBCollection *)collectionWithName:(NSString *)name
 {
     EJCOLL *coll = ejdbgetcoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -72,21 +86,12 @@
 - (NSArray *)collections
 {
     NSMutableArray *openCollections = [NSMutableArray array];
-    TCLIST *collectionList = ejdbgetcolls(_db);
-    if (collectionList != NULL)
+    for (NSString *collectionName in [self collectionNames])
     {
-        for (int i = 0; i < TCLISTNUM(collectionList); i++)
-        {
-            EJCOLL *coll = TCLISTVALPTR(collectionList, i);
-            /* coll->cname just doesn't feel right. Look at top of this file for explanation. */
-            NSString *collectionName = [NSString stringWithCString:coll->cname encoding:NSUTF8StringEncoding];
-            EJDBCollection *collection = [[EJDBCollection alloc]initWithName:collectionName collection:coll];
-            [openCollections addObject:collection];
-        }
-        tclistdel(collectionList);
-        return [NSArray arrayWithArray:openCollections];
+        EJDBCollection *collection = [self collectionWithName:collectionName];
+        if (collection) [openCollections addObject:collection];
     }
-    return nil;
+    return openCollections;
 }
 
 - (EJDBCollection *)ensureCollectionWithName:(NSString *)name error:(NSError *__autoreleasing)error

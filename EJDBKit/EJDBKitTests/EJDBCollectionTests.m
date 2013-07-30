@@ -111,4 +111,22 @@
     STAssertTrue([[fetchedObj toDictionary] isEqualToDictionary:[obj1 toDictionary]], @"Created object and fetched object should be equal!");
 }
 
+- (void)testUpdatingObjectWithQueryReturnsCountOfOneRecord
+{
+    NSDictionary *obj1 = @{@"_id" : @"012345678901234567890123",@"name" : @"foo", @"age" : @32};
+    NSDictionary *obj2 = @{@"_id" : @"123456789012345678901234", @"name": @"bar", @"age" : @25};
+    [_collection saveObjects:@[obj1,obj2]];
+    
+    NSDictionary *query =
+    @{
+      @"_id": @"012345678901234567890123",
+      @"$set" : @{@"age": @35}
+     };
+    int updateCount = [_collection updateWithQuery:query hints:NULL];
+    STAssertEquals(updateCount, 1, @"Update query should update exactly 1 object!");
+    NSDictionary *fetchedObject = [_collection fetchObjectWithOID:@"012345678901234567890123"];
+    STAssertEquals([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
+}
+
+
 @end
