@@ -59,6 +59,23 @@ Or...multiple objects at once:
 [collection saveObjects:@[dict1,dict2,obj]];
 ```
 
+Want to do stuff in a transaction? Here you go:
+
+```objc
+
+NSError *error = [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection) {
+   
+   [collection saveObjects@[dict1,dict2,obj]];
+   // Whatever else you need to do.
+   //...
+
+   //return YES to commit the transaction or NO to abort it.
+   return YES;
+}];
+
+```
+
+
 So at this point you're probably wondering what object types are supported (inside your NSDictionary or Custom class) for inserting/fetching, here they are:
 
 | Supported Foundation types |
@@ -79,36 +96,44 @@ You can have your own custom NSObject subclass supported for inserting/fetching 
 
 @protocol BSONArchiving <NSObject>
 
+/**
+  This method will be called when the decoder wants to know what type the custom object is.
+*/
+- (NSString *)type;
+
 /** 
- This method will be called when the code wants to return an OID 
- (in other words the _id field). For obvious
- reasons having a property name called _id may not be such a good idea. 
- You must return the name
+ This method will be called when the decoder wants to return an OID (in other words the _id field). For obvious
+ reasons having a property name called id may not be such a good idea. You must return the name
  of the property in the class that will represent the OID.
 */
 - (NSString *)oidPropertyName;
 
 /**
- This method will be called when the code wants to encode your object into BSON. 
- You must provide a dictionary with a key named "type", it's value being the name of the class. 
+ This method will be called when the encoder wants to 
+ encode your object into BSON. You must provide a
+ dictionary with a key named "type", it's value 
+ being the name of the class (Hint: just call [self type] to make this easier). 
  You can optionally provide a key named "_id"
- if you'd like to pass your own OID but 
- you must make sure it is a valid OID otherwise the object will not be saved.
- If you don't follow the rules, an exception will be thrown!
+ if you'd like to pass your own OID but you must make sure it is a 
+ valid OID otherwise the object will not be saved.
+ If you don't follow the rules, bad things will happen!
 */
 - (NSDictionary *)toDictionary;
 
 /**
- This method will be called when the code wants to decode your object from BSON.
-  If the query you specified contains the "_id" key 
-  it will be returned as the name you specified in the oidPropertyName method. 
-  This makes it convenient to use with key/value coding 
-  (i.e. enumerate the keys and set the values without having to set each property manually).
- Please note: If the query does return an "_id" key/value 
- and you return a nil or some non-existent property name
- an exception will be thrown!
+ This method will be called when the code wants to 
+ decode your object from BSON. If the query you specified contains
+ the "_id" key it will be returned 
+ as the name you specified in the oidPropertyName method. 
+ This makes it convenient
+ to use with key/value coding 
+ (i.e. enumerate the keys and set the values without having to set each property manually).
+ Please note: If the query does return an "_id" key/value
+  and you return a nil or some non-existent property name
+ bad things will happen!
 */
 - (void)fromDictionary:(NSDictionary *)dictionary;
+
 
 ```
 
@@ -127,6 +152,11 @@ For example, this will work:
 
 @implementation CustomArchivableClass
 
+- (NSString *)type
+{
+  return NSStringFromClass([self class]);
+}
+
 - (NSString *)oidPropertyName
 {
     return @"oid";
@@ -134,7 +164,7 @@ For example, this will work:
 
 - (NSDictionary *)toDictionary
 {
-    return @{@"type": NSStringFromClass([self class]), @"name" : _name, @"age" : _age};
+    return @{@"type": [self type], @"name" : _name, @"age" : _age};
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary
@@ -160,13 +190,11 @@ This won't!:
 
 - (NSDictionary *)toDictionary
 {
-    return @{@"type" : NSStringFromClass([self class]), @"_id" : @"123", @"name" : self.name, @"age" : self.age };
+    return @{@"type" : [self type], @"_id" : @"123", @"name" : self.name, @"age" : self.age };
 }
 
 @end
 ```
-
-
 
 Querying a collection:
 
