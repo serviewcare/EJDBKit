@@ -63,7 +63,8 @@ Want to do stuff in a transaction? Here you go:
 
 ```objc
 
-NSError *error = [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection) {
+NSError *error = [_db transactionInCollection:collection 
+                      transaction:^BOOL(EJDBCollection *collection) {
    
    [collection saveObjects@[dict1,dict2,obj]];
    // Whatever else you need to do.
@@ -97,13 +98,16 @@ You can have your own custom NSObject subclass supported for inserting/fetching 
 @protocol BSONArchiving <NSObject>
 
 /**
-  This method will be called when the decoder wants to know what type the custom object is.
+  This method will be called when the decoder wants to know what type 
+  the custom object is.
 */
 - (NSString *)type;
 
 /** 
- This method will be called when the decoder wants to return an OID (in other words the _id field). For obvious
- reasons having a property name called id may not be such a good idea. You must return the name
+ This method will be called when the decoder wants to return an OID 
+ (in other words the _id field). For obvious
+ reasons having a property name called id may not be such a good idea. 
+ You must return the name
  of the property in the class that will represent the OID.
 */
 - (NSString *)oidPropertyName;
@@ -125,8 +129,7 @@ You can have your own custom NSObject subclass supported for inserting/fetching 
  decode your object from BSON. If the query you specified contains
  the "_id" key it will be returned 
  as the name you specified in the oidPropertyName method. 
- This makes it convenient
- to use with key/value coding 
+ This makes it convenient to use with key/value coding 
  (i.e. enumerate the keys and set the values without having to set each property manually).
  Please note: If the query does return an "_id" key/value
   and you return a nil or some non-existent property name
