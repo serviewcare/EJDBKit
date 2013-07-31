@@ -24,6 +24,8 @@ typedef enum
 }
 EJDBIndexOptions;
 
+extern NSString * const EJDBCollectionObjectSavedNotification;
+extern NSString * const EJDBCollectionObjectRemovedNotification;
 
 /**
  This class wraps the EJCOLL object and provides a facility for saving one or more objects to the underlying database.

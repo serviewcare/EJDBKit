@@ -43,6 +43,8 @@
 		527840AE17A874F9005A9EE1 /* CrudObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527840AC17A874F9005A9EE1 /* CrudObjectViewController.m */; };
 		527840B117A876BF005A9EE1 /* CrudObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 527840B017A876BF005A9EE1 /* CrudObject.m */; };
 		527840B217A876BF005A9EE1 /* CrudObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 527840B017A876BF005A9EE1 /* CrudObject.m */; };
+		527840B517A91920005A9EE1 /* CrudObjectScoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527840B417A91920005A9EE1 /* CrudObjectScoresViewController.m */; };
+		527840B617A91920005A9EE1 /* CrudObjectScoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527840B417A91920005A9EE1 /* CrudObjectScoresViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +112,8 @@
 		527840AC17A874F9005A9EE1 /* CrudObjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrudObjectViewController.m; sourceTree = "<group>"; };
 		527840AF17A876BF005A9EE1 /* CrudObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrudObject.h; sourceTree = "<group>"; };
 		527840B017A876BF005A9EE1 /* CrudObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrudObject.m; sourceTree = "<group>"; };
+		527840B317A91920005A9EE1 /* CrudObjectScoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrudObjectScoresViewController.h; sourceTree = "<group>"; };
+		527840B417A91920005A9EE1 /* CrudObjectScoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrudObjectScoresViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +146,6 @@
 		5278403117A85D7F005A9EE1 = {
 			isa = PBXGroup;
 			children = (
-				527840A117A85F79005A9EE1 /* libz.dylib */,
 				5278404317A85D7F005A9EE1 /* IOSDemo */,
 				5278406717A85D7F005A9EE1 /* IOSDemoTests */,
 				5278403C17A85D7F005A9EE1 /* Frameworks */,
@@ -162,6 +165,7 @@
 		5278403C17A85D7F005A9EE1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				527840A117A85F79005A9EE1 /* libz.dylib */,
 				5278409E17A85F5F005A9EE1 /* libtcejdb.a */,
 				5278403D17A85D7F005A9EE1 /* UIKit.framework */,
 				5278403F17A85D7F005A9EE1 /* Foundation.framework */,
@@ -184,6 +188,8 @@
 				527840A817A86897005A9EE1 /* CrudViewController.m */,
 				527840AB17A874F9005A9EE1 /* CrudObjectViewController.h */,
 				527840AC17A874F9005A9EE1 /* CrudObjectViewController.m */,
+				527840B317A91920005A9EE1 /* CrudObjectScoresViewController.h */,
+				527840B417A91920005A9EE1 /* CrudObjectScoresViewController.m */,
 				527840AF17A876BF005A9EE1 /* CrudObject.h */,
 				527840B017A876BF005A9EE1 /* CrudObject.m */,
 				5278404417A85D7F005A9EE1 /* Supporting Files */,
@@ -401,6 +407,7 @@
 				527840A917A86897005A9EE1 /* CrudViewController.m in Sources */,
 				527840AD17A874F9005A9EE1 /* CrudObjectViewController.m in Sources */,
 				527840B117A876BF005A9EE1 /* CrudObject.m in Sources */,
+				527840B517A91920005A9EE1 /* CrudObjectScoresViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +425,7 @@
 				527840AA17A86897005A9EE1 /* CrudViewController.m in Sources */,
 				527840AE17A874F9005A9EE1 /* CrudObjectViewController.m in Sources */,
 				527840B217A876BF005A9EE1 /* CrudObject.m in Sources */,
+				527840B617A91920005A9EE1 /* CrudObjectScoresViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

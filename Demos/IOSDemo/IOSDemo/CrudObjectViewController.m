@@ -1,5 +1,6 @@
 #import "CrudObjectViewController.h"
 #import "CrudObject.h"
+#import "CrudObjectScoresViewController.h"
 
 @interface CrudObjectViewController () <UITextFieldDelegate>
 @property (assign,nonatomic) BOOL isNewObject;
@@ -18,7 +19,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)setupNavbarButtons
@@ -35,6 +35,7 @@
     if (_isNewObject)
     {
         _crudObject = [[CrudObject alloc]init];
+        _crudObject.scores = @[]; // Remember...we can't insert a nil into a dictionary!
     }
 }
 
@@ -61,39 +62,62 @@
     }
     else
     {
-        NSLog(@"Save not successful!");
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Save failed!" message:@"Couldn't save object" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alertView show];
     }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CrudFieldCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    UITextField *txtField = (UITextField *)[cell.contentView viewWithTag:2];
-    txtField.delegate = self;
-    
-    if (indexPath.row == 0)
+    static NSString *ScoresCellIdentifier = @"CrudScoresCell";
+    UITableViewCell *cell;
+    if (indexPath.row == 3)
     {
-        txtField.text = _crudObject.name;
-        txtField.placeholder = @"name";
+        cell = [tableView dequeueReusableCellWithIdentifier:ScoresCellIdentifier forIndexPath:indexPath];
+        cell.textLabel.text = @"Scores";
     }
-    else if (indexPath.row == 1)
+    else
     {
-        txtField.text = [_crudObject.age stringValue];
-        txtField.placeholder = @"age";
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        UITextField *txtField = (UITextField *)[cell.contentView viewWithTag:2];
+        txtField.delegate = self;
+        
+        if (indexPath.row == 0)
+        {
+            txtField.text = _crudObject.name;
+            txtField.placeholder = @"name";
+        }
+        else if (indexPath.row == 1)
+        {
+            txtField.text = [_crudObject.age stringValue];
+            txtField.placeholder = @"age";
+        }
+        else if (indexPath.row == 2)
+        {
+            txtField.text = [_crudObject.money stringValue];
+            txtField.placeholder = @"money";
+        }
     }
-    else if (indexPath.row == 2)
-    {
-        txtField.text = [_crudObject.money stringValue];
-        txtField.placeholder = @"money";
-    }
-    
+        
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 3)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        CrudObjectScoresViewController *scoresCtl = [self.storyboard instantiateViewControllerWithIdentifier:@"CrudObjectScoresViewController"];
+        scoresCtl.crudObject = _crudObject;
+        UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:scoresCtl];
+        [self.navigationController presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -104,14 +128,7 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     _firstResponderTextField = textField;
-    /*
-    _tableView.frame= CGRectMake(_tableView.frame.origin.x, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height - 190);
-    CGPoint p = [[textField superview]superview].frame.origin;
-    NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:p];
-    [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-     */
 }
-
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {

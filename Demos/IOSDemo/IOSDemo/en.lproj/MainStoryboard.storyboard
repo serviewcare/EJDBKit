@@ -51,14 +51,17 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="h1r-cl-uQZ">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CrudCell" rowHeight="100" id="NsL-Qm-0DI">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="100"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CrudCell" rowHeight="126" id="NsL-Qm-0DI">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="126"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yh1-JY-HMD">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="257" id="2AW-8L-AF0"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -73,16 +76,26 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sre-cP-wFd">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="AH5-QP-gBI" firstAttribute="top" secondItem="1uC-xe-9eE" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="8ut-Bz-l8T"/>
-                                            <constraint firstItem="yh1-JY-HMD" firstAttribute="top" secondItem="NsL-Qm-0DI" secondAttribute="top" type="default" id="BjO-7j-2Hp"/>
-                                            <constraint firstItem="1uC-xe-9eE" firstAttribute="leading" secondItem="NsL-Qm-0DI" secondAttribute="leading" constant="20" type="default" id="Sfv-0V-iuz"/>
-                                            <constraint firstItem="yh1-JY-HMD" firstAttribute="leading" secondItem="NsL-Qm-0DI" secondAttribute="leading" constant="20" type="default" id="ha7-sA-mxi"/>
-                                            <constraint firstItem="1uC-xe-9eE" firstAttribute="top" secondItem="yh1-JY-HMD" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="kC9-P8-J2a"/>
-                                            <constraint firstItem="AH5-QP-gBI" firstAttribute="leading" secondItem="NsL-Qm-0DI" secondAttribute="leading" constant="20" type="default" id="xCg-oC-iOB"/>
+                                            <constraint firstAttribute="trailing" secondItem="sre-cP-wFd" secondAttribute="trailing" constant="20" type="default" id="4q3-dr-86G"/>
+                                            <constraint firstItem="sre-cP-wFd" firstAttribute="leading" secondItem="AH5-QP-gBI" secondAttribute="leading" type="default" id="8LN-Zk-lZy"/>
+                                            <constraint firstItem="1uC-xe-9eE" firstAttribute="leading" secondItem="AH5-QP-gBI" secondAttribute="leading" type="default" id="G1q-2s-APa"/>
+                                            <constraint firstItem="yh1-JY-HMD" firstAttribute="top" secondItem="NsL-Qm-0DI" secondAttribute="top" constant="8" id="Jne-uL-1tm"/>
+                                            <constraint firstAttribute="trailing" secondItem="AH5-QP-gBI" secondAttribute="trailing" constant="20" type="default" id="MRb-nP-os4"/>
+                                            <constraint firstItem="AH5-QP-gBI" firstAttribute="top" secondItem="1uC-xe-9eE" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="W1h-yG-jb1"/>
+                                            <constraint firstAttribute="trailing" secondItem="yh1-JY-HMD" secondAttribute="trailing" constant="20" type="default" id="eD3-eI-DGp"/>
+                                            <constraint firstItem="sre-cP-wFd" firstAttribute="top" secondItem="AH5-QP-gBI" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="k1c-y2-ede"/>
+                                            <constraint firstItem="yh1-JY-HMD" firstAttribute="leading" secondItem="1uC-xe-9eE" secondAttribute="leading" type="default" id="m3j-cH-uqS"/>
+                                            <constraint firstItem="1uC-xe-9eE" firstAttribute="top" secondItem="yh1-JY-HMD" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="n1P-b7-skc"/>
+                                            <constraint firstAttribute="trailing" secondItem="1uC-xe-9eE" secondAttribute="trailing" constant="20" type="default" id="v2n-oj-oNw"/>
                                         </constraints>
                                     </tableViewCell>
                                 </prototypes>
@@ -155,6 +168,22 @@
                                             <constraint firstItem="7iN-ih-Li7" firstAttribute="top" secondItem="BIp-73-NIj" secondAttribute="top" constant="8" id="v2U-YX-BEK"/>
                                         </constraints>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CrudScoresCell" textLabel="e6J-CD-zmc" rowHeight="50" style="IBUITableViewCellStyleDefault" id="Jpx-f0-7xG">
+                                        <rect key="frame" x="0.0" y="72" width="320" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Scores" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6J-CD-zmc">
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="hgk-Ep-tc6" id="3uc-MC-qwS"/>
@@ -181,6 +210,85 @@
             </objects>
             <point key="canvasLocation" x="1438" y="89"/>
         </scene>
+        <!--Crud Object Scores View Controller-->
+        <scene sceneID="luI-n7-4Xo">
+            <objects>
+                <viewController storyboardIdentifier="CrudObjectScoresViewController" id="iPZ-e7-w6X" customClass="CrudObjectScoresViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="roN-uY-bkZ">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ted-h0-i4S">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CrudScoresCell" textLabel="Zkh-op-xNd" style="IBUITableViewCellStyleDefault" id="2pn-ss-oEn">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zkh-op-xNd">
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="iPZ-e7-w6X" id="Nbu-Dy-yDv"/>
+                                    <outlet property="delegate" destination="iPZ-e7-w6X" id="ztk-D0-l3X"/>
+                                </connections>
+                            </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAS-NV-aUw">
+                                <items>
+                                    <barButtonItem systemItem="add" id="8Qg-EA-Nyj">
+                                        <connections>
+                                            <action selector="addScoreButtonPressed:" destination="iPZ-e7-w6X" id="klZ-x5-oML"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="UwR-Ah-RVN"/>
+                                    <barButtonItem style="plain" id="rB7-TX-z4X">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rN0-kk-PSH">
+                                            <rect key="frame" x="254" y="5" width="54" height="34"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                            <state key="normal" title="Edit">
+                                                <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ted-h0-i4S" firstAttribute="bottom" secondItem="hAS-NV-aUw" secondAttribute="top" type="default" id="8UJ-IU-lqs"/>
+                            <constraint firstItem="ted-h0-i4S" firstAttribute="trailing" secondItem="roN-uY-bkZ" secondAttribute="trailing" type="default" id="ELQ-gr-hz7"/>
+                            <constraint firstItem="hAS-NV-aUw" firstAttribute="bottom" secondItem="roN-uY-bkZ" secondAttribute="bottom" type="default" id="MUH-ef-3uq"/>
+                            <constraint firstItem="ted-h0-i4S" firstAttribute="leading" secondItem="roN-uY-bkZ" secondAttribute="leading" type="default" id="U54-R1-m5W"/>
+                            <constraint firstItem="hAS-NV-aUw" firstAttribute="trailing" secondItem="roN-uY-bkZ" secondAttribute="trailing" type="default" id="fG1-If-YnD"/>
+                            <constraint firstItem="ted-h0-i4S" firstAttribute="top" secondItem="roN-uY-bkZ" secondAttribute="top" type="default" id="jgi-Ci-4i2"/>
+                            <constraint firstItem="hAS-NV-aUw" firstAttribute="leading" secondItem="roN-uY-bkZ" secondAttribute="leading" type="default" id="rIT-Yq-e7L"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="editButton" destination="rN0-kk-PSH" id="yWL-42-vQe"/>
+                        <outlet property="tableView" destination="ted-h0-i4S" id="STp-dW-7F6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hWb-Ye-9AJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1821" y="92"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="fjb-8S-KpS">
             <objects>
@@ -198,6 +306,14 @@
         </scene>
     </scenes>
     <classes>
+        <class className="CrudObjectScoresViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CrudObjectScoresViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addScoreButtonPressed:"/>
+                <relationship kind="outlet" name="editButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
         <class className="CrudObjectViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CrudObjectViewController.h"/>
             <relationships>

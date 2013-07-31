@@ -2,6 +2,11 @@
 #import "BSONEncoder.h"
 #import "BSONDecoder.h"
 
+
+NSString * const EJDBCollectionObjectSavedNotification = @"EJDBCollectionObjectSavedNotification";
+NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjectRemovedNotification";
+
+
 @interface EJDBCollection ()
 @property (copy,nonatomic) NSString *name;
 
@@ -88,12 +93,23 @@
             bson_oid_from_string(&oid, oidCString);
         }
         
+        NSDictionary *saveableDictionary = [NSDictionary dictionaryWithDictionary:dictionaryToSave];
         BSONEncoder *bsonObject = [[BSONEncoder alloc]init];
-        [bsonObject encodeDictionary:[NSDictionary dictionaryWithDictionary:dictionaryToSave]];
+        [bsonObject encodeDictionary:saveableDictionary];
         [bsonObject finish];
 
         BOOL success = ejdbsavebson(_collection, bsonObject.bson, &oid);
-        if (!success) return NO;
+        if (success)
+        {
+            //Need to revisit this because there is no way to retrieve last inserted oid
+            //from the collection (or at least I don't know how to do that).
+            id savedObject = isArchivable? object : saveableDictionary;
+            NSNotification *notification = [NSNotification notificationWithName:EJDBCollectionObjectSavedNotification
+                                                                         object:nil
+                                                                       userInfo:@{@"savedObject" : savedObject}];
+            [[NSNotificationCenter defaultCenter]postNotification:notification];
+        }
+        else return NO;
     }
     
     return YES;
@@ -141,13 +157,20 @@
     return [self removeObjectWithOID:oid];
 }
 
-
 - (BOOL)removeObjectWithOID:(NSString *)OID
 {
     if (![EJDBCollection isValidOID:OID]) return NO;
     bson_oid_t oid;
     bson_oid_from_string(&oid, [OID cStringUsingEncoding:NSUTF8StringEncoding]);
-    return ejdbrmbson(_collection, &oid);
+    
+    if (ejdbrmbson(_collection, &oid))
+    {
+        NSNotification *notification = [NSNotification notificationWithName:EJDBCollectionObjectRemovedNotification
+                                                                     object:OID userInfo:nil];
+        [[NSNotificationCenter defaultCenter]postNotification:notification];
+        return YES;
+    }
+    return NO;
 }
 
 - (BOOL)setIndexOption:(EJDBIndexOptions)options forFieldPath:(NSString *)fieldPath

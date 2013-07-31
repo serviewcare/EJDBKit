@@ -16,6 +16,7 @@
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self openDb];
+    [self setupNotifications];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,6 +45,18 @@
     [_rows addObjectsFromArray:results];
 }
 
+- (void)setupNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(collectionObjectSaved:) name:EJDBCollectionObjectSavedNotification object:nil];
+}
+
+- (void)collectionObjectSaved:(NSNotification *)notification
+{
+    [self fetchObjects];
+    [_tableView reloadData];
+}
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -63,37 +76,51 @@
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:1];
     UILabel *ageLabel = (UILabel *)[cell.contentView viewWithTag:2];
     UILabel *moneyLabel = (UILabel *)[cell.contentView viewWithTag:3];
+    UILabel *scoresLabel = (UILabel *)[cell.contentView viewWithTag:4];
     
     CrudObject *crudObj = _rows[indexPath.row];
     nameLabel.text = crudObj.name;
     ageLabel.text = [crudObj.age stringValue];
     moneyLabel.text = [crudObj.money stringValue];
     
+    NSMutableString *scoresString = [[NSMutableString alloc] init];
+    for (NSNumber *score in crudObj.scores)
+    {
+        [scoresString appendFormat:@" %@ ",[score stringValue]];
+    }
+    scoresLabel.text = [scoresString length] > 0 ? scoresString : @"No scores.";
+    
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 126.;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    [_tableView setEditing:editing animated:YES];
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        [_collection removeObject:_rows[indexPath.row]];
+        [_rows removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
 #pragma mark - Table view delegate
 
