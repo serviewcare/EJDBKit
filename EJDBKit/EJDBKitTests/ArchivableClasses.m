@@ -1,6 +1,4 @@
-
 #import "ArchivableClasses.h"
-
 
 @implementation CustomArchivableClass
 
@@ -43,7 +41,6 @@
 
 @end
 
-
 @implementation ArchivableClasses
 
 + (CustomArchivableClass *)validArchivableClass
@@ -57,4 +54,3 @@
 }
 
 @end
-
