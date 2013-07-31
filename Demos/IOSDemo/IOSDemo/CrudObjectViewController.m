@@ -104,10 +104,12 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     _firstResponderTextField = textField;
+    /*
     _tableView.frame= CGRectMake(_tableView.frame.origin.x, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height - 190);
     CGPoint p = [[textField superview]superview].frame.origin;
     NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:p];
     [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+     */
 }
 
 

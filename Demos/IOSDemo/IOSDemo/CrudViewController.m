@@ -60,17 +60,14 @@
 {
     static NSString *CellIdentifier = @"CrudCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    /*
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:1];
     UILabel *ageLabel = (UILabel *)[cell.contentView viewWithTag:2];
     UILabel *moneyLabel = (UILabel *)[cell.contentView viewWithTag:3];
     
     CrudObject *crudObj = _rows[indexPath.row];
-
     nameLabel.text = crudObj.name;
     ageLabel.text = [crudObj.age stringValue];
     moneyLabel.text = [crudObj.money stringValue];
-    */
     
     return cell;
 }

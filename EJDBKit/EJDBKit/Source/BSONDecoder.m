@@ -52,7 +52,6 @@
         }
         
         NSMutableDictionary *modifiedDict = [NSMutableDictionary dictionaryWithDictionary:decodedDictionary];
-        [modifiedDict removeObjectForKey:@"type"];
         NSString *oid = [modifiedDict objectForKey:@"_id"];
         if (oid)
         {

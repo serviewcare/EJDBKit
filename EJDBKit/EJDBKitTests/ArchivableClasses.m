@@ -4,6 +4,11 @@
 
 @implementation CustomArchivableClass
 
+- (NSString *)type
+{
+   return NSStringFromClass([self class]);
+}
+
 - (NSString *)oidPropertyName
 {
     return @"oid";
@@ -11,7 +16,7 @@
 
 - (NSDictionary *)toDictionary
 {
-    return @{@"type": NSStringFromClass([self class]), @"name" : _name, @"age" : _age};
+    return @{@"type" : [self type], @"name" : _name,@"age" : _age};
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary
@@ -21,17 +26,22 @@
         [self setValue:[dictionary objectForKey:key] forKey:key];
     }
 }
+
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+    value = [key isEqual:@"type"] ? [self type] : [NSNull null];
+}
+
 @end
 
 @implementation BogusOIDClass
 
 - (NSDictionary *)toDictionary
 {
-    return @{@"type" : NSStringFromClass([self class]), @"_id" : @"123", @"name" : self.name, @"age" : self.age };
+    return @{@"_id" : @"123", @"name" : self.name, @"age" : self.age };
 }
 
 @end
-
 
 
 @implementation ArchivableClasses

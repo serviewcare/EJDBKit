@@ -74,6 +74,7 @@
             oidStr = [object valueForKey:[object oidPropertyName]];
             if (!oidStr) oidStr = [dictionary valueForKey:@"_id"];
             if (oidStr) [dictionaryToSave setValue:oidStr forKey:@"_id"];
+            [dictionaryToSave setValue:[(id<BSONArchiving>)object type] forKey:@"type"];
         }
         else
         {
