@@ -98,12 +98,11 @@
     }
 }
 
-
-
 - (IBAction)addScoreButtonPressed:(id)sender
 {
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"New score" message:@"Please enter a numeric score" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Save",@"Cancel", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView textFieldAtIndex:0].keyboardType = UIKeyboardTypeDecimalPad;
     [alertView show];
 }
 

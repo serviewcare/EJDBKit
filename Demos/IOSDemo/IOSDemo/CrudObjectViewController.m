@@ -90,16 +90,19 @@
         
         if (indexPath.row == 0)
         {
+            txtField.keyboardType = UIKeyboardTypeASCIICapable;
             txtField.text = _crudObject.name;
             txtField.placeholder = @"name";
         }
         else if (indexPath.row == 1)
         {
+            txtField.keyboardType = UIKeyboardTypeNumberPad;
             txtField.text = [_crudObject.age stringValue];
             txtField.placeholder = @"age";
         }
         else if (indexPath.row == 2)
         {
+            txtField.keyboardType = UIKeyboardTypeDecimalPad;
             txtField.text = [_crudObject.money stringValue];
             txtField.placeholder = @"money";
         }
