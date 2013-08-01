@@ -162,7 +162,6 @@
 - (NSArray *)decodeArrayFromIterator:(bson_iterator)iterator
 {
     bson obj;
-    bson_init(&obj);
     bson_iterator_subobject(&iterator, &obj);
     bson_iterator arrayIterator;
     bson_iterator_init(&arrayIterator, &obj);
@@ -183,7 +182,6 @@
 - (NSDictionary *)decodeDictionaryFromIterator:(bson_iterator)iterator
 {
     bson obj;
-    bson_init(&obj);
     bson_iterator_subobject(&iterator, &obj);
     bson_iterator subiterator;
     bson_iterator_init(&subiterator, &obj);
