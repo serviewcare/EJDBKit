@@ -266,41 +266,69 @@ If you'd like to participate in working on the framework itself, there are a few
 
 2) 	After it's cloned, the ejdb dependancy is included as a submodule so you'll have to get it via:
 
-```
+```bash
 git submodule init
 git submodule update
-
 ```
 
 3) 	After the submodule is pulled down. You'll need to build the tcejdb libraries...fortunately this should be as simple as running the shell script (under EJDBKit folder):
 
 ```
+#Remember to cd EJDBKit
     ./ejdb-build.sh
 ``` 
 
 4)	After a bunch of compilation/building/etc you should be good to go!
 
-If you just want to just use the framework, after completing the above steps
-you need to do a few more things:
+If you just want to just use the framework in your project
+ you can do one of 2 things:
 
-5) Drag the contents of the Source folder over into your project and make sure to check the **Copy items into destination groups' folder** when presented with the Add Files dialog.
+Including EJDBKit.xcodeproj
+______________________
 
-6) Drag the **libtcejdb.a** file located under **EJDBKit/ejdb/lib** into your project and make sure to check the **Copy items into destination groups' folder** when presented with the Add Files dialog.
+1) Drag the EJDBKit.xcodeproj into your **workspace**. I don't know how to do this in a regular Xcode project
+so...sorry, can't help you there (you should probably just use workspaces all the time anyhow).
 
-7) Link the **libz.dylib** library in **"Link Binary With Libraries"** by pressing the + button and selecting it from the provided list.
+2) In your project's build Phases under "Target Dependencies" press the + button and select
+EJDBKit.
 
-8) Add the following import statement where you'd like to use the framework:
+3) In "Link With Libraries", press the + button, select **libEJDBKit.a** and press Add.
+
+4) Again, in "Link With Libraries", press the + button, look for libz.dylib and press Add.
+
+5) Add the following import statement where you'd like to use the framework:
 
 ```objc
-#import "EJDBKit.h"
+#import "EJDBKit/EJDBKit.h"
 
 ```
 
 And you're all set.
 
-It would be great to have this code as a static library and I have attempted it. Unfortunately, I
-haven't been successful in making it easy to use,straightforward or work completely for that matter :(. Static lib build masters
-are welcome to assist!! :)
+If you'd rather just add a universal library instead of futzing around with the above you can
+just:
+
+Including the universal library
+__________________________
+
+```bash
+#make sure to cd EJDBKit
+./build-universal.sh
+```
+
+After a bunch of console messages (and if everything goes well) you should be able to 
+find a file named: **libEJDBKit.a** under the build directory that the script generates.
+From here, it's just a matter of dragging into your project (You can reference it or choose to copy it into your project).
+
+Now just add the import statement where you'd like to use the framework:
+
+ ```objc
+#import "EJDBKit/EJDBKit.h"
+
+```
+
+And your golden! :)
+
 
 iOS versions supported
 =======================
