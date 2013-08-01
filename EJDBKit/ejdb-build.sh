@@ -7,7 +7,7 @@
 
 IOS_BASE_SDK="6.1"
 IOS_DEPLOY_TGT="5.0"
-
+export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
 
 #
 # Shared Functions
