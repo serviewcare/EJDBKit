@@ -48,6 +48,7 @@
        bson_del(data);
     }
     ejdbquerydel(_ejQuery);
+    free(r);
     return [NSArray arrayWithArray:results];
 }
 
