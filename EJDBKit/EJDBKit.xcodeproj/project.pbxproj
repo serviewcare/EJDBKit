@@ -16,8 +16,6 @@
 		522909DE17AA778100634082 /* EJDBCollection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99D17A520D70014A63A /* EJDBCollection.h */; };
 		522909DF17AA778100634082 /* EJDBQuery.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9A217A520D70014A63A /* EJDBQuery.h */; };
 		522909E017AA778100634082 /* BSONArchiving.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9FF17A533130014A63A /* BSONArchiving.h */; };
-		522909E117AA778100634082 /* BSONDecoder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99917A520D70014A63A /* BSONDecoder.h */; };
-		522909E217AA778100634082 /* BSONEncoder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99B17A520D70014A63A /* BSONEncoder.h */; };
 		5237E9A417A520D70014A63A /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
 		5237E9A517A520D70014A63A /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
 		5237E9A617A520D70014A63A /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99C17A520D70014A63A /* BSONEncoder.m */; };
@@ -63,8 +61,6 @@
 				522909DE17AA778100634082 /* EJDBCollection.h in CopyFiles */,
 				522909DF17AA778100634082 /* EJDBQuery.h in CopyFiles */,
 				522909E017AA778100634082 /* BSONArchiving.h in CopyFiles */,
-				522909E117AA778100634082 /* BSONDecoder.h in CopyFiles */,
-				522909E217AA778100634082 /* BSONEncoder.h in CopyFiles */,
 				522909DC17AA770900634082 /* tcejdb in CopyFiles */,
 				522909DA17AA745800634082 /* EJDBKit.h in CopyFiles */,
 				5213E2E417A4637400E47033 /* libtcejdb.a in CopyFiles */,
