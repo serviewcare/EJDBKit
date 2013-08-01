@@ -9,8 +9,15 @@
 /* Begin PBXBuildFile section */
 		5213BBFE179F4DBA00E34A62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
 		5213E2E217A4635C00E47033 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
-		5213E2E317A4635C00E47033 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
 		5213E2E417A4637400E47033 /* libtcejdb.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
+		522909DA17AA745800634082 /* EJDBKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9A117A520D70014A63A /* EJDBKit.h */; };
+		522909DC17AA770900634082 /* tcejdb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 522909DB17AA770900634082 /* tcejdb */; };
+		522909DD17AA778100634082 /* EJDBDatabase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99F17A520D70014A63A /* EJDBDatabase.h */; };
+		522909DE17AA778100634082 /* EJDBCollection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99D17A520D70014A63A /* EJDBCollection.h */; };
+		522909DF17AA778100634082 /* EJDBQuery.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9A217A520D70014A63A /* EJDBQuery.h */; };
+		522909E017AA778100634082 /* BSONArchiving.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9FF17A533130014A63A /* BSONArchiving.h */; };
+		522909E117AA778100634082 /* BSONDecoder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99917A520D70014A63A /* BSONDecoder.h */; };
+		522909E217AA778100634082 /* BSONEncoder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99B17A520D70014A63A /* BSONEncoder.h */; };
 		5237E9A417A520D70014A63A /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
 		5237E9A517A520D70014A63A /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
 		5237E9A617A520D70014A63A /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99C17A520D70014A63A /* BSONEncoder.m */; };
@@ -52,6 +59,14 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				522909DD17AA778100634082 /* EJDBDatabase.h in CopyFiles */,
+				522909DE17AA778100634082 /* EJDBCollection.h in CopyFiles */,
+				522909DF17AA778100634082 /* EJDBQuery.h in CopyFiles */,
+				522909E017AA778100634082 /* BSONArchiving.h in CopyFiles */,
+				522909E117AA778100634082 /* BSONDecoder.h in CopyFiles */,
+				522909E217AA778100634082 /* BSONEncoder.h in CopyFiles */,
+				522909DC17AA770900634082 /* tcejdb in CopyFiles */,
+				522909DA17AA745800634082 /* EJDBKit.h in CopyFiles */,
 				5213E2E417A4637400E47033 /* libtcejdb.a in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,6 +76,7 @@
 /* Begin PBXFileReference section */
 		5213BBFD179F4DBA00E34A62 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5213E2E117A4635C00E47033 /* libtcejdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtcejdb.a; path = ejdb/lib/libtcejdb.a; sourceTree = "<group>"; };
+		522909DB17AA770900634082 /* tcejdb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tcejdb; path = ejdb/include/tcejdb; sourceTree = "<group>"; };
 		5237E99917A520D70014A63A /* BSONDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONDecoder.h; sourceTree = "<group>"; };
 		5237E99A17A520D70014A63A /* BSONDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONDecoder.m; sourceTree = "<group>"; };
 		5237E99B17A520D70014A63A /* BSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoder.h; sourceTree = "<group>"; };
@@ -72,18 +88,6 @@
 		5237E9A117A520D70014A63A /* EJDBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBKit.h; sourceTree = "<group>"; };
 		5237E9A217A520D70014A63A /* EJDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBQuery.h; sourceTree = "<group>"; };
 		5237E9A317A520D70014A63A /* EJDBQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBQuery.m; sourceTree = "<group>"; };
-		5237E9AF17A520F10014A63A /* basedefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basedefs.h; sourceTree = "<group>"; };
-		5237E9B017A520F10014A63A /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
-		5237E9B117A520F10014A63A /* ejdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ejdb.h; sourceTree = "<group>"; };
-		5237E9B217A520F10014A63A /* ejdb_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ejdb_private.h; sourceTree = "<group>"; };
-		5237E9B317A520F10014A63A /* myconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myconf.h; sourceTree = "<group>"; };
-		5237E9B517A520F10014A63A /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		5237E9B617A520F10014A63A /* tcadb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcadb.h; sourceTree = "<group>"; };
-		5237E9B717A520F10014A63A /* tcbdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcbdb.h; sourceTree = "<group>"; };
-		5237E9B817A520F10014A63A /* tcfdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcfdb.h; sourceTree = "<group>"; };
-		5237E9B917A520F10014A63A /* tchdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tchdb.h; sourceTree = "<group>"; };
-		5237E9BA17A520F10014A63A /* tctdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tctdb.h; sourceTree = "<group>"; };
-		5237E9BB17A520F10014A63A /* tcutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcutil.h; sourceTree = "<group>"; };
 		5237E9FF17A533130014A63A /* BSONArchiving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONArchiving.h; sourceTree = "<group>"; };
 		5267ADCD17A64B0C00F22C6E /* EJDBCollectionTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBCollectionTests.h; sourceTree = "<group>"; };
 		5267ADCE17A64B0C00F22C6E /* EJDBCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBCollectionTests.m; sourceTree = "<group>"; };
@@ -125,7 +129,6 @@
 				52EC76E5179F31B000EEC86D /* UIKit.framework in Frameworks */,
 				52EC76E6179F31B000EEC86D /* Foundation.framework in Frameworks */,
 				52EC76E9179F31B000EEC86D /* libEJDBKit.a in Frameworks */,
-				5213E2E317A4635C00E47033 /* libtcejdb.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +138,6 @@
 		5237E99817A520D70014A63A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				5237E9AE17A520F10014A63A /* tcejdb */,
 				5237E9A117A520D70014A63A /* EJDBKit.h */,
 				5237E99F17A520D70014A63A /* EJDBDatabase.h */,
 				5237E9A017A520D70014A63A /* EJDBDatabase.m */,
@@ -152,36 +154,10 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		5237E9AE17A520F10014A63A /* tcejdb */ = {
-			isa = PBXGroup;
-			children = (
-				5237E9AF17A520F10014A63A /* basedefs.h */,
-				5237E9B017A520F10014A63A /* bson.h */,
-				5237E9B117A520F10014A63A /* ejdb.h */,
-				5237E9B217A520F10014A63A /* ejdb_private.h */,
-				5237E9B317A520F10014A63A /* myconf.h */,
-				5237E9B417A520F10014A63A /* nix */,
-				5237E9B617A520F10014A63A /* tcadb.h */,
-				5237E9B717A520F10014A63A /* tcbdb.h */,
-				5237E9B817A520F10014A63A /* tcfdb.h */,
-				5237E9B917A520F10014A63A /* tchdb.h */,
-				5237E9BA17A520F10014A63A /* tctdb.h */,
-				5237E9BB17A520F10014A63A /* tcutil.h */,
-			);
-			path = tcejdb;
-			sourceTree = "<group>";
-		};
-		5237E9B417A520F10014A63A /* nix */ = {
-			isa = PBXGroup;
-			children = (
-				5237E9B517A520F10014A63A /* platform.h */,
-			);
-			path = nix;
-			sourceTree = "<group>";
-		};
 		52EC76C7179F31B000EEC86D = {
 			isa = PBXGroup;
 			children = (
+				522909DB17AA770900634082 /* tcejdb */,
 				52EC76D5179F31B000EEC86D /* EJDBKit */,
 				52EC76EA179F31B000EEC86D /* EJDBKitTests */,
 				52EC76D2179F31B000EEC86D /* Frameworks */,

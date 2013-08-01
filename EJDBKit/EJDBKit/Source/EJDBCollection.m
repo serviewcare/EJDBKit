@@ -1,6 +1,7 @@
 #import "EJDBCollection.h"
 #import "BSONEncoder.h"
 #import "BSONDecoder.h"
+#import "BSONArchiving.h"
 
 
 NSString * const EJDBCollectionObjectSavedNotification = @"EJDBCollectionObjectSavedNotification";
