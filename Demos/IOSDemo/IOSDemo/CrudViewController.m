@@ -1,6 +1,6 @@
 #import "CrudViewController.h"
 #import "CrudObjectViewController.h"
-#import "EJDBKit.h"
+#import "EJDBKit/EJDBKit.h"
 #import "CrudObject.h"
 
 @interface CrudViewController ()

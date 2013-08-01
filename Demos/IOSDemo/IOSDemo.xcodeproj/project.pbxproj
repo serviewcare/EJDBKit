@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52290A5217AA87F400634082 /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52290A4D17AA87E200634082 /* libEJDBKit.a */; };
 		5278403E17A85D7F005A9EE1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5278403D17A85D7F005A9EE1 /* UIKit.framework */; };
 		5278404017A85D7F005A9EE1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5278403F17A85D7F005A9EE1 /* Foundation.framework */; };
 		5278404217A85D7F005A9EE1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5278404117A85D7F005A9EE1 /* CoreGraphics.framework */; };
@@ -22,18 +23,6 @@
 		5278406417A85D7F005A9EE1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5278403F17A85D7F005A9EE1 /* Foundation.framework */; };
 		5278406C17A85D7F005A9EE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5278406A17A85D7F005A9EE1 /* InfoPlist.strings */; };
 		5278406F17A85D7F005A9EE1 /* IOSDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278406E17A85D7F005A9EE1 /* IOSDemoTests.m */; };
-		5278409417A85E01005A9EE1 /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278407C17A85E01005A9EE1 /* BSONDecoder.m */; };
-		5278409517A85E01005A9EE1 /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278407C17A85E01005A9EE1 /* BSONDecoder.m */; };
-		5278409617A85E01005A9EE1 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278407E17A85E01005A9EE1 /* BSONEncoder.m */; };
-		5278409717A85E01005A9EE1 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278407E17A85E01005A9EE1 /* BSONEncoder.m */; };
-		5278409817A85E01005A9EE1 /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278408017A85E01005A9EE1 /* EJDBCollection.m */; };
-		5278409917A85E01005A9EE1 /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278408017A85E01005A9EE1 /* EJDBCollection.m */; };
-		5278409A17A85E01005A9EE1 /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278408217A85E01005A9EE1 /* EJDBDatabase.m */; };
-		5278409B17A85E01005A9EE1 /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278408217A85E01005A9EE1 /* EJDBDatabase.m */; };
-		5278409C17A85E01005A9EE1 /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278408517A85E01005A9EE1 /* EJDBQuery.m */; };
-		5278409D17A85E01005A9EE1 /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5278408517A85E01005A9EE1 /* EJDBQuery.m */; };
-		5278409F17A85F5F005A9EE1 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5278409E17A85F5F005A9EE1 /* libtcejdb.a */; };
-		527840A017A85F5F005A9EE1 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5278409E17A85F5F005A9EE1 /* libtcejdb.a */; };
 		527840A217A85F79005A9EE1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 527840A117A85F79005A9EE1 /* libz.dylib */; };
 		527840A517A867D9005A9EE1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527840A417A867D9005A9EE1 /* MainViewController.m */; };
 		527840A617A867D9005A9EE1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527840A417A867D9005A9EE1 /* MainViewController.m */; };
@@ -48,6 +37,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		52290A4C17AA87E200634082 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52290A4717AA87E200634082 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76D0179F31B000EEC86D;
+			remoteInfo = EJDBKit;
+		};
+		52290A4E17AA87E200634082 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52290A4717AA87E200634082 /* EJDBKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52EC76E1179F31B000EEC86D;
+			remoteInfo = EJDBKitTests;
+		};
+		52290A5017AA87ED00634082 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52290A4717AA87E200634082 /* EJDBKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
+			remoteInfo = EJDBKit;
+		};
 		5278406517A85D7F005A9EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5278403217A85D7F005A9EE1 /* Project object */;
@@ -58,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52290A4717AA87E200634082 /* EJDBKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EJDBKit.xcodeproj; path = ../../EJDBKit/EJDBKit.xcodeproj; sourceTree = "<group>"; };
 		5278403A17A85D7F005A9EE1 /* IOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5278403D17A85D7F005A9EE1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5278403F17A85D7F005A9EE1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -78,31 +89,6 @@
 		5278406B17A85D7F005A9EE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5278406D17A85D7F005A9EE1 /* IOSDemoTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOSDemoTests.h; sourceTree = "<group>"; };
 		5278406E17A85D7F005A9EE1 /* IOSDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IOSDemoTests.m; sourceTree = "<group>"; };
-		5278407A17A85E01005A9EE1 /* BSONArchiving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONArchiving.h; sourceTree = "<group>"; };
-		5278407B17A85E01005A9EE1 /* BSONDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONDecoder.h; sourceTree = "<group>"; };
-		5278407C17A85E01005A9EE1 /* BSONDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONDecoder.m; sourceTree = "<group>"; };
-		5278407D17A85E01005A9EE1 /* BSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoder.h; sourceTree = "<group>"; };
-		5278407E17A85E01005A9EE1 /* BSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoder.m; sourceTree = "<group>"; };
-		5278407F17A85E01005A9EE1 /* EJDBCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBCollection.h; sourceTree = "<group>"; };
-		5278408017A85E01005A9EE1 /* EJDBCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBCollection.m; sourceTree = "<group>"; };
-		5278408117A85E01005A9EE1 /* EJDBDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBDatabase.h; sourceTree = "<group>"; };
-		5278408217A85E01005A9EE1 /* EJDBDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBDatabase.m; sourceTree = "<group>"; };
-		5278408317A85E01005A9EE1 /* EJDBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBKit.h; sourceTree = "<group>"; };
-		5278408417A85E01005A9EE1 /* EJDBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBQuery.h; sourceTree = "<group>"; };
-		5278408517A85E01005A9EE1 /* EJDBQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBQuery.m; sourceTree = "<group>"; };
-		5278408717A85E01005A9EE1 /* basedefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basedefs.h; sourceTree = "<group>"; };
-		5278408817A85E01005A9EE1 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
-		5278408917A85E01005A9EE1 /* ejdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ejdb.h; sourceTree = "<group>"; };
-		5278408A17A85E01005A9EE1 /* ejdb_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ejdb_private.h; sourceTree = "<group>"; };
-		5278408B17A85E01005A9EE1 /* myconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myconf.h; sourceTree = "<group>"; };
-		5278408D17A85E01005A9EE1 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		5278408E17A85E01005A9EE1 /* tcadb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcadb.h; sourceTree = "<group>"; };
-		5278408F17A85E01005A9EE1 /* tcbdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcbdb.h; sourceTree = "<group>"; };
-		5278409017A85E01005A9EE1 /* tcfdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcfdb.h; sourceTree = "<group>"; };
-		5278409117A85E01005A9EE1 /* tchdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tchdb.h; sourceTree = "<group>"; };
-		5278409217A85E01005A9EE1 /* tctdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tctdb.h; sourceTree = "<group>"; };
-		5278409317A85E01005A9EE1 /* tcutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcutil.h; sourceTree = "<group>"; };
-		5278409E17A85F5F005A9EE1 /* libtcejdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtcejdb.a; sourceTree = "<group>"; };
 		527840A117A85F79005A9EE1 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		527840A317A867D9005A9EE1 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		527840A417A867D9005A9EE1 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
@@ -121,11 +107,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52290A5217AA87F400634082 /* libEJDBKit.a in Frameworks */,
 				527840A217A85F79005A9EE1 /* libz.dylib in Frameworks */,
 				5278403E17A85D7F005A9EE1 /* UIKit.framework in Frameworks */,
 				5278404017A85D7F005A9EE1 /* Foundation.framework in Frameworks */,
 				5278404217A85D7F005A9EE1 /* CoreGraphics.framework in Frameworks */,
-				5278409F17A85F5F005A9EE1 /* libtcejdb.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,13 +122,21 @@
 				5278406217A85D7F005A9EE1 /* SenTestingKit.framework in Frameworks */,
 				5278406317A85D7F005A9EE1 /* UIKit.framework in Frameworks */,
 				5278406417A85D7F005A9EE1 /* Foundation.framework in Frameworks */,
-				527840A017A85F5F005A9EE1 /* libtcejdb.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52290A4817AA87E200634082 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52290A4D17AA87E200634082 /* libEJDBKit.a */,
+				52290A4F17AA87E200634082 /* EJDBKitTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5278403117A85D7F005A9EE1 = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +144,7 @@
 				5278406717A85D7F005A9EE1 /* IOSDemoTests */,
 				5278403C17A85D7F005A9EE1 /* Frameworks */,
 				5278403B17A85D7F005A9EE1 /* Products */,
+				52290A4717AA87E200634082 /* EJDBKit.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				527840A117A85F79005A9EE1 /* libz.dylib */,
-				5278409E17A85F5F005A9EE1 /* libtcejdb.a */,
 				5278403D17A85D7F005A9EE1 /* UIKit.framework */,
 				5278403F17A85D7F005A9EE1 /* Foundation.framework */,
 				5278404117A85D7F005A9EE1 /* CoreGraphics.framework */,
@@ -178,7 +172,6 @@
 		5278404317A85D7F005A9EE1 /* IOSDemo */ = {
 			isa = PBXGroup;
 			children = (
-				5278407817A85DE2005A9EE1 /* EJDBKit */,
 				5278404C17A85D7F005A9EE1 /* AppDelegate.h */,
 				5278404D17A85D7F005A9EE1 /* AppDelegate.m */,
 				5278405517A85D7F005A9EE1 /* MainStoryboard.storyboard */,
@@ -230,62 +223,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5278407817A85DE2005A9EE1 /* EJDBKit */ = {
-			isa = PBXGroup;
-			children = (
-				5278407917A85E01005A9EE1 /* Source */,
-			);
-			name = EJDBKit;
-			sourceTree = "<group>";
-		};
-		5278407917A85E01005A9EE1 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				5278407A17A85E01005A9EE1 /* BSONArchiving.h */,
-				5278407B17A85E01005A9EE1 /* BSONDecoder.h */,
-				5278407C17A85E01005A9EE1 /* BSONDecoder.m */,
-				5278407D17A85E01005A9EE1 /* BSONEncoder.h */,
-				5278407E17A85E01005A9EE1 /* BSONEncoder.m */,
-				5278407F17A85E01005A9EE1 /* EJDBCollection.h */,
-				5278408017A85E01005A9EE1 /* EJDBCollection.m */,
-				5278408117A85E01005A9EE1 /* EJDBDatabase.h */,
-				5278408217A85E01005A9EE1 /* EJDBDatabase.m */,
-				5278408317A85E01005A9EE1 /* EJDBKit.h */,
-				5278408417A85E01005A9EE1 /* EJDBQuery.h */,
-				5278408517A85E01005A9EE1 /* EJDBQuery.m */,
-				5278408617A85E01005A9EE1 /* tcejdb */,
-			);
-			name = Source;
-			path = ../../../EJDBKit/EJDBKit/Source;
-			sourceTree = "<group>";
-		};
-		5278408617A85E01005A9EE1 /* tcejdb */ = {
-			isa = PBXGroup;
-			children = (
-				5278408717A85E01005A9EE1 /* basedefs.h */,
-				5278408817A85E01005A9EE1 /* bson.h */,
-				5278408917A85E01005A9EE1 /* ejdb.h */,
-				5278408A17A85E01005A9EE1 /* ejdb_private.h */,
-				5278408B17A85E01005A9EE1 /* myconf.h */,
-				5278408C17A85E01005A9EE1 /* nix */,
-				5278408E17A85E01005A9EE1 /* tcadb.h */,
-				5278408F17A85E01005A9EE1 /* tcbdb.h */,
-				5278409017A85E01005A9EE1 /* tcfdb.h */,
-				5278409117A85E01005A9EE1 /* tchdb.h */,
-				5278409217A85E01005A9EE1 /* tctdb.h */,
-				5278409317A85E01005A9EE1 /* tcutil.h */,
-			);
-			path = tcejdb;
-			sourceTree = "<group>";
-		};
-		5278408C17A85E01005A9EE1 /* nix */ = {
-			isa = PBXGroup;
-			children = (
-				5278408D17A85E01005A9EE1 /* platform.h */,
-			);
-			path = nix;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -300,6 +237,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				52290A5117AA87ED00634082 /* PBXTargetDependency */,
 			);
 			name = IOSDemo;
 			productName = IOSDemo;
@@ -344,6 +282,12 @@
 			mainGroup = 5278403117A85D7F005A9EE1;
 			productRefGroup = 5278403B17A85D7F005A9EE1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 52290A4817AA87E200634082 /* Products */;
+					ProjectRef = 52290A4717AA87E200634082 /* EJDBKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5278403917A85D7F005A9EE1 /* IOSDemo */,
@@ -351,6 +295,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		52290A4D17AA87E200634082 /* libEJDBKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libEJDBKit.a;
+			remoteRef = 52290A4C17AA87E200634082 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52290A4F17AA87E200634082 /* EJDBKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EJDBKitTests.octest;
+			remoteRef = 52290A4E17AA87E200634082 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5278403817A85D7F005A9EE1 /* Resources */ = {
@@ -398,11 +359,6 @@
 			files = (
 				5278404A17A85D7F005A9EE1 /* main.m in Sources */,
 				5278404E17A85D7F005A9EE1 /* AppDelegate.m in Sources */,
-				5278409417A85E01005A9EE1 /* BSONDecoder.m in Sources */,
-				5278409617A85E01005A9EE1 /* BSONEncoder.m in Sources */,
-				5278409817A85E01005A9EE1 /* EJDBCollection.m in Sources */,
-				5278409A17A85E01005A9EE1 /* EJDBDatabase.m in Sources */,
-				5278409C17A85E01005A9EE1 /* EJDBQuery.m in Sources */,
 				527840A517A867D9005A9EE1 /* MainViewController.m in Sources */,
 				527840A917A86897005A9EE1 /* CrudViewController.m in Sources */,
 				527840AD17A874F9005A9EE1 /* CrudObjectViewController.m in Sources */,
@@ -416,11 +372,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5278406F17A85D7F005A9EE1 /* IOSDemoTests.m in Sources */,
-				5278409517A85E01005A9EE1 /* BSONDecoder.m in Sources */,
-				5278409717A85E01005A9EE1 /* BSONEncoder.m in Sources */,
-				5278409917A85E01005A9EE1 /* EJDBCollection.m in Sources */,
-				5278409B17A85E01005A9EE1 /* EJDBDatabase.m in Sources */,
-				5278409D17A85E01005A9EE1 /* EJDBQuery.m in Sources */,
 				527840A617A867D9005A9EE1 /* MainViewController.m in Sources */,
 				527840AA17A86897005A9EE1 /* CrudViewController.m in Sources */,
 				527840AE17A874F9005A9EE1 /* CrudObjectViewController.m in Sources */,
@@ -432,6 +383,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		52290A5117AA87ED00634082 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EJDBKit;
+			targetProxy = 52290A5017AA87ED00634082 /* PBXContainerItemProxy */;
+		};
 		5278406617A85D7F005A9EE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5278403917A85D7F005A9EE1 /* IOSDemo */;

@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import "BSONArchiving.h"
+#import "EJDBKit/BSONArchiving.h"
 
 @interface CrudObject : NSObject<BSONArchiving,NSCopying>
 @property (copy,nonatomic) NSString *oid;

@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
-#import "EJDBCollection.h"
+//#import "EJDBCollection.h"
+#import "EJDBKit/EJDBCollection.h"
 
 @class CrudObject;
 
