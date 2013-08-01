@@ -283,7 +283,7 @@ git submodule update
 If you just want to just use the framework in your project
  you can do one of 2 things:
 
-Including EJDBKit.xcodeproj
+**Including EJDBKit.xcodeproj**
 ______________________
 
 1) Drag the EJDBKit.xcodeproj into your **workspace**. I don't know how to do this in a regular Xcode project
@@ -308,7 +308,7 @@ And you're all set.
 If you'd rather just add a universal library instead of futzing around with the above you can
 just:
 
-Including the universal library
+**Including the universal library**
 __________________________
 
 ```bash
