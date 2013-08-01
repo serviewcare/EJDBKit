@@ -124,8 +124,10 @@
 - (NSString *)decodeOIDFromIterator:(bson_iterator)iterator
 {
     bson_oid_t *oid = bson_iterator_oid(&iterator);
-    char str[24];
+    char str[25];
     bson_oid_to_string(oid, str);
+    //NSLog(@"str is %@",[NSString stringWithCString:str encoding:NSUTF8StringEncoding]);
+    //NSString *oidStr = [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
     return [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
     
 }
