@@ -15,5 +15,3 @@
 + (CustomArchivableClass *)validArchivableClass;
 + (BogusOIDClass *)boguisOIDClass;
 @end
-
-
