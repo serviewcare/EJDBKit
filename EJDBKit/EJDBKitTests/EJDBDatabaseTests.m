@@ -49,13 +49,6 @@
     STAssertNotNil(collection, @"Collection should be created with success!");
 }
 
-- (void)testCollectionCreationFail
-{
-    NSError *error;
-    EJDBCollection *collection = [_db ensureCollectionWithName:@"" error:error];
-    STAssertNotNil(collection, @"Collection should be created with success!");
-}
-
 - (void)testCollectionRemovalSuccess
 {
     [_db ensureCollectionWithName:@"foo" error:NULL];

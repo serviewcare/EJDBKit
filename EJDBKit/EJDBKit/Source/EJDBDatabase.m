@@ -23,21 +23,22 @@
     return self;
 }
 
-- (BOOL)openWithError:(NSError *__autoreleasing)error
+- (BOOL)openWithError:(NSError **)error
 {
     return [self openWithMode:( JBOREADER | JBOWRITER | JBOCREAT) error:error];
 }
 
-- (BOOL)openWithMode:(int)mode error:(NSError *__autoreleasing)error
+- (BOOL)openWithMode:(int)mode error:(NSError **)error
 {
     BOOL success = YES;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:_dbPath])
     {
-        success = [fileManager createDirectoryAtPath:_dbPath withIntermediateDirectories:YES attributes:NULL error:&error];
+        success = [fileManager createDirectoryAtPath:_dbPath withIntermediateDirectories:YES attributes:NULL error:error];
         if (!success)
         {
-            [NSException raise:@"Could not create db path!" format:@"Error is: %@",error.localizedDescription];
+            //[NSException raise:@"Could not create db path!" format:@"Error is: %@",error.localizedDescription];
+            [self populateError:error];
             return NO;
         }
     }
@@ -94,12 +95,12 @@
     return openCollections;
 }
 
-- (EJDBCollection *)ensureCollectionWithName:(NSString *)name error:(NSError *__autoreleasing)error
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name error:(NSError **)error
 {
     return [self ensureCollectionWithName:name options:NULL error:error];
 }
 
-- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options error:(NSError *__autoreleasing)error
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options error:(NSError **)error
 {
     EJCOLL *coll = ejdbcreatecoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding],options);
     if (coll == NULL)
@@ -121,24 +122,24 @@
     return ejdbrmcoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding], unlinkFile);
 }
 
-- (NSArray *)findObjectsWithQuery:(NSDictionary *)query inCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
+- (NSArray *)findObjectsWithQuery:(NSDictionary *)query inCollection:(EJDBCollection *)collection error:(NSError **)error
 {
     return [self findObjectsWithQuery:query hints:nil inCollection:collection error:error];
 }
 
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
-                            error:(NSError *__autoreleasing)error
+                            error:(NSError **)error
 {
     EJDBQuery *ejdbQuery = [self createQuery:query hints:queryHints forCollection:collection error:error];
     return [ejdbQuery fetchObjects];
 }
 
-- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error
 {
     return [self createQuery:query hints:nil forCollection:collection error:error];
 }
 
-- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
+- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError **)error
 {
     BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
     [bsonQuery encodeDictionary:query];
@@ -163,7 +164,7 @@
 
 - (NSError *)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction
 {
-    NSError *error = nil;
+    NSError *error;
     if(ejdbtranbegin(collection.collection))
     {
         BOOL shouldCommit = transaction(collection);
@@ -171,20 +172,20 @@
         {
             if(!ejdbtrancommit(collection.collection))
             {
-                [self populateError:error];
+                [self populateError:&error];
             }
         }
         else
         {
             if(!ejdbtranabort(collection.collection))
             {
-                [self populateError:error];
+                [self populateError:&error];
             }
         }
     }
     else
     {
-        [self populateError:error];
+        [self populateError:&error];
     }
     return error;
 }
@@ -199,12 +200,12 @@
     return [NSString stringWithCString:ejdberrmsg(errorCode) encoding:NSUTF8StringEncoding];
 }
 
-- (void)populateError:(NSError *)error
+- (void)populateError:(NSError **)error
 {
     if (error != NULL)
     {
         int errorCode = [self errorCode];
-        error = [NSError errorWithDomain:@"com.softmotions.ejdbkit"
+        *error = [NSError errorWithDomain:@"com.softmotions.ejdbkit"
                                     code:errorCode userInfo:@{NSLocalizedDescriptionKey : [self errorMessageFromCode:errorCode]}];
     }
 }

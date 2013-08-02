@@ -30,7 +30,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - YES if successful. NO if an error occurred.
 */
-- (BOOL)openWithError:(NSError *__autoreleasing)error;
+- (BOOL)openWithError:(NSError **)error;
 
 /**
  Opens the database in the specified mode.
@@ -38,7 +38,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - YES if successful. NO if an error occurred.
 */
-- (BOOL)openWithMode:(int)mode error:(NSError *__autoreleasing )error;
+- (BOOL)openWithMode:(int)mode error:(NSError **)error;
 
 /**
  Check if the database is open or not.
@@ -76,7 +76,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - The EJDBCollection object or nil if the collection could not be created.
 */
-- (EJDBCollection *)ensureCollectionWithName:(NSString *)name error:(NSError *__autoreleasing)error;
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name error:(NSError **)error;
 
 /**
  Creates the collection with the name and collection options provided.
@@ -85,7 +85,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - The EJDBCollection object or nil if the collection could not be created.
 */
-- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options error:(NSError *__autoreleasing)error;
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options error:(NSError **)error;
 
 /**
  Removes the collection from the db with the provided name and the associated db files/indexes.
@@ -112,7 +112,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  @return - Array of objects matching the criteria or nil if there was an error.   
 */
 
-- (NSArray *)findObjectsWithQuery:(NSDictionary *)query inCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error;
+- (NSArray *)findObjectsWithQuery:(NSDictionary *)query inCollection:(EJDBCollection *)collection error:(NSError **)error;
 
 /**
  Finds all objects that match the criteria passed in the query and query hints.
@@ -126,7 +126,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
 */
 
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
-                            error:(NSError *__autoreleasing)error;
+                            error:(NSError **)error;
 
 /**
  Create a query with the provided query. This method doesn't actually fetch the objects it only creates the query for later fetching.
@@ -137,19 +137,8 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - The EJDBQuery ready for fetching or nil if there was an error.
 */
-- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error;
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error;
 
-/**
- Create a query with the provided query and query hints. This method doesn't actually fetch the objects it only creates the query for later fetching.
- Please look at ejdbjson.h for more info on queries and query hints.
- 
- @param query - The query dictionary.
- @param hints - The query hints.
- @param collection - The collection to create the query for.
- @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - The EJDBQuery ready for fetching or nil if there was an error.
-*/
-- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error;
 
 /**
  Executes the statements by the provided EJDBTransactionBlock as a transaction.
@@ -162,6 +151,8 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  
 */
 - (NSError *)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction;
+
+- (void)populateError:(NSError **)error;
 
 /** Close the database. */
 - (void)close;

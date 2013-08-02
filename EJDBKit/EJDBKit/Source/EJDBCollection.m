@@ -182,6 +182,7 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
     
     if (ejdbrmbson(_collection, &oid))
     {
+        [self synchronize];
         NSNotification *notification = [NSNotification notificationWithName:EJDBCollectionObjectRemovedNotification
                                                                      object:OID userInfo:nil];
         [[NSNotificationCenter defaultCenter]postNotification:notification];

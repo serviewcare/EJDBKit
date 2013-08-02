@@ -137,7 +137,7 @@
       @"_id": @"012345678901234567890123",
       @"$set" : @{@"age": @35}
      };
-    int updateCount = [_collection updateWithQuery:query hints:NULL];
+    int updateCount = [_collection updateWithQuery:query];
     STAssertEquals(updateCount, 1, @"Update query should update exactly 1 object!");
     NSDictionary *fetchedObject = [_collection fetchObjectWithOID:@"012345678901234567890123"];
     STAssertEquals([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
