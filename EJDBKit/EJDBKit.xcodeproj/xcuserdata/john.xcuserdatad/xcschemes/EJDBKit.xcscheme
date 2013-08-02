@@ -41,6 +41,9 @@
                <Test
                   Identifier = "EJDBKitTests">
                </Test>
+               <Test
+                  Identifier = "EJDBObjectTests">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
