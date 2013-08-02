@@ -7,5 +7,4 @@
 @property (strong,nonatomic) NSNumber *age;
 @property (strong,nonatomic) NSNumber *money;
 @property (strong,nonatomic) NSArray *scores;
-@property (strong,nonatomic) NSDictionary *testDict;
 @end

@@ -9,7 +9,6 @@
  Yeah, so I'm lazy...what of it? :)
 */
 
-
 @interface BSONEncoderDecoderTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
 @end

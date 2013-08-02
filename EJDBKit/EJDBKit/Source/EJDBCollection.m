@@ -94,25 +94,41 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
             bson_oid_from_string(&oid, oidCString);
         }
         
-        NSDictionary *saveableDictionary = [NSDictionary dictionaryWithDictionary:dictionaryToSave];
         BSONEncoder *bsonObject = [[BSONEncoder alloc]init];
-        [bsonObject encodeDictionary:saveableDictionary];
+        [bsonObject encodeDictionary:dictionaryToSave];
         [bsonObject finish];
 
         BOOL success = ejdbsavebson(_collection, bsonObject.bson, &oid);
         if (success)
         {
-            //Need to revisit this because there is no way to retrieve last inserted oid
-            //from the collection (or at least I don't know how to do that).
-            id savedObject = isArchivable? object : saveableDictionary;
+            id savedObject;
+            if (!oidStr)
+            {
+                char str[25];
+                bson_oid_to_string(&oid, str);
+                oidStr = [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
+                if (isArchivable)
+                {
+                    [object setValue:oidStr forKey:[object oidPropertyName]];
+                    savedObject = object;
+                }
+                else
+                {
+                    [dictionaryToSave setValue:oidStr forKey:@"_id"];
+                    savedObject = dictionaryToSave;
+                }
+            }
+            else
+            {
+                savedObject = isArchivable ? object : dictionaryToSave;
+            }
             NSNotification *notification = [NSNotification notificationWithName:EJDBCollectionObjectSavedNotification
-                                                                         object:nil
-                                                                       userInfo:@{@"savedObject" : savedObject}];
+                                                                         object:savedObject
+                                                                       userInfo:nil];
             [[NSNotificationCenter defaultCenter]postNotification:notification];
         }
         else return NO;
     }
-    
     return YES;
 }
 

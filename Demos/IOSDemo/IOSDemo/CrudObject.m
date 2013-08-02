@@ -14,7 +14,7 @@
 
 - (NSDictionary *)toDictionary
 {
-    return @{@"type" : [self type],@"name" : _name, @"age" : _age, @"money" : _money, @"scores" : _scores, @"testdict" : _testDict};
+    return @{@"type" : [self type],@"name" : _name, @"age" : _age, @"money" : _money, @"scores" : _scores};
 }
 
 - (void)fromDictionary:(NSDictionary *)dictionary

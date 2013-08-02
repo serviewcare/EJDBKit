@@ -104,9 +104,9 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
 
 /**
  Finds all objects that match the criteria passed in the query object but with no query hints.
- Please look at json.h for more info on queries and query hints.
+ Please look at ejdbjson.h for more info on queries and query hints.
  
- @param query - The query dictionary. Must be encodable by BSONEncoder.
+ @param query - The query dictionary.
  @param collection - The collection to query.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - Array of objects matching the criteria or nil if there was an error.   
@@ -115,10 +115,10 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query inCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error;
 
 /**
- Finds all objects that match the criteria passed in the query object but with no query hints.
- Please look at json.h for more info on queries and query hints.
+ Finds all objects that match the criteria passed in the query and query hints.
+ Please look at ejdbjson.h for more info on queries and query hints.
  
- @param query - The query dictionary. Must be encodable by BSONEncoder.
+ @param query - The query dictionary.
  @param hints - The query hints.
  @param collection - The collection to query.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
@@ -127,6 +127,29 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
 
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
                             error:(NSError *__autoreleasing)error;
+
+/**
+ Create a query with the provided query. This method doesn't actually fetch the objects it only creates the query for later fetching.
+ Please look at ejdbjson.h for more info on queries and query hints.
+ 
+ @param query - The query dictionary.
+ @param collection - The collection to create the query for.
+ @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
+ @return - The EJDBQuery ready for fetching or nil if there was an error.
+*/
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error;
+
+/**
+ Create a query with the provided query and query hints. This method doesn't actually fetch the objects it only creates the query for later fetching.
+ Please look at ejdbjson.h for more info on queries and query hints.
+ 
+ @param query - The query dictionary.
+ @param hints - The query hints.
+ @param collection - The collection to create the query for.
+ @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
+ @return - The EJDBQuery ready for fetching or nil if there was an error.
+*/
+- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error;
 
 /**
  Executes the statements by the provided EJDBTransactionBlock as a transaction.

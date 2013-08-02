@@ -121,22 +121,11 @@
     STAssertNil([results[0] valueForKey:@"address"], @"address field should not exist!");
 }
 
-//Maybe the next 2 methods should be brought into collection tests instead of here.
-- (void)testSaveObjectSuccessfully
+- (void)testCreatedQueryNotNil
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    NSDictionary *obj1 = @{@"name" : @"joe blow",@"age" : @32, @"address" : @"21 jump street"};
-    BOOL success = [collection saveObject:obj1];
-    STAssertTrue(success, @"object should be saved successfully!");
-}
-
-- (void)testSaveObjectsSuccessfully
-{
-    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
-    NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
-    BOOL success = [collection saveObjects:@[obj1,obj2]];
-    STAssertTrue(success, @"objects should be saved successfully!");
+    EJDBQuery *query = [_db createQuery:@{@"name" : @"joe blow"} forCollection:collection error:NULL];
+    STAssertNotNil(query, @"Query should not be nil!");
 }
 
 - (void)testTransactionCommit

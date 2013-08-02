@@ -5,6 +5,7 @@
 
 @interface EJDBQuery ()
 @property (strong,nonatomic) EJDBCollection *collection;
+@property (assign,nonatomic) u_int32_t recordCount;
 @end
 
 @implementation EJDBQuery
@@ -20,22 +21,28 @@
     return self;
 }
 
+- (int)fetchCount
+{
+    [self fetchWithOptions:EJDBQueryCountOnly];
+    return _recordCount;
+}
+
 - (id)fetchObject
 {
-    NSArray *array = [self fetchWithFlags:JBQRYFINDONE];
+    NSArray *array = [self fetchWithOptions:EJDBQueryFetchFirstOnly];
     if ([array count] > 0) return array[0];
     return nil;
 }
 
 - (NSArray *)fetchObjects
 {
-    return [self fetchWithFlags:0];
+    return [self fetchWithOptions:0];
 }
 
-- (NSArray *)fetchWithFlags:(int)queryFlags
+- (NSArray *)fetchWithOptions:(EJDBQueryOptions)queryOptions
 {
-    uint32_t count = 0;
-    TCLIST *r = ejdbqryexecute(_collection.collection, _ejQuery, &count, queryFlags, NULL);
+    //uint32_t count = 0;
+    TCLIST *r = ejdbqryexecute(_collection.collection, _ejQuery, &_recordCount, queryOptions, NULL);
     NSMutableArray *results = [[NSMutableArray alloc]init];
     for (int i = 0; i < TCLISTNUM(r);i++)
     {

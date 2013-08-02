@@ -26,6 +26,7 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_db close];
 }
 
@@ -52,10 +53,25 @@
 
 - (void)collectionObjectSaved:(NSNotification *)notification
 {
-    [self fetchObjects];
-    [_tableView reloadData];
+    CrudObject *object = [notification object];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"oid == %@",object.oid];
+    NSArray *filteredArray = [_rows filteredArrayUsingPredicate:filter];
+    if ([ filteredArray count] == 0)
+    {
+        //insert
+        [_rows addObject:object];
+        NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:[_rows indexOfObject:[_rows lastObject]] inSection:0];
+        [_tableView insertRowsAtIndexPaths:@[lastIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else
+    {
+        //update
+        NSUInteger i = [_rows indexOfObject:filteredArray[0]];
+        [_rows replaceObjectAtIndex:i withObject:object];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        [_tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
-
 
 #pragma mark - Table view data source
 

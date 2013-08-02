@@ -36,7 +36,7 @@
     {
         _crudObject = [[CrudObject alloc]init];
         _crudObject.scores = @[]; // Remember...we can't insert a nil into a dictionary!
-        _crudObject.testDict = @{@"test" : @"me just a filler!", @"repeat" : @"I say again, me just a filler!"};
+        //_crudObject.testDict = @{@"test" : @"me just a filler!", @"repeat" : @"I say again, me just a filler!"};
     }
 }
 

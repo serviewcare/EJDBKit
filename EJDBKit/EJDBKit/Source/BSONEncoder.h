@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #include "tcejdb/ejdb.h"
-//#import "BSONArchiving.h"
 
 /**
  This class encodes a dictionary to a bson object. It is meant for internal use only.
@@ -25,7 +24,7 @@
 - (void)encodeDictionary:(NSDictionary *)dictionary;
 
 /**
- Finished the underlying bson object, that is, once this method is called, further modifications can't be made to it.
+ Finish the underlying bson object, that is, once this method is called, further modifications can't be made to it.
 */
 - (void)finish;
 

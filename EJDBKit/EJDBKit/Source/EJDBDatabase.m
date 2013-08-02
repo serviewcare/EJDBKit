@@ -129,6 +129,17 @@
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
                             error:(NSError *__autoreleasing)error
 {
+    EJDBQuery *ejdbQuery = [self createQuery:query hints:queryHints forCollection:collection error:error];
+    return [ejdbQuery fetchObjects];
+}
+
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
+{
+    return [self createQuery:query hints:nil forCollection:collection error:error];
+}
+
+- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError *__autoreleasing)error
+{
     BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
     [bsonQuery encodeDictionary:query];
     [bsonQuery finish];
@@ -147,7 +158,7 @@
         return nil;
     }
     EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithEJQuery:ejq collection:collection];
-    return [ejdbQuery fetchObjects];
+    return ejdbQuery;
 }
 
 - (NSError *)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction

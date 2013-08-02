@@ -24,6 +24,21 @@
     [super tearDown];
 }
 
+- (void)testSaveObjectSuccessfully
+{
+    NSDictionary *obj1 = @{@"name" : @"joe blow",@"age" : @32, @"address" : @"21 jump street"};
+    BOOL success = [_collection saveObject:obj1];
+    STAssertTrue(success, @"object should be saved successfully!");
+}
+ 
+- (void)testSaveObjectsSuccessfully
+{
+    NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
+    NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
+    BOOL success = [_collection saveObjects:@[obj1,obj2]];
+    STAssertTrue(success, @"objects should be saved successfully!");
+}
+
 - (void)testRemoveDictionaryWithOIDSucceeds
 {
     NSDictionary *obj1 = @{@"name" : @"foo", @"age" : @32};
@@ -75,7 +90,7 @@
 
 - (void)testProvidingInvalidOIDForRemovalOfObjectFails
 {
-    STAssertFalse([_collection removeObjectWithOID:@"123"], @"Trying to remove an objcet by supplying an invalid OID should fail!");
+    STAssertFalse([_collection removeObjectWithOID:@"123"], @"Trying to remove an object by supplying an invalid OID should fail!");
 }
 
 - (void)testFetchingObjectWithInvalidOIDReturnsNil
