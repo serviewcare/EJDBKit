@@ -327,7 +327,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n\n# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call\n# lcov is pretty cool though! You can install through brew (or maybe macporst too?).\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -488,6 +488,8 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
@@ -497,6 +499,7 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -510,6 +513,8 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
@@ -519,6 +524,7 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = octest;
 			};
