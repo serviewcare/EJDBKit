@@ -7,7 +7,7 @@
 /** Transaction block definition. Used for executing statements in transaction. 
  @return YES - if you'd like to commit the transaction. NO - if you'd like to abort it.
  */
-typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
+typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error);
 
 /**
  This class wraps the EJDB object and provides the ability to manipulate the underlying db,collections,etc.
@@ -104,7 +104,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
 
 /**
  Finds all objects that match the criteria passed in the query object but with no query hints.
- Please look at ejdbjson.h for more info on queries and query hints.
+ Please look at ejdb.h for more info on queries and query hints.
  
  @param query - The query dictionary.
  @param collection - The collection to query.
@@ -116,7 +116,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
 
 /**
  Finds all objects that match the criteria passed in the query and query hints.
- Please look at ejdbjson.h for more info on queries and query hints.
+ Please look at ejdb.h for more info on queries and query hints.
  
  @param query - The query dictionary.
  @param hints - The query hints.
@@ -129,8 +129,8 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
                             error:(NSError **)error;
 
 /**
- Create a query with the provided query. This method doesn't actually fetch the objects it only creates the query for later fetching.
- Please look at ejdbjson.h for more info on queries and query hints.
+ Create a query with the provided dictionary. This method doesn't actually fetch the objects, it only creates the query for later fetching.
+ Please look at ejdb.h for more info on queries and query hints.
  
  @param query - The query dictionary.
  @param collection - The collection to create the query for.
@@ -146,12 +146,13 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection);
  The block must return either a YES, if you'd like to commit the transaction or NO if you'd like to abort it.
  
  @param collection - The collection the transaction will occur in.
- @param transaction - The EJDBTransactiobBlock, this is where your inserts/updates/etc go.
- @return - nil if the transaction occurred with no errors or an NSError if an error occurred.
- 
+ @param transaction - The EJDBTransactionBlock, this is where you do your work that is enclosed in a transaction.
 */
-- (NSError *)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction;
+- (void)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction;
 
+/**
+ Populate the provided error object.
+*/
 - (void)populateError:(NSError **)error;
 
 /** Close the database. */

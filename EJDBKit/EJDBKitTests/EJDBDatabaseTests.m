@@ -1,7 +1,7 @@
 #import "EJDBDatabaseTests.h"
 #import "EJDBDatabase.h"
 #import "EJDBCollection.h"
-
+#import "EJDBTestFixtures.h"
 
 @interface EJDBDatabaseTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
@@ -75,10 +75,7 @@
 - (void)testFindObjectsSuccessfully
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
-    NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
-    NSDictionary *obj3 = @{@"name" : @"alisha doesit", @"age" : @25, @"address": @"42nd street"};
-    [collection saveObjects:@[obj1,obj2,obj3]];
+    [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
     NSArray *results = [_db findObjectsWithQuery:@{@"name":@{@"$begin":@"j"}} inCollection:collection error:NULL];
     STAssertNotNil(results, @"results should not be nil!");
     STAssertTrue([results count] == 2, @"results count should be exactly 2");
@@ -87,9 +84,7 @@
 - (void)testFindObjectsWithHintsSuccessfully
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
-    NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
-    [collection saveObjects:@[obj1,obj2]];
+    [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
     NSArray *results = [_db findObjectsWithQuery:@{@"name":@{@"$begin":@"j"}}
                          hints:@{@"$fields":@{@"name": @1}}
                          inCollection:collection error:NULL];
@@ -107,31 +102,29 @@
 
 - (void)testTransactionCommit
 {
-    NSError *error;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    error = [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection) {
-        NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
-        NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @36, @"address": @"13 elm street"};
-        [collection saveObjects:@[obj1,obj2]];
+    [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection,NSError **error) {
+        NSArray *simpleDictionaries = [EJDBTestFixtures simpleDictionaries];
+        NSMutableDictionary *simpleDict2 = [NSMutableDictionary dictionaryWithDictionary:simpleDictionaries[1]];
+        [simpleDict2 setObject:@36 forKey:@"age"];
+        [collection saveObjects:@[simpleDictionaries[0],simpleDict2]];
+        STAssertNil(*error, @"Error should be nil!");
         return YES;
     }];
-
-    STAssertNil(error, @"Error after transaction commit should be nil!");
+    
+    //STAssertNil(transactionError, @"Error after transaction commit should be nil!");
     NSArray *results = [_db findObjectsWithQuery:@{@"age" : @36} inCollection:collection error:NULL];
     STAssertTrue([results count] == 2, @"Results of query after commiting transaction should be exactly 2!");
 }
 
 - (void)testTransactionAbort
 {
-    NSError *error;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    error = [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection) {
-        NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
-        NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
-        [collection saveObjects:@[obj1,obj2]];
+    [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection,NSError **error) {
+        [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+        STAssertNil(*error, @"Error should be nil!");
         return NO;
     }];
-    STAssertNil(error, @"Error after transaction abort should be nil!");
     NSArray *results = [_db findObjectsWithQuery:@{@"age" : @36} inCollection:collection error:NULL];
     STAssertTrue([results count] == 0, @"Results of query after aborting transaction should be exactly 0!");
 }

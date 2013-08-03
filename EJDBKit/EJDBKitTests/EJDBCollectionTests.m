@@ -1,7 +1,8 @@
 #import "EJDBCollectionTests.h"
 #import "EJDBDatabase+DBTestExtensions.h"
 #import "EJDBCollection.h"
-#import "ArchivableClasses.h"
+#import "EJDBTestFixtures.h"
+
 
 @interface EJDBCollectionTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
@@ -26,38 +27,34 @@
 
 - (void)testSaveObjectSuccessfully
 {
-    NSDictionary *obj1 = @{@"name" : @"joe blow",@"age" : @32, @"address" : @"21 jump street"};
+    NSDictionary *obj1 = [EJDBTestFixtures simpleDictionaries][0];
     BOOL success = [_collection saveObject:obj1];
     STAssertTrue(success, @"object should be saved successfully!");
 }
  
 - (void)testSaveObjectsSuccessfully
 {
-    NSDictionary *obj1 = @{@"name" : @"joe blow", @"age" : @36, @"address" : @"21 jump street"};
-    NSDictionary *obj2 = @{@"name" : @"jane doe", @"age" : @32, @"address": @"13 elm street"};
-    BOOL success = [_collection saveObjects:@[obj1,obj2]];
+    BOOL success = [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
     STAssertTrue(success, @"objects should be saved successfully!");
 }
 
 - (void)testRemoveDictionaryWithOIDSucceeds
 {
-    NSDictionary *obj1 = @{@"name" : @"foo", @"age" : @32};
-    NSDictionary *obj2 = @{@"name": @"bar", @"age" : @25};
-    [_collection saveObjects:@[obj1,obj2]];
-    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:_collection error:NULL];
+    [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"joe blow"} inCollection:_collection error:NULL];
     NSDictionary *fooObj = results[0];
     BOOL success = [_collection removeObjectWithOID:[fooObj objectForKey:@"_id"]];
-    STAssertTrue(success, @"Should remove foo dictionary successfully!");
-    NSArray *resultsWithoutFoo = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:_collection error:NULL];
-    STAssertTrue([resultsWithoutFoo count] == 0, @"Results for foo query should return 0!");
+    STAssertTrue(success, @"Should remove joe blow dictionary successfully!");
+    NSArray *resultsWithoutFoo = [_db findObjectsWithQuery:@{@"name" : @"joe blow"} inCollection:_collection error:NULL];
+    STAssertTrue([resultsWithoutFoo count] == 0, @"Results for joe blow query should return 0!");
 }
 
 - (void)testRemoveObjectWithOIDSucceeds
 {
-    CustomArchivableClass *obj1 = [ArchivableClasses validArchivableClass];
+    CustomArchivableClass *obj1 = [EJDBTestFixtures validArchivableClass];
     obj1.name = @"foo";
     obj1.age = @32;
-    CustomArchivableClass *obj2 = [ArchivableClasses validArchivableClass];
+    CustomArchivableClass *obj2 = [EJDBTestFixtures validArchivableClass];
     obj2.name = @"bar";
     obj2.age = @25;
     [_collection saveObjects:@[obj1,obj2]];
@@ -78,9 +75,9 @@
 
 - (void)testRemovingDictionaryWithoutOIDFails
 {
-    NSDictionary *obj1 = @{@"name" : @"foo", @"age" : @32};
+    NSDictionary *obj1 = [EJDBTestFixtures simpleDictionaries][0];
     [_collection saveObject:obj1];
-    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"}
+    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"joe blow"}
                                            hints:@{@"$fields":@{@"name": @1}}
                                     inCollection:_collection error:NULL];
     NSDictionary *objWithoutOID = results[0];

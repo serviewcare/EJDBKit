@@ -11,7 +11,11 @@
 
 @end
 
-@interface ArchivableClasses : NSObject
+@interface EJDBTestFixtures : NSObject
+
++ (NSArray *)simpleDictionaries;
++ (NSArray *)complexDictionaries;
 + (CustomArchivableClass *)validArchivableClass;
-+ (BogusOIDClass *)boguisOIDClass;
++ (BogusOIDClass *)bogusOIDClass;
+
 @end

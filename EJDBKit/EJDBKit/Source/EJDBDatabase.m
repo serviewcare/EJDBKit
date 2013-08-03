@@ -162,12 +162,12 @@
     return ejdbQuery;
 }
 
-- (NSError *)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction
+- (void)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction
 {
-    NSError *error;
+    __block NSError *error;
     if(ejdbtranbegin(collection.collection))
     {
-        BOOL shouldCommit = transaction(collection);
+        BOOL shouldCommit = transaction(collection,&error);
         if (shouldCommit)
         {
             if(!ejdbtrancommit(collection.collection))
@@ -187,7 +187,6 @@
     {
         [self populateError:&error];
     }
-    return error;
 }
 
 - (int)errorCode
