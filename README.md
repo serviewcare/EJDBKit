@@ -63,7 +63,8 @@ Want to do stuff in a transaction? Here you go:
 
 ```objc
 
-[_db transactionInCollection:collection 
+NSError *error;
+[_db transactionInCollection:collection error:&error
                       transaction:^BOOL(EJDBCollection *collection,NSError **error) {
    
    [collection saveObjects@[dict1,dict2,obj]];

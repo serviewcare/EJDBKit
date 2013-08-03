@@ -162,31 +162,35 @@
     return ejdbQuery;
 }
 
-- (void)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction
+- (BOOL)transactionInCollection:(EJDBCollection *)collection error:(NSError **)error transaction:(EJDBTransactionBlock)transaction
 {
-    __block NSError *error;
     if(ejdbtranbegin(collection.collection))
     {
-        BOOL shouldCommit = transaction(collection,&error);
+        BOOL shouldCommit = transaction(collection,error);
+        if (error) return NO;
         if (shouldCommit)
         {
             if(!ejdbtrancommit(collection.collection))
             {
-                [self populateError:&error];
+                [self populateError:error];
+                return NO;
             }
         }
         else
         {
             if(!ejdbtranabort(collection.collection))
             {
-                [self populateError:&error];
+                [self populateError:error];
+                return NO;
             }
         }
     }
     else
     {
-        [self populateError:&error];
+        [self populateError:error];
+        return NO;
     }
+    return YES;
 }
 
 - (int)errorCode

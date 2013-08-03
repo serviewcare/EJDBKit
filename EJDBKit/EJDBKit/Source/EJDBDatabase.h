@@ -148,7 +148,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param collection - The collection the transaction will occur in.
  @param transaction - The EJDBTransactionBlock, this is where you do your work that is enclosed in a transaction.
 */
-- (void)transactionInCollection:(EJDBCollection *)collection transaction:(EJDBTransactionBlock)transaction;
+- (BOOL)transactionInCollection:(EJDBCollection *)collection error:(NSError **)error transaction:(EJDBTransactionBlock)transaction;
 
 /**
  Populate the provided error object.

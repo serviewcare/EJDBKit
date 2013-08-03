@@ -102,8 +102,9 @@
 
 - (void)testTransactionCommit
 {
+    NSError *error;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection,NSError **error) {
+    [_db transactionInCollection:collection error:&error transaction:^BOOL(EJDBCollection *collection,NSError **error) {
         NSArray *simpleDictionaries = [EJDBTestFixtures simpleDictionaries];
         NSMutableDictionary *simpleDict2 = [NSMutableDictionary dictionaryWithDictionary:simpleDictionaries[1]];
         [simpleDict2 setObject:@36 forKey:@"age"];
@@ -112,20 +113,20 @@
         return YES;
     }];
     
-    //STAssertNil(transactionError, @"Error after transaction commit should be nil!");
     NSArray *results = [_db findObjectsWithQuery:@{@"age" : @36} inCollection:collection error:NULL];
     STAssertTrue([results count] == 2, @"Results of query after commiting transaction should be exactly 2!");
 }
 
 - (void)testTransactionAbort
 {
+    NSError *error;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    [_db transactionInCollection:collection transaction:^BOOL(EJDBCollection *collection,NSError **error) {
+    [_db transactionInCollection:collection error:&error transaction:^BOOL(EJDBCollection *collection,NSError **error) {
         [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
         STAssertNil(*error, @"Error should be nil!");
         return NO;
     }];
-    NSArray *results = [_db findObjectsWithQuery:@{@"age" : @36} inCollection:collection error:NULL];
+    NSArray *results = [_db findObjectsWithQuery:@{@"age" : @35} inCollection:collection error:NULL];
     STAssertTrue([results count] == 0, @"Results of query after aborting transaction should be exactly 0!");
 }
 
