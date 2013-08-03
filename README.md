@@ -63,13 +63,12 @@ Want to do stuff in a transaction? Here you go:
 
 ```objc
 
-NSError *error = [_db transactionInCollection:collection 
-                      transaction:^BOOL(EJDBCollection *collection) {
+[_db transactionInCollection:collection 
+                      transaction:^BOOL(EJDBCollection *collection,NSError **error) {
    
    [collection saveObjects@[dict1,dict2,obj]];
    // Whatever else you need to do.
    //...
-
    //return YES to commit the transaction or NO to abort it.
    return YES;
 }];
