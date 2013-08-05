@@ -92,6 +92,24 @@
     STAssertTrue([outObj isKindOfClass:[CustomArchivableClass class]],@"Saved object should be an Instance of CustomArchivableClass!");
 }
 
+- (void)testShouldEncodeDecodeNestedCustomClass
+{
+    CustomArchivableClass *customObj = [EJDBTestFixtures validArchivableClass];
+    customObj.name = @"foo";
+    customObj.age  = @22;
+    NSDictionary *obj = @{@"SomeKey": @"SomeValue", @"customObject" : customObj};
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    [collection saveObject:obj];
+    NSArray *results = [_db findObjectsWithQuery:@{@"SomeKey" : @"SomeValue"} inCollection:collection error:NULL];
+    NSDictionary *savedObj = results[0];
+    CustomArchivableClass *customSavedObj = [[CustomArchivableClass alloc]init];
+    [customSavedObj fromDictionary:[savedObj objectForKey:@"customObject"]];
+    STAssertTrue([customObj.name isEqual:customSavedObj.name] &&
+                 [customObj.age isEqual:customSavedObj.age] &&
+                 [customObj.type isEqual:customSavedObj.type], @"Encoded custom object should equal decoded custom object!");
+}
+
+
 - (void)testBogusOIDClassShouldFail
 {
     BogusOIDClass *bogusObj =  [EJDBTestFixtures bogusOIDClass];
@@ -109,6 +127,10 @@
     STAssertFalse([collection saveObject:unsupportedObj], @"Saving an unsupported object should fail!");
 }
 
+/*
+ Unfortunately, lcov doesn't see this as being covered though if you step through the code in debugger it certainly
+ does throw an exception!
+*/
 - (void)testInvalidOIDShouldThrowException
 {
     NSDictionary *inDictionary = @{@"_id": @"123"};
@@ -118,7 +140,6 @@
 
 - (void)testShouldThrowExceptionOnUnsupportedType
 {
-
     NSDictionary *inDictionary = @{@"unsupported type" : [NSSet setWithArray:@[@1,@2]]};
     BSONEncoder *encoder = [[BSONEncoder alloc]init];
     STAssertThrows([encoder encodeDictionary:inDictionary], @"Should throw an exception when attempting to create an object with an unsupported class!");

@@ -140,4 +140,10 @@
     STAssertEquals([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
 }
 
+- (void)testSettingIndexSuccess
+{
+    BOOL success = [_collection setIndexOption:EJDBIndexStringCaseInsensitive forFieldPath:@"name"];
+    STAssertTrue(success, @"Index set should return YES!");
+}
+
 @end

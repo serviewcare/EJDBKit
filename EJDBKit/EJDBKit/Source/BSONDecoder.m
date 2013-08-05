@@ -86,9 +86,6 @@
         case BSON_DATE:
             value = [self decodeDateFromIterator:iterator];
             break;
-        case BSON_TIMESTAMP:
-            value = [self decodeTimestampFromIterator:iterator];
-            break;
         case BSON_ARRAY:
             value = [self decodeArrayFromIterator:iterator];
             break;
@@ -152,11 +149,6 @@
 - (NSDate *)decodeDateFromIterator:(bson_iterator)iterator
 {
     return [NSDate dateWithTimeIntervalSince1970:bson_iterator_date(&iterator)];
-}
-
-- (NSDate *)decodeTimestampFromIterator:(bson_iterator)iterator
-{
-    return [NSDate dateWithTimeIntervalSince1970:bson_iterator_time_t(&iterator)/1000.0];
 }
 
 - (NSArray *)decodeArrayFromIterator:(bson_iterator)iterator

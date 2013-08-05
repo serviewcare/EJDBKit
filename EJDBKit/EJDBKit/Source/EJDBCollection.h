@@ -24,6 +24,7 @@ typedef enum
 }
 EJDBIndexOptions;
 
+
 extern NSString * const EJDBCollectionObjectSavedNotification;
 extern NSString * const EJDBCollectionObjectRemovedNotification;
 

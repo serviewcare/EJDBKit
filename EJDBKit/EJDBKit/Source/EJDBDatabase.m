@@ -24,7 +24,7 @@
 
 - (BOOL)openWithError:(NSError **)error
 {
-    return [self openWithMode:( JBOREADER | JBOWRITER | JBOCREAT) error:error];
+    return [self openWithMode:( EJDBOpenReader | EJDBOpenWriter | EJDBOpenCreator) error:error];
 }
 
 - (BOOL)openWithMode:(EJDBOpenModes)mode error:(NSError **)error
@@ -102,7 +102,7 @@
     return [self ensureCollectionWithName:name options:NULL error:error];
 }
 
-- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options error:(NSError **)error
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJDBCollectionOptions *)options error:(NSError **)error
 {
     EJCOLL *coll = ejdbcreatecoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding],options);
     if (coll == NULL)
@@ -177,7 +177,7 @@
                 [self populateError:error];
                 return NO;
             }
-            ejdbsyncdb(_db);
+            ejdbsyncoll(collection.collection);
         }
         else
         {

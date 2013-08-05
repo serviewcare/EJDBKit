@@ -41,7 +41,6 @@
 
 - (NSArray *)fetchWithOptions:(EJDBQueryOptions)queryOptions
 {
-    //uint32_t count = 0;
     TCLIST *r = ejdbqryexecute(_collection.collection, _ejQuery, &_recordCount, queryOptions, NULL);
     NSMutableArray *results = [[NSMutableArray alloc]init];
     for (int i = 0; i < TCLISTNUM(r);i++)

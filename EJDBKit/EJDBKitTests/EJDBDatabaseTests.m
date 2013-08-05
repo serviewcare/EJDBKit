@@ -32,6 +32,38 @@
     [super tearDown];
 }
 
+- (void)testFindWithQueryFails
+{
+    NSError *error;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    NSArray *objects = [_db findObjectsWithQuery:@{@"$name" : @"joe blow"} inCollection:collection error:&error];
+    STAssertNil(objects, @"Objects should be nil for bad query!");
+    STAssertNotNil(error, @"Error for bad query should not be nil!");
+}
+
+- (void)testCreateQueryFails
+{
+    NSError *error;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    EJDBQuery *query = [_db createQuery:@{@"$name" : @"joe blow"} forCollection:collection error:&error];
+    STAssertNil(query, @"Query object for bad query should be nil!");
+    STAssertNotNil(error, @"Error for bad query creation should not be nil!");
+}
+
+- (void)testTransactionFails
+{
+    NSError *error;
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    BOOL success = [_db transactionInCollection:collection error:&error transaction:^BOOL(EJDBCollection *collection, NSError *__autoreleasing *error) {
+        [_db findObjectsWithQuery:@{@"$name" : @"joe blow"} inCollection:collection error:error];
+        STAssertNotNil(*error, @"Error in transaction block should not be nil!");
+        return YES;
+    }];
+    STAssertFalse(success, @"Failed transaction should return NO!");
+    STAssertNotNil(error, @"Error from transaction should not be nil!");
+}
+
+
 - (void)testDbIsOpen
 {
     STAssertTrue([_db isOpen], @"Database should be open!");

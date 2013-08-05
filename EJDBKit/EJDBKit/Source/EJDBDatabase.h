@@ -21,6 +21,8 @@ typedef enum {
   EJDBOpenSynchronize = 1 << 6
 } EJDBOpenModes;
 
+typedef EJCOLLOPTS EJDBCollectionOptions;
+
 /** Transaction block definition. Used for executing statements in transaction. 
  @return YES - if you'd like to commit the transaction. NO - if you'd like to abort it.
  */
@@ -102,7 +104,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - The EJDBCollection object or nil if the collection could not be created.
 */
-- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJCOLLOPTS *)options error:(NSError **)error;
+- (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJDBCollectionOptions *)options error:(NSError **)error;
 
 /**
  Removes the collection from the db with the provided name and the associated db files/indexes.
@@ -155,6 +157,18 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @return - The EJDBQuery ready for fetching or nil if there was an error.
 */
 - (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error;
+
+/**
+ Create a query with the provided dictionary. This method doesn't actually fetch the objects, it only creates the query for later fetching.
+ Please look at ejdb.h for more info on queries and query hints.
+ 
+ @param query - The query dictionary.
+ @param hints - The hints dictionary, pass a NULL if not interested in giving query hints.
+ @param collection - The collection to create the query for.
+ @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
+ @return - The EJDBQuery ready for fetching or nil if there was an error.
+ */
+- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError **)error;
 
 
 /**
