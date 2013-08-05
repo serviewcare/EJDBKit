@@ -3,10 +3,8 @@
 #import "BSONDecoder.h"
 #import "BSONArchiving.h"
 
-
 NSString * const EJDBCollectionObjectSavedNotification = @"EJDBCollectionObjectSavedNotification";
 NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjectRemovedNotification";
-
 
 @interface EJDBCollection ()
 @property (copy,nonatomic) NSString *name;

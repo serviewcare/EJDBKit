@@ -105,7 +105,6 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 */
 - (BOOL)setIndexOption:(EJDBIndexOptions)options forFieldPath:(NSString *)fieldPath;
 
-
 /**
 Synchronize content of a EJDB collection database with the file on device.
 @return - YES if successful. NO if not.

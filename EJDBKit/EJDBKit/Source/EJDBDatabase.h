@@ -4,6 +4,23 @@
 @class EJDBCollection;
 @class EJDBQuery;
 
+typedef enum {
+  /** Open as a reader. */
+  EJDBOpenReader = 1 << 0,
+  /** Open as a writer. */
+  EJDBOpenWriter = 1 << 1,
+  /** Create if db file does not exist. */
+  EJDBOpenCreator = 1 << 2,
+  /** Truncate db on open. */
+  EJDBOpenTruncator = 1 << 3,
+  /** Open without locking. */
+  EJDBOpenWithoutLock = 1 << 4,
+  /** Lock without blocking. */
+  EJDBOpenWithoutBlocking = 1 << 5,
+  /** Synchronize every transaction. */
+  EJDBOpenSynchronize = 1 << 6
+} EJDBOpenModes;
+
 /** Transaction block definition. Used for executing statements in transaction. 
  @return YES - if you'd like to commit the transaction. NO - if you'd like to abort it.
  */
@@ -38,7 +55,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
  @return - YES if successful. NO if an error occurred.
 */
-- (BOOL)openWithMode:(int)mode error:(NSError **)error;
+- (BOOL)openWithMode:(EJDBOpenModes)mode error:(NSError **)error;
 
 /**
  Check if the database is open or not.

@@ -16,7 +16,6 @@
     self = [super init];
     if (self)
     {
-        _db = ejdbnew();
         _dbPath = [path copy];
         _dbFileName = [fileName copy];
     }
@@ -28,7 +27,7 @@
     return [self openWithMode:( JBOREADER | JBOWRITER | JBOCREAT) error:error];
 }
 
-- (BOOL)openWithMode:(int)mode error:(NSError **)error
+- (BOOL)openWithMode:(EJDBOpenModes)mode error:(NSError **)error
 {
     BOOL success = YES;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -37,12 +36,15 @@
         success = [fileManager createDirectoryAtPath:_dbPath withIntermediateDirectories:YES attributes:NULL error:error];
         if (!success)
         {
-            //[NSException raise:@"Could not create db path!" format:@"Error is: %@",error.localizedDescription];
-            [self populateError:error];
             return NO;
         }
     }
     NSString *dbFilePath = [_dbPath stringByAppendingPathComponent:_dbFileName];
+    if (!_db)
+    {
+      _db = ejdbnew();
+      if (_db == NULL) return NO;
+    }
     success = ejdbopen(_db, [dbFilePath cStringUsingEncoding:NSUTF8StringEncoding], mode);
     if (!success) [self populateError:error];
     return success;
@@ -175,6 +177,7 @@
                 [self populateError:error];
                 return NO;
             }
+            ejdbsyncdb(_db);
         }
         else
         {
