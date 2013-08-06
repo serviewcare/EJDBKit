@@ -6,11 +6,27 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
-It is definitely in a useable state but I would wait a bit before using it
-in a production environment as it may change quite a bit before 
-a first "stable" release(0.1.0).
-Having said that, I plan on actively working on this project until, 
-at the very least, I'm satisfied it is a complete and correct implementation.
+Aug 6, 2013 - Version 0.1.0 released!
+
+I will try to make future releases as painless as possible (minimal code changes on your end, if any)
+but I can't guarantee complete shelter from pain until at least version 1.0. :)
+If there are any drastic changes before a 1.0, I will provide transition guides (and/or mark portions of code deprecated if feasible) to make any necessary changes as smooth as possible. I also promise to
+not remove deprecated code until the next non-maintenance release (0.2,0.3,etc).
+Having said that, I encourage you to, at least, start experimenting with the framework today
+(looking for bugs,checking performance,etc), in other words, throw everything you've got at it!
+If you find any showstoppers, serious bugs or anything else noteworthy (not feature requests)
+please do let me know! One more thing...enjoy!!!!
+
+
+Feature Requests
+====================
+
+Missing something? Do you think the framework could use even more love? Feel free to make an issue
+detailing what you'd like to see! :) If the request is sane, useful and doesn't unnecessarily complicate
+the codebase then it has a very good chance of making it into a future release!
+Please, before making a feature request, try to always keep in mind simplicity/usefulness.The
+framework can't possibly be everything to everyone and I have no intention of making it into one. 
+
 
 Usage
 ==================
