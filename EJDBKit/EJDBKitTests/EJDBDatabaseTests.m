@@ -118,7 +118,7 @@
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
     NSArray *results = [_db findObjectsWithQuery:@{@"name":@{@"$begin":@"j"}}
-                         hints:@{@"$fields":@{@"name": @1}}
+                         hints:@{@"$fields":@{@"name": @YES}}
                          inCollection:collection error:NULL];
     STAssertNotNil(results, @"results should not be nil!");
     STAssertTrue([results count] == 2, @"results count should be exactly 2");

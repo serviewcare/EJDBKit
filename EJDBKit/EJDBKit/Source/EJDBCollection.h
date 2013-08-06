@@ -25,7 +25,10 @@ typedef enum
 EJDBIndexOptions;
 
 
+/** The notification name that is sent when an object is saved via saveObjects. */
 extern NSString * const EJDBCollectionObjectSavedNotification;
+
+/** The notification name that is sent when an object is removed via removeObjects. */
 extern NSString * const EJDBCollectionObjectRemovedNotification;
 
 /**
@@ -55,12 +58,12 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 
 /**
  Saves an object that is an NSDictionary or a class that adopts the BSONArchiving protocol. This is really just a convenience method that calls saveObjects with
- an array containing a single object.
+ an array containing a single object. Also sends a EJDBCollectionObjectSaved notification after successful save.
 */
 - (BOOL)saveObject:(id)object;
 
 /**
- Saves the objects contained in the array.
+ Saves the objects contained in the array. Also sends a EJDBCollectionObjectSaved notification after successful save.
  @param objects - An array of dictionaries to save which may be comprised of NSDictionary or classes that adopt the BSONArchiving protocol.
  @return - YES, if the save was successful, NO otherwise. Note that upon first unsuccessful save, the method returns immediately.
 */
@@ -84,14 +87,14 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 - (int)updateWithQuery:(NSDictionary *)query hints:(NSDictionary *)hints;
 
 /**
- Removes the object from the collection.
+ Removes the object from the collection. Also sends a EJDBCollectionObjectRemoved notification after removal.
  @param object - The object must either be an NSDictionary that contains an "_id" key or a class that adopts the BSONArchiving protocol.
  @return
  */
 - (BOOL)removeObject:(id)object;
 
 /**
- Removes the object with the provided OID.
+ Removes the object with the provided OID. Also sends a EJDBCollectionObjectRemoved notification after removal.
  @param oid - The oid string representation of the object you wish to remove.
  @return
 */
@@ -99,7 +102,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 
 /**
  Sets an index with the supplied index option for the provided field path.
- @param indexOption - The index option (s). You can provide by multiple options by bitwise OR-ing. 
+ @param indexOption - The index option (s). You can provide multiple options by bitwise OR-ing. 
                       example: (EJDBIndexNumber | EJDBIndexNumberString).
  @param fieldPath - The path of the field, for example "address.city"
  @return

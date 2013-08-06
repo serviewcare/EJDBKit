@@ -5,7 +5,7 @@
 
 @interface EJDBQuery ()
 @property (strong,nonatomic) EJDBCollection *collection;
-@property (assign,nonatomic) u_int32_t recordCount;
+@property (assign,nonatomic) NSUInteger recordCount;
 @end
 
 @implementation EJDBQuery
@@ -21,10 +21,17 @@
     return self;
 }
 
+- (NSUInteger)recordCount
+{
+    return _recordCount;
+}
+
 - (int)fetchCount
 {
-    [self fetchWithOptions:EJDBQueryCountOnly];
-    return _recordCount;
+    NSUInteger recordCount;
+    ejdbqryexecute(_collection.collection, _ejQuery, &recordCount, EJDBQueryCountOnly, NULL);
+    ejdbquerydel(_ejQuery);
+    return recordCount;
 }
 
 - (id)fetchObject

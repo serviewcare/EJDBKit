@@ -1,17 +1,10 @@
 #import <Foundation/Foundation.h>
 #include "tcejdb/ejdb.h"
 
-/*
-enum { // Query search mode flags in ejdbqryexecute()
-    JBQRYCOUNT = 1, // Query only count(*)
-    JBQRYFINDONE = 1 << 1 // < Fetch first record only
-};
-*/
-
 typedef enum {
-  // Fetch only the count of records.
+  /** Fetch only the count of records. */
   EJDBQueryCountOnly = 1,
-  // Fetch only the first record.
+  /** Fetch only the first record. */
   EJDBQueryFetchFirstOnly = 1 << 1
 } EJDBQueryOptions;
 
@@ -20,7 +13,11 @@ typedef enum {
 /**
  This class wraps the EJQ query object and provides a facility for fetching one or more objects.
  It is initialized by the EJDBDatabase and therefore should generally only be used to
- fetch objects that were returned from a query.
+ fetch an object/objects that was/were returned from a query.
+
+ It's also very important to note that once you call any of the fetch* methods, the underlying query
+ is freed (released from memory) after the query is executed and is no longer accessible. In other words,
+ it is a one-time use object only and attempting to use it more than once will cause an EXC_BAD_ACCESS error!!!
 */
 @interface EJDBQuery : NSObject
 
@@ -29,14 +26,20 @@ typedef enum {
 
 /** 
  Initialize with the EJQ query object and the collection it will be used with.
- You shouldn't have to ever use create an instance of EJDBQuery as the EJDBDatabase creates it for you.
+ You shouldn't have to ever create an instance of EJDBQuery yourself as the EJDBDatabase creates it for you.
  @param query - The underlying EJQ object.
  @param collection - The EJDBCollection object.
 */
 - (id)initWithEJQuery:(EJQ *)query collection:(EJDBCollection *)collection;
 
+
 /**
- Fetches the amount of records returned by the query
+  The count of records returned by a query.
+*/
+- (NSUInteger)recordCount;
+
+/**
+ Executes the query but only fetches the amount of records instead of the results.
  @return count - The count of records.
 */
 - (int)fetchCount;

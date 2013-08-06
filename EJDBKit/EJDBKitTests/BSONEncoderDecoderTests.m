@@ -92,6 +92,10 @@
     STAssertTrue([outObj isKindOfClass:[CustomArchivableClass class]],@"Saved object should be an Instance of CustomArchivableClass!");
 }
 
+/*
+ Gotcha here!!! Don't assume that the custom class is automatically created! You must
+ create it yourself after fetching the result!
+*/
 - (void)testShouldEncodeDecodeNestedCustomClass
 {
     CustomArchivableClass *customObj = [EJDBTestFixtures validArchivableClass];
