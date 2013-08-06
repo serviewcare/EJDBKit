@@ -131,8 +131,8 @@ Don't need your collection anymore? Just remove it like so:
 [db removeCollectionWithName:@"foo"];
 ```
 
-That's about it for now. Do watch this space as it will be updated
-shortly with even more information about how to use the framework. Pretty easy so far, right? :)
+
+Check out the [wiki](https://github.com/johnnyd/EJDBKit/wiki) for more information
 
 
 Building/Installing
