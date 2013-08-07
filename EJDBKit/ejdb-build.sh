@@ -5,9 +5,15 @@
 # Global Settings
 #
 
+#IOS_BASE_SDK="6.1"
+#IOS_DEPLOY_TGT="5.0"
+
 IOS_BASE_SDK="6.1"
-IOS_DEPLOY_TGT="5.0"
+IOS_DEPLOY_TGT="6.1"
+
+# For now we want to point at our preview
 export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+#export DEVELOPER_DIR="/Applications/Xcode5-DP5.app/Contents/Developer"
 
 #
 # Shared Functions
@@ -43,6 +49,7 @@ setenv_arm7()
         unsetenv
  
         export DEVROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
+        #export DEVROOT=/Applications/Xcode5-DP5.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
         export SDKROOT=$DEVROOT/SDKs/iPhoneOS$IOS_BASE_SDK.sdk
  
         export CFLAGS="-arch armv7 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=$IOS_DEPLOY_TGT -I$SDKROOT/usr/include/"
@@ -55,6 +62,7 @@ setenv_arm7s()
         unsetenv
  
         export DEVROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
+        #export DEVROOT=/Applications/Xcode5-DP5.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
         export SDKROOT=$DEVROOT/SDKs/iPhoneOS$IOS_BASE_SDK.sdk
  
         export CFLAGS="-arch armv7s -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=$IOS_DEPLOY_TGT -I$SDKROOT/usr/include/"
@@ -67,6 +75,7 @@ setenv_i386()
         unsetenv
  
         export DEVROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer
+        #export DEVROOT=/Applications/Xcode5-DP5.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
         export SDKROOT=$DEVROOT/SDKs/iPhoneSimulator$IOS_BASE_SDK.sdk
  
         export CFLAGS="-arch i386 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=$IOS_DEPLOY_TGT"
