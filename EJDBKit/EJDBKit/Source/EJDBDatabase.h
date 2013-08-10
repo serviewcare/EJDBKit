@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #include "tcejdb/ejdb.h"
+#import "EJDBCollection.h"
 
-@class EJDBCollection;
+
 @class EJDBQuery;
 
 typedef enum {
@@ -21,7 +22,6 @@ typedef enum {
   EJDBOpenSynchronize = 1 << 6
 } EJDBOpenModes;
 
-typedef EJCOLLOPTS EJDBCollectionOptions;
 
 /** Transaction block definition. Used for executing statements in transaction. 
  @return YES - if you'd like to commit the transaction. NO - if you'd like to abort it.
@@ -40,14 +40,14 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  Initializes the object with the path of the db.
  @param path - The full path of where the database will reside excluding the database file name.
  @param fileName - The file name (without path) of the database file.
- @discussion - The fileName is appended to path. If the path does not exist it is created.
+ @brief - The fileName is appended to path. If the path does not exist it is created.
 */
 - (id)initWithPath:(NSString *)path dbFileName:(NSString *)fileName;
 
 /** 
  Opens the database in reader, writer and create mode.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - YES if successful. NO if an error occurred.
+ @returns - YES if successful. NO if an error occurred.
 */
 - (BOOL)openWithError:(NSError **)error;
 
@@ -55,13 +55,13 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  Opens the database in the specified mode.
  @param mode - The desired mode the db should be opened with. Please see ejdb.h for more information about modes.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - YES if successful. NO if an error occurred.
+ @returns - YES if successful. NO if an error occurred.
 */
 - (BOOL)openWithMode:(EJDBOpenModes)mode error:(NSError **)error;
 
 /**
  Check if the database is open or not.
- @return - YES if open. NO if not.
+ @returns - YES if open. NO if not.
 */
 - (BOOL)isOpen;
 
@@ -79,13 +79,13 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
 /**
  Fetches a collection with the name provided.
  @param name - The name of the collection.
- @return - The EJDBCollection object or nil if the collection does not exist in the db.
+ @returns - The EJDBCollection object or nil if the collection does not exist in the db.
 */
 - (EJDBCollection *)collectionWithName:(NSString *)name;
 
 /** 
  Fetches a list of EJDBCollection objects that exist and are currently open.
- @return - Array of EJDBCollection objects or nil if there was an error.
+ @returns - Array of EJDBCollection objects or nil if there was an error.
 */
 - (NSArray *)collections;
 
@@ -93,7 +93,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  Creates the collection with the name provided and default collection options.
  @param name - The desired name of the collection.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - The EJDBCollection object or nil if the collection could not be created.
+ @returns - The EJDBCollection object or nil if the collection could not be created.
 */
 - (EJDBCollection *)ensureCollectionWithName:(NSString *)name error:(NSError **)error;
 
@@ -102,14 +102,14 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param name - The desired name of the collection.
  @param options - The desired collection options. Please see ejdb.h for more infomration about collection options.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - The EJDBCollection object or nil if the collection could not be created.
+ @returns - The EJDBCollection object or nil if the collection could not be created.
 */
 - (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJDBCollectionOptions *)options error:(NSError **)error;
 
 /**
  Removes the collection from the db with the provided name and the associated db files/indexes.
  @param name - The name of the collection to remove.
- @return - YES if removal succeeded. NO if not.
+ @returns - YES if removal succeeded. NO if not.
 */
 - (BOOL)removeCollectionWithName:(NSString *)name;
 
@@ -117,7 +117,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  Removes the collection from the db with the provided name with the option of removing associated db files/indexes.
  @param name - The name of the collection to remove.
  @param unlinkFile - Pass YES if you want associated db files/indexes to removed. NO if not.
- @return - YES if removal succeeded. NO if not.
+ @returns - YES if removal succeeded. NO if not.
 */
 - (BOOL)removeCollectionWithName:(NSString *)name unlinkFile:(BOOL)unlinkFile;
 
@@ -128,7 +128,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param query - The query dictionary.
  @param collection - The collection to query.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - Array of objects matching the criteria or nil if there was an error.   
+ @returns - Array of objects matching the criteria or nil if there was an error.   
 */
 
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query inCollection:(EJDBCollection *)collection error:(NSError **)error;
@@ -141,7 +141,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param hints - The query hints.
  @param collection - The collection to query.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - Array of objects matching the criteria or nil if there was an error.
+ @returns - Array of objects matching the criteria or nil if there was an error.
 */
 
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
@@ -154,7 +154,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param query - The query dictionary.
  @param collection - The collection to create the query for.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - The EJDBQuery ready for fetching or nil if there was an error.
+ @returns - The EJDBQuery ready for fetching or nil if there was an error.
 */
 - (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error;
 
@@ -166,10 +166,12 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param hints - The hints dictionary, pass a NULL if not interested in giving query hints.
  @param collection - The collection to create the query for.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @return - The EJDBQuery ready for fetching or nil if there was an error.
+ @returns - The EJDBQuery ready for fetching or nil if there was an error.
+ @deprecated - This will be removed in v0.3.0 as the error argument is obsolete (we aren't executing the query).
  */
-- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError **)error;
+- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError **)error __deprecated;
 
+- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection;
 
 /**
  Executes the statements by the provided EJDBTransactionBlock as a transaction.

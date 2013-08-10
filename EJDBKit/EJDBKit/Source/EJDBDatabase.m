@@ -1,7 +1,6 @@
 #import "EJDBDatabase.h"
 #import "BSONEncoder.h"
 #import "BSONDecoder.h"
-#import "EJDBCollection.h"
 #import "EJDBQuery.h"
 
 @interface EJDBDatabase ()
@@ -71,19 +70,13 @@
     {
         [collectionNames addObject:[collection objectForKey:@"name"]];
     }
-    return collectionNames;
+    return [NSArray arrayWithArray:collectionNames];
 }
 
 
 - (EJDBCollection *)collectionWithName:(NSString *)name
 {
-    EJCOLL *coll = ejdbgetcoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding]);
-    if (coll != NULL)
-    {
-        EJDBCollection *collection = [[EJDBCollection alloc]initWithName:name collection:coll];
-        return collection;
-    }
-    return nil;
+    return [EJDBCollection collectionWithName:name db:self];    
 }
 
 - (NSArray *)collections
@@ -104,13 +97,8 @@
 
 - (EJDBCollection *)ensureCollectionWithName:(NSString *)name options:(EJDBCollectionOptions *)options error:(NSError **)error
 {
-    EJCOLL *coll = ejdbcreatecoll(_db, [name cStringUsingEncoding:NSUTF8StringEncoding],options);
-    if (coll == NULL)
-    {
-        [self populateError:error];
-        return nil;
-    }
-    EJDBCollection *collection = [[EJDBCollection alloc]initWithName:name collection:coll];
+    EJDBCollection *collection = [[EJDBCollection alloc]initWithName:name db:self];
+    if (![collection openWithOptions:options error:error]) return nil;
     return collection;
 }
 
@@ -132,35 +120,25 @@
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
                             error:(NSError **)error
 {
-    EJDBQuery *ejdbQuery = [self createQuery:query hints:queryHints forCollection:collection error:error];
-    return [ejdbQuery fetchObjects];
+    EJDBQuery *ejdbQuery = [self createQuery:query hints:queryHints forCollection:collection];
+    return [ejdbQuery fetchObjectsWithError:error];
 }
 
 - (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error
 {
-    return [self createQuery:query hints:nil forCollection:collection error:error];
+    return [self createQuery:query hints:nil forCollection:collection];
 }
 
+- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection
+{
+    EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithCollection:collection query:query hints:queryHints];
+    return ejdbQuery;
+}
+
+/* DEPRECATED! REMOVE IN v0.3.0! */
 - (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError **)error
 {
-    BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
-    [bsonQuery encodeDictionary:query];
-    [bsonQuery finish];
-    BSONEncoder *bsonHints;
-    BOOL isHintsNull = queryHints == nil ? YES : NO;
-    if (!isHintsNull)
-    {
-        bsonHints = [[BSONEncoder alloc]initAsQuery];
-        [bsonHints encodeDictionary:queryHints];
-        [bsonHints finish];
-    }
-    EJQ *ejq = ejdbcreatequery(_db, bsonQuery.bson, NULL, 0, !isHintsNull ? bsonHints.bson : NULL);
-    if (ejq == NULL)
-    {
-        [self populateError:error];
-        return nil;
-    }
-    EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithEJQuery:ejq collection:collection];
+    EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithCollection:collection query:query hints:queryHints];
     return ejdbQuery;
 }
 

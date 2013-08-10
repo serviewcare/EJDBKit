@@ -1,5 +1,7 @@
 #import "EJDBQuery.h"
+#import "EJDBDatabase.h"
 #import "EJDBCollection.h"
+#import "BSONEncoder.h"
 #import "BSONDecoder.h"
 #import "BSONArchiving.h"
 
@@ -10,15 +12,22 @@
 
 @implementation EJDBQuery
 
-- (id)initWithEJQuery:(EJQ *)query collection:(EJDBCollection *)collection
+- (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query hints:(NSDictionary *)hints
 {
     self = [super init];
+    
     if (self)
     {
-        _ejQuery = query;
         _collection = collection;
+        [self setQuery:query];
+        [self setHints:hints];
     }
     return self;
+}
+
+- (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query
+{
+    return [self initWithCollection:collection query:query hints:nil];
 }
 
 - (NSUInteger)recordCount
@@ -28,41 +37,97 @@
 
 - (int)fetchCount
 {
+    return [self fetchCountWithError:NULL];
+}
+
+- (int)fetchCountWithError:(NSError **)error
+{
     NSUInteger recordCount;
-    ejdbqryexecute(_collection.collection, _ejQuery, &recordCount, EJDBQueryCountOnly, NULL);
-    ejdbquerydel(_ejQuery);
+    EJQ *qry = [self createQueryWithError:error];
+    if (!qry) return 0;
+    ejdbqryexecute(_collection.collection, qry, &recordCount, EJDBQueryCountOnly, NULL);
+    ejdbquerydel(qry);
     return recordCount;
 }
 
 - (id)fetchObject
 {
-    NSArray *array = [self fetchWithOptions:EJDBQueryFetchFirstOnly];
+   return [self fetchObjectWithError:NULL];
+}
+
+- (id)fetchObjectWithError:(NSError **)error
+{
+    NSArray *array = [self fetchWithOptions:EJDBQueryFetchFirstOnly error:error];
     if ([array count] > 0) return array[0];
     return nil;
 }
 
 - (NSArray *)fetchObjects
 {
-    return [self fetchWithOptions:0];
+    return [self fetchObjectsWithError:NULL];
 }
 
-- (NSArray *)fetchWithOptions:(EJDBQueryOptions)queryOptions
+- (NSArray *)fetchObjectsWithError:(NSError **)error
 {
-    TCLIST *r = ejdbqryexecute(_collection.collection, _ejQuery, &_recordCount, queryOptions, NULL);
+    return [self fetchWithOptions:0 error:error];
+}
+
+- (NSArray *)fetchWithOptions:(EJDBQueryOptions)queryOptions error:(NSError **)error
+{
+    EJQ *qry = [self createQueryWithError:error];
+    if (!qry) return nil;
+    
+    TCLIST *r = ejdbqryexecute(_collection.collection, qry, &_recordCount, queryOptions, NULL);
     NSMutableArray *results = [[NSMutableArray alloc]init];
     for (int i = 0; i < TCLISTNUM(r);i++)
     {
-       void *p =  TCLISTVALPTR(r, i);
-       bson *data = bson_create();
-       bson_init_with_data(data, p);
-       BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
-       id obj = [bsonDecoder decodeObjectFromBSON:data];
-       [results addObject:obj];
-       bson_del(data);
+        void *p =  TCLISTVALPTR(r, i);
+        bson *data = bson_create();
+        bson_init_with_data(data, p);
+        BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
+        id obj = [bsonDecoder decodeObjectFromBSON:data];
+        [results addObject:obj];
+        bson_del(data);
     }
-    ejdbquerydel(_ejQuery);
+    ejdbquerydel(qry);
     free(r);
-    return [NSArray arrayWithArray:results];
+
+    return results;
+}
+
+- (BSONEncoder *)queryBSON
+{
+    BSONEncoder *bsonQuery = [[BSONEncoder alloc]initAsQuery];
+    if (_query == nil) [self setQuery:@{}];
+    [bsonQuery encodeDictionary:_query];
+    [bsonQuery finish];
+    return bsonQuery;
+}
+
+- (BSONEncoder *)hintsBSON
+{
+    if (_hints != nil)
+    {
+        BSONEncoder *bsonHints = [[BSONEncoder alloc]initAsQuery];
+        [bsonHints encodeDictionary:_hints];
+        [bsonHints finish];
+        return bsonHints;
+    }
+    return NULL;
+}
+
+- (EJQ *)createQueryWithError:(NSError **)error
+{
+    BSONEncoder *query = [self queryBSON];
+    BSONEncoder *hints = [self hintsBSON];
+    
+    EJQ *ejq = ejdbcreatequery(_collection.db.db, query.bson, NULL, 0, hints.bson);
+    if (ejq == NULL)
+    {
+        [_collection.db populateError:error];
+        return nil;
+    }
+    return ejq;
 }
 
 @end

@@ -25,6 +25,7 @@ typedef enum
 }
 EJDBIndexOptions;
 
+typedef EJCOLLOPTS EJDBCollectionOptions;
 
 /** The notification name that is sent when an object is saved via saveObjects. */
 extern NSString * const EJDBCollectionObjectSavedNotification;
@@ -37,11 +38,21 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 */
 @interface EJDBCollection : NSObject
 
+@property (copy,nonatomic,readonly) NSString *name;
+
 /** The underlying EJCOLL object. */
 @property (assign,nonatomic,readonly) EJCOLL *collection;
 
+@property (weak,nonatomic,readonly) EJDBDatabase *db;
+
+
++ (EJDBCollection *)collectionWithName:(NSString *)collectionName db:(EJDBDatabase *)db;
 
 - (id)initWithName:(NSString *)name db:(EJDBDatabase *)db;
+
+- (BOOL)openWithError:(NSError **)error;
+
+- (BOOL)openWithOptions:(EJDBCollectionOptions *)options error:(NSError **)error;
 
 /** 
  Initialize with the name of the collection and the EJCOLL object. You should never have to create collections manually
@@ -57,7 +68,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 /** 
  Fetch an NSDictionary or object that implements the BSONArchiving protocol with the supplied OID.
  @param OID - A valid OID of the object to fetch.
- @return - An an NSDictionary or object that implements the BSONArchiving protocol, nil if not found or OID is invalid.
+ @returns - An an NSDictionary or object that implements the BSONArchiving protocol, nil if not found or OID is invalid.
  @since - v0.1.0
 */
 - (id)fetchObjectWithOID:(NSString *)OID;
@@ -73,7 +84,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 /**
  Saves the objects contained in the array. Also sends a EJDBCollectionObjectSaved notification after successful save.
  @param objects - An array of dictionaries to save which may be comprised of NSDictionary or classes that adopt the BSONArchiving protocol.
- @return - YES, if the save was successful, NO otherwise. Note that upon first unsuccessful save, the method returns immediately.
+ @returns - YES, if the save was successful, NO otherwise. Note that upon first unsuccessful save, the method returns immediately.
  @since - v0.1.0
 */
 - (BOOL)saveObjects:(NSArray *)objects;
@@ -83,7 +94,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
  Updates the collection that match the criteria specified in the query dictionary.
  This is mainly a convenience method for when/if you don't want to specifiy hints.
  @param - The query dictionary.
- @return - The count of objects updated in the collection.
+ @returns - The count of objects updated in the collection.
  @since - v0.1.0
 */
 - (int)updateWithQuery:(NSDictionary *)query;
@@ -92,7 +103,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
  Updates the collection that match the criteria specified in the query dictionary.
  @param query - The query dictionary.
  @param hints - The query hints (if any). If you don't want to give any hints pass a NULL.
- @return - The count of objects updated in the collection.
+ @returns - The count of objects updated in the collection.
  @since - v0.1.0
 */
 - (int)updateWithQuery:(NSDictionary *)query hints:(NSDictionary *)hints;
@@ -100,7 +111,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 /**
  Removes the object from the collection. Also sends a EJDBCollectionObjectRemoved notification after removal.
  @param object - The object must either be an NSDictionary that contains an "_id" key or a class that adopts the BSONArchiving protocol.
- @return
+ @returns
  @since - v0.1.0
  */
 - (BOOL)removeObject:(id)object;
@@ -108,7 +119,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 /**
  Removes the object with the provided OID. Also sends a EJDBCollectionObjectRemoved notification after removal.
  @param oid - The oid string representation of the object you wish to remove.
- @return
+ @returns
  @since - v0.1.0
 */
 - (BOOL)removeObjectWithOID:(NSString *)OID;
@@ -118,14 +129,14 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
  @param indexOption - The index option (s). You can provide multiple options by bitwise OR-ing. 
                       example: (EJDBIndexNumber | EJDBIndexNumberString).
  @param fieldPath - The path of the field, for example "address.city"
- @return
+ @returns
  @since - v0.1.0
 */
 - (BOOL)setIndexOption:(EJDBIndexOptions)options forFieldPath:(NSString *)fieldPath;
 
 /**
  Synchronize content of a EJDB collection database with the file on device.
- @return - YES if successful. NO if not.
+ @returns - YES if successful. NO if not.
  @since - v0.1.0
 */
 - (BOOL)synchronize;

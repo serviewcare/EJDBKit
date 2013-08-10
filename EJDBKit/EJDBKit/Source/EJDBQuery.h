@@ -12,26 +12,17 @@ typedef enum {
 
 /**
  This class wraps the EJQ query object and provides a facility for fetching one or more objects.
- It is initialized by the EJDBDatabase and therefore should generally only be used to
- fetch an object/objects that was/were returned from a query.
-
- It's also very important to note that once you call any of the fetch* methods, the underlying query
- is freed (released from memory) after the query is executed and is no longer accessible. In other words,
- it is a one-time use object only and attempting to use it more than once will cause an EXC_BAD_ACCESS error!!!
-*/
+ It's also possible to fetch objects multiple times, in other words the query is reusable.
+ */
 @interface EJDBQuery : NSObject
 
-/** The underlying EJQ query object. */
-@property (assign,nonatomic,readonly) EJQ *ejQuery;
+@property (strong,nonatomic) NSDictionary *query;
 
-/** 
- Initialize with the EJQ query object and the collection it will be used with.
- You shouldn't have to ever create an instance of EJDBQuery yourself as the EJDBDatabase creates it for you.
- @param query - The underlying EJQ object.
- @param collection - The EJDBCollection object.
-*/
-- (id)initWithEJQuery:(EJQ *)query collection:(EJDBCollection *)collection;
+@property (strong,nonatomic) NSDictionary *hints;
 
+- (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query hints:(NSDictionary *)hints;
+
+- (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query;
 
 /**
   The count of records returned by a query.
@@ -40,20 +31,41 @@ typedef enum {
 
 /**
  Executes the query but only fetches the amount of records instead of the results.
- @return count - The count of records.
+ @returns count - The count of records.
 */
 - (int)fetchCount;
 
+/**
+ Executes the query but only fetches the amount of records instead of the results.
+ @param error - The error object that will be filled if there is an error.
+ @returns - The count of records.
+*/
+- (int)fetchCountWithError:(NSError **)error;
+
 /** 
  Fetch a single object.
- @return - The returned object or nil if not found.
+ @returns - The returned object or nil if not found.
 */
 - (id)fetchObject;
 
 /**
- Fetch an array of objects.
- @return - An array of objects.
+ Fetch a single object.
+ @param error - The error object that will be filled if there is an error.
+ @returns - The returned object or nil if not found.
+*/
+- (id)fetchObjectWithError:(NSError **)error;
+
+/**
+ Fetch an array of objects. You can safely call this method multiple times across the EJBDQuery's lifetime.
+ @returns - An array of objects.
 */
 - (NSArray *)fetchObjects;
+
+/**
+ Fetch an array of objects. You can safely call this method multiple times across the EJBDQuery's lifetime.
+ @param error - The error object that will be filled if there is an error.
+ @returns - An array of objects.
+*/
+- (NSArray *)fetchObjectsWithError:(NSError **)error;
 
 @end

@@ -8,12 +8,21 @@ NSString * const EJDBCollectionObjectSavedNotification = @"EJDBCollectionObjectS
 NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjectRemovedNotification";
 
 @interface EJDBCollection ()
-@property (copy,nonatomic) NSString *name;
-@property (strong,nonatomic) EJDBDatabase *db;
 
 @end
 
 @implementation EJDBCollection
+
+
++ (EJDBCollection *)collectionWithName:(NSString *)collectionName db:(EJDBDatabase *)db
+{
+    EJCOLL *ejcoll = ejdbgetcoll(db.db, [collectionName cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (ejcoll == NULL) return nil;
+    EJDBCollection *collection = [[EJDBCollection alloc]initWithName:collectionName db:db];
+    [collection openWithCollection:ejcoll];
+    return collection;
+}
+
 
 - (id)initWithName:(NSString *)name db:(EJDBDatabase *)db
 {
@@ -22,11 +31,11 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
     {
         _name = [name copy];
         _db = db;
-        
     }
     return self;
 }
 
+/** Deprecated! */
 - (id)initWithName:(NSString *)name collection:(EJCOLL *)collection
 {
     self = [super init];
@@ -38,20 +47,27 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
     return self;
 }
 
+- (void)openWithCollection:(EJCOLL *)collection
+{
+    _collection = collection;
+}
+
 - (BOOL)openWithError:(NSError **)error
 {
     return [self openWithOptions:NULL error:error];
 }
 
-- (BOOL)openWithOptions:(EJDBCollectionOptions)options error:(NSError **)error
+- (BOOL)openWithOptions:(EJDBCollectionOptions *)options error:(NSError **)error
 {
-    EJCOLL *coll = ejdbcreatecoll(_db.db, [_name cStringUsingEncoding:NSUTF8StringEncoding],NULL);
-    if (coll == NULL)
+    if (_collection) return YES;
+    
+    _collection = ejdbcreatecoll(_db.db, [_name cStringUsingEncoding:NSUTF8StringEncoding],options);
+    
+    if (_collection == NULL)
     {
         [_db populateError:error];
         return NO;
     }
-    _collection = coll;
     return YES;
 }
 
