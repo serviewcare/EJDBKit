@@ -2,16 +2,30 @@
 #import "BSONEncoder.h"
 #import "BSONDecoder.h"
 #import "BSONArchiving.h"
+#import "EJDBDatabase.h"
 
 NSString * const EJDBCollectionObjectSavedNotification = @"EJDBCollectionObjectSavedNotification";
 NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjectRemovedNotification";
 
 @interface EJDBCollection ()
 @property (copy,nonatomic) NSString *name;
+@property (strong,nonatomic) EJDBDatabase *db;
 
 @end
 
 @implementation EJDBCollection
+
+- (id)initWithName:(NSString *)name db:(EJDBDatabase *)db
+{
+    self = [super init];
+    if (self)
+    {
+        _name = [name copy];
+        _db = db;
+        
+    }
+    return self;
+}
 
 - (id)initWithName:(NSString *)name collection:(EJCOLL *)collection
 {
@@ -23,6 +37,24 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
     }
     return self;
 }
+
+- (BOOL)openWithError:(NSError **)error
+{
+    return [self openWithOptions:NULL error:error];
+}
+
+- (BOOL)openWithOptions:(EJDBCollectionOptions)options error:(NSError **)error
+{
+    EJCOLL *coll = ejdbcreatecoll(_db.db, [_name cStringUsingEncoding:NSUTF8StringEncoding],NULL);
+    if (coll == NULL)
+    {
+        [_db populateError:error];
+        return NO;
+    }
+    _collection = coll;
+    return YES;
+}
+
 
 + (BOOL)isSupportedObject:(id)object
 {
