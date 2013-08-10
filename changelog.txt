@@ -1,0 +1,5 @@
+Aug 10, 2013 - Version 0.1.1 - This is a maintenance version to match 1.1.17 of ejdb 
+(support for nested $and/$or).
+
+------------------------------------
+Aug 6, 2013 - Version 0.1.0 released!

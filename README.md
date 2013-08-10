@@ -6,6 +6,9 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Aug 10, 2013 - Version 0.1.1 released! This is a maintenance version to match 1.1.17 of ejdb 
+(support for nested $and/$or).
+
 Aug 6, 2013 - Version 0.1.0 released!
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
