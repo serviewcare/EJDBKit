@@ -43,27 +43,42 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 /** The underlying EJCOLL object. */
 @property (assign,nonatomic,readonly) EJCOLL *collection;
 
+/** The database instance that this collection belongs to. */
 @property (weak,nonatomic,readonly) EJDBDatabase *db;
 
-
+/**
+  Retrieve an already existing collection or nil if not found.
+  @param collectionName - The name of the existing collection.
+  @param db - The database this collection belongs to.
+  @returns - An EJDBCollection object or nil if not found.
+  @since - v0.2.0
+*/
 + (EJDBCollection *)collectionWithName:(NSString *)collectionName db:(EJDBDatabase *)db;
 
+/**
+ Initialize with the name of the collection and the database it belongs to.
+ @param name - The name of the collection.
+ @param db - The database this collection belongs to.
+ @since - v0.2.0
+*/
 - (id)initWithName:(NSString *)name db:(EJDBDatabase *)db;
 
+/**
+ Creates a collection if it doesn't exist.
+ @param error - The error object to be filled if there was an error.
+ @returns - YES if the collection was created successfully, NO if not.
+ @since - v0.2.0
+*/
 - (BOOL)openWithError:(NSError **)error;
 
-- (BOOL)openWithOptions:(EJDBCollectionOptions *)options error:(NSError **)error;
-
-/** 
- Initialize with the name of the collection and the EJCOLL object. You should never have to create collections manually
- as the EJDBDatabase object does this for you.
- @param name - The name of the collection.
- @param collection - The collection object.
- @since - v0.1.0
- @deprecated - This initializer will be removed in v0.3.0. Use initWithName:db: instead!
+/**
+ Creates a collectionif it doesn't exist with the supplied options.
+ @param options - The options the collection should be created with.
+ @param error - The error object to be filled if there was an error.
+ @returns - YES if the collection was created successfully, NO if not.
+ @since - v0.2.0
 */
-- (id)initWithName:(NSString *)name collection:(EJCOLL *)collection __deprecated;
-
+- (BOOL)openWithOptions:(EJDBCollectionOptions *)options error:(NSError **)error;
 
 /** 
  Fetch an NSDictionary or object that implements the BSONArchiving protocol with the supplied OID.
@@ -72,7 +87,6 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
  @since - v0.1.0
 */
 - (id)fetchObjectWithOID:(NSString *)OID;
-
 
 /**
  Saves an object that is an NSDictionary or a class that adopts the BSONArchiving protocol. This is really just a convenience method that calls saveObjects with

@@ -13,7 +13,6 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
 
 @implementation EJDBCollection
 
-
 + (EJDBCollection *)collectionWithName:(NSString *)collectionName db:(EJDBDatabase *)db
 {
     EJCOLL *ejcoll = ejdbgetcoll(db.db, [collectionName cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -23,7 +22,6 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
     return collection;
 }
 
-
 - (id)initWithName:(NSString *)name db:(EJDBDatabase *)db
 {
     self = [super init];
@@ -31,18 +29,6 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
     {
         _name = [name copy];
         _db = db;
-    }
-    return self;
-}
-
-/** Deprecated! */
-- (id)initWithName:(NSString *)name collection:(EJCOLL *)collection
-{
-    self = [super init];
-    if (self)
-    {
-        _name = [name copy];
-        _collection = collection;
     }
     return self;
 }
