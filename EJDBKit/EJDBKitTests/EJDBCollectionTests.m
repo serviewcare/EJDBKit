@@ -146,4 +146,26 @@
     STAssertTrue(success, @"Index set should return YES!");
 }
 
+- (void)testCreatingCollectionSuccess
+{
+    NSError *error;
+    EJDBCollection *collection = [[EJDBCollection alloc]initWithName:@"bar" db:_db];
+    BOOL success = [collection openWithError:&error];
+    STAssertTrue(success, @"Creating a new collection should return YES!");
+    STAssertNil(error, @"Error object for creating a new collection should be nil!");
+    [_db removeCollectionWithName:@"bar"];
+}
+
+- (void)testRetrievingCollectionSuccess
+{
+    EJDBCollection *collection = [EJDBCollection collectionWithName:@"foo" db:_db];
+    STAssertNotNil(collection, @"Retrieving existing collection should not be nil!");
+}
+
+- (void)testRetrievingNonexistentCollectionReturnsNil
+{
+    EJDBCollection *collection = [EJDBCollection collectionWithName:@"noexist" db:_db];
+    STAssertNil(collection, @"Retrieving a non existing collection should return nil!");
+}
+
 @end
