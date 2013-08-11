@@ -12,48 +12,81 @@ typedef enum {
 
 /**
  This class wraps the EJQ query object and provides a facility for fetching one or more objects.
- It is initialized by the EJDBDatabase and therefore should generally only be used to
- fetch an object/objects that was/were returned from a query.
-
- It's also very important to note that once you call any of the fetch* methods, the underlying query
- is freed (released from memory) after the query is executed and is no longer accessible. In other words,
- it is a one-time use object only and attempting to use it more than once will cause an EXC_BAD_ACCESS error!!!
-*/
+ It's also possible to fetch objects multiple times, in other words the query is reusable.
+ */
 @interface EJDBQuery : NSObject
 
-/** The underlying EJQ query object. */
-@property (assign,nonatomic,readonly) EJQ *ejQuery;
+/** The query dictionary that will be used when executing the query. */
+@property (strong,nonatomic) NSDictionary *query;
 
-/** 
- Initialize with the EJQ query object and the collection it will be used with.
- You shouldn't have to ever create an instance of EJDBQuery yourself as the EJDBDatabase creates it for you.
- @param query - The underlying EJQ object.
- @param collection - The EJDBCollection object.
-*/
-- (id)initWithEJQuery:(EJQ *)query collection:(EJDBCollection *)collection;
-
+/** The hints dictionary that will be used when executing the query. */
+@property (strong,nonatomic) NSDictionary *hints;
 
 /**
-  The count of records returned by a query.
+ The designated initializer.It hooks the query to the collection it belongs to and sets query/hints.
+ @param collection - The collection this query will belong to.
+ @param query - The query that will be used when executing the query.
+ @param hints - The hints that will be used when executing the query.
+ @since - v0.2.0
+*/
+- (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query hints:(NSDictionary *)hints;
+
+/**
+ A convenience initializer if you don't plan on providing hints for query execution.
+ You can always do so at a later point by setting the hints property.
+ @since - v0.2.0
+*/
+- (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query;
+
+/**
+ The count of records returned by a query.
+ @since - v0.1.0
 */
 - (NSUInteger)recordCount;
 
 /**
  Executes the query but only fetches the amount of records instead of the results.
- @return count - The count of records.
+ @returns count - The count of records.
+ @since - v0.1.0
 */
 - (int)fetchCount;
 
+/**
+ Executes the query but only fetches the amount of records instead of the results.
+ @param error - The error object that will be filled if there is an error.
+ @returns - The count of records.
+ @since - v0.2.0
+*/
+- (int)fetchCountWithError:(NSError **)error;
+
 /** 
  Fetch a single object.
- @return - The returned object or nil if not found.
+ @returns - The returned object or nil if not found.
+ @since - v0.1.0
 */
 - (id)fetchObject;
 
 /**
- Fetch an array of objects.
- @return - An array of objects.
+ Fetch a single object.
+ @param error - The error object that will be filled if there is an error.
+ @returns - The returned object or nil if not found.
+ @since - v0.2.0
+*/
+- (id)fetchObjectWithError:(NSError **)error;
+
+/**
+ Fetch an array of objects. You can safely call this method multiple times across the EJBDQuery's lifetime.
+ @returns - An array of objects.
+ @since - v0.1.0
 */
 - (NSArray *)fetchObjects;
+
+/**
+ Fetch an array of objects. You can safely call this method multiple times across the EJBDQuery's lifetime.
+ @param error - The error object that will be filled if there is an error.
+ @returns - An array of objects.
+ @since - v0.2.0
+*/
+- (NSArray *)fetchObjectsWithError:(NSError **)error;
 
 @end

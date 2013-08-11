@@ -2,27 +2,61 @@
 #import "BSONEncoder.h"
 #import "BSONDecoder.h"
 #import "BSONArchiving.h"
+#import "EJDBDatabase.h"
 
 NSString * const EJDBCollectionObjectSavedNotification = @"EJDBCollectionObjectSavedNotification";
 NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjectRemovedNotification";
 
 @interface EJDBCollection ()
-@property (copy,nonatomic) NSString *name;
 
 @end
 
 @implementation EJDBCollection
 
-- (id)initWithName:(NSString *)name collection:(EJCOLL *)collection
++ (EJDBCollection *)collectionWithName:(NSString *)collectionName db:(EJDBDatabase *)db
+{
+    EJCOLL *ejcoll = ejdbgetcoll(db.db, [collectionName cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (ejcoll == NULL) return nil;
+    EJDBCollection *collection = [[EJDBCollection alloc]initWithName:collectionName db:db];
+    [collection openWithCollection:ejcoll];
+    return collection;
+}
+
+- (id)initWithName:(NSString *)name db:(EJDBDatabase *)db
 {
     self = [super init];
     if (self)
     {
         _name = [name copy];
-        _collection = collection;
+        _db = db;
     }
     return self;
 }
+
+- (void)openWithCollection:(EJCOLL *)collection
+{
+    _collection = collection;
+}
+
+- (BOOL)openWithError:(NSError **)error
+{
+    return [self openWithOptions:NULL error:error];
+}
+
+- (BOOL)openWithOptions:(EJDBCollectionOptions *)options error:(NSError **)error
+{
+    if (_collection) return YES;
+    
+    _collection = ejdbcreatecoll(_db.db, [_name cStringUsingEncoding:NSUTF8StringEncoding],options);
+    
+    if (_collection == NULL)
+    {
+        [_db populateError:error];
+        return NO;
+    }
+    return YES;
+}
+
 
 + (BOOL)isSupportedObject:(id)object
 {
