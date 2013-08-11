@@ -1,6 +1,7 @@
 #import "EJDBDatabaseTests.h"
 #import "EJDBDatabase.h"
 #import "EJDBCollection.h"
+#import "EJDBQuery.h"
 #import "EJDBTestFixtures.h"
 
 @interface EJDBDatabaseTests ()
@@ -46,7 +47,8 @@
     NSError *error;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     EJDBQuery *query = [_db createQuery:@{@"$name" : @"joe blow"} forCollection:collection error:&error];
-    STAssertNil(query, @"Query object for bad query should be nil!");
+    
+    STAssertNil([query fetchObjectWithError:&error], @"Query object for bad query should be nil!");
     STAssertNotNil(error, @"Error for bad query creation should not be nil!");
 }
 

@@ -1,0 +1,10 @@
+Aug 11, 2013 - Version 0.2.0 
+
+-  Changed overall structure so that collections now have a reference to db and queries have a reference to their collection.
+-  Queries can now be repeatedly executed. 
+
+Aug 10, 2013 - Version 0.1.1 - This is a maintenance version to match 1.1.17 of ejdb 
+(support for nested $and/$or).
+
+------------------------------------
+Aug 6, 2013 - Version 0.1.0 released!
