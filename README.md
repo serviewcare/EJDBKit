@@ -6,10 +6,10 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
-Aug 10, 2013 - Version 0.1.1 released! This is a maintenance version to match 1.1.17 of ejdb 
-(support for nested $and/$or).
+Aug 11. 2013 - v0.2.0
+-  Changed overall structure so that collections now have a reference to db and queries have a reference to their collection.
+-  Queries can now be repeatedly executed. 
 
-Aug 6, 2013 - Version 0.1.0 released!
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
@@ -34,7 +34,7 @@ framework can't possibly be everything to everyone and I have no intention of ma
 Usage
 ==================
 
-**EJDBDatabase** - This is the object you will likely use most often. It allows you to open/close a database and create/remove/query collections.
+**EJDBDatabase** - This is the object that holds the underlying database.
 
 Example:
 
@@ -46,10 +46,26 @@ Open a database:
  [db openWithError:NULL];
 ```
 
-Create a collection:
+Create a collection (via db):
 
 ```objc
  EJDBCollection *collection = [db ensureCollectionWithName:@"foo" error:NULL];
+
+```
+
+Or (via collection object itself)
+
+```objc
+
+//Want to make a new collection?
+
+EJDBCollection *collection = [[EJDBCollection alloc]initWithName:@"foo" db:db];
+// This creates the collection for you if it doesn't already exist
+[collection openWithError:NULL];
+
+//Already have one that you want to retrieve?
+EJDBCollection *collection = [EJDBCollection collectionWithName:@"foo" db:db];
+//No need to call openWithError
 
 ```
 
@@ -95,7 +111,7 @@ NSError *error;
 
 ```
 
-Querying a collection:
+Querying a collection (via db):
 
 ```objc
 //Find all objects whose first name starts with 'f'
@@ -104,6 +120,18 @@ NSDictionary *theQuery = @{@"first name":@{@"$begin":@"f"}};
 NSArray *results = [_db findObjectsWithQuery:theQuery 
 						inCollection:collection error:NULL];
 //results will contain dict1 as created in the preceeding section.
+```
+
+Or (via a query object itself)
+
+```objc
+
+//collection instance created elsewhere
+EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:collection 
+                      query:@{@"first name":@{@"$begin":@"f"}}];
+NSArrary *results = [query fetchObjects];
+// Sometime later, somewhere you can re-fetch.
+[query fetchObjects];
 ```
 
 Querying with hints (order by,etc)
