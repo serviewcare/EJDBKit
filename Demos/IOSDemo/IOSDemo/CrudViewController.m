@@ -5,6 +5,7 @@
 
 @interface CrudViewController ()
 @property (strong,nonatomic) EJDBDatabase *db;
+@property (strong,nonatomic) EJDBQuery *crudObjectsQuery;
 @property (strong,nonatomic) EJDBCollection *collection;
 @property (strong,nonatomic) NSMutableArray *rows;
 @end
@@ -33,7 +34,7 @@
 - (void)openDb
 {
     _rows = [[NSMutableArray alloc]init];
-    _db = [[EJDBDatabase alloc]initWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@""] dbFileName:@"test.db"];
+    _db = [[EJDBDatabase alloc]initWithPath:NSTemporaryDirectory() dbFileName:@"test.db"];
     [_db openWithError:NULL];
     _collection = [_db ensureCollectionWithName:@"crud" error:NULL];
     [self fetchObjects];
@@ -42,7 +43,11 @@
 - (void)fetchObjects
 {
     [_rows removeAllObjects];
-    NSArray *results = [_db findObjectsWithQuery:nil inCollection:_collection error:NULL];
+    if (!_crudObjectsQuery)
+    {
+        _crudObjectsQuery = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
+    }
+    NSArray *results = [_crudObjectsQuery fetchObjects];
     [_rows addObjectsFromArray:results];
 }
 
