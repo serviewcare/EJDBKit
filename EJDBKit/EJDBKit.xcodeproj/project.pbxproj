@@ -34,7 +34,6 @@
 		52D916BD17A414DE00B0060D /* ejdblogo3.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D916BC17A414DE00B0060D /* ejdblogo3.png */; };
 		52E68E1017B0DAEE00047614 /* EJDBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E68E0F17B0DAEE00047614 /* EJDBQueryTests.m */; };
 		52EC76D4179F31B000EEC86D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
-		52EC76E3179F31B000EEC86D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E2179F31B000EEC86D /* SenTestingKit.framework */; };
 		52EC76E5179F31B000EEC86D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E4179F31B000EEC86D /* UIKit.framework */; };
 		52EC76E6179F31B000EEC86D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
 		52EC76E9179F31B000EEC86D /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D0179F31B000EEC86D /* libEJDBKit.a */; };
@@ -102,8 +101,7 @@
 		52EC76D0179F31B000EEC86D /* libEJDBKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEJDBKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EC76D3179F31B000EEC86D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		52EC76D7179F31B000EEC86D /* EJDBKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EJDBKit-Prefix.pch"; sourceTree = "<group>"; };
-		52EC76E1179F31B000EEC86D /* EJDBKitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EJDBKitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		52EC76E2179F31B000EEC86D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		52EC76E1179F31B000EEC86D /* EJDBKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EJDBKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EC76E4179F31B000EEC86D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		52EC76EC179F31B000EEC86D /* EJDBKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EJDBKitTests-Info.plist"; sourceTree = "<group>"; };
 		52EC76EE179F31B000EEC86D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5213BBFE179F4DBA00E34A62 /* libz.dylib in Frameworks */,
-				52EC76E3179F31B000EEC86D /* SenTestingKit.framework in Frameworks */,
 				52EC76E5179F31B000EEC86D /* UIKit.framework in Frameworks */,
 				52EC76E6179F31B000EEC86D /* Foundation.framework in Frameworks */,
 				52EC76E9179F31B000EEC86D /* libEJDBKit.a in Frameworks */,
@@ -168,7 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				52EC76D0179F31B000EEC86D /* libEJDBKit.a */,
-				52EC76E1179F31B000EEC86D /* EJDBKitTests.octest */,
+				52EC76E1179F31B000EEC86D /* EJDBKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,7 +176,6 @@
 				5213E2E117A4635C00E47033 /* libtcejdb.a */,
 				5213BBFD179F4DBA00E34A62 /* libz.dylib */,
 				52EC76D3179F31B000EEC86D /* Foundation.framework */,
-				52EC76E2179F31B000EEC86D /* SenTestingKit.framework */,
 				52EC76E4179F31B000EEC86D /* UIKit.framework */,
 			);
 			name = Frameworks;
@@ -268,8 +264,8 @@
 			);
 			name = EJDBKitTests;
 			productName = EJDBKitTests;
-			productReference = 52EC76E1179F31B000EEC86D /* EJDBKitTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 52EC76E1179F31B000EEC86D /* EJDBKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -322,7 +318,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n\n# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call\n# lcov is pretty cool though! You can install through brew (or maybe macporst too?).\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
+			shellScript = "# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call\n# lcov is pretty cool though! You can install through brew (or maybe macporst too?).\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -478,10 +474,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -493,9 +486,7 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
 				USER_HEADER_SEARCH_PATHS = "";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -503,10 +494,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -518,9 +506,7 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
 				USER_HEADER_SEARCH_PATHS = "";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

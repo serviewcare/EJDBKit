@@ -29,13 +29,13 @@
 {
     NSDictionary *obj1 = [EJDBTestFixtures simpleDictionaries][0];
     BOOL success = [_collection saveObject:obj1];
-    STAssertTrue(success, @"object should be saved successfully!");
+    XCTAssertTrue(success, @"object should be saved successfully!");
 }
  
 - (void)testSaveObjectsSuccessfully
 {
     BOOL success = [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
-    STAssertTrue(success, @"objects should be saved successfully!");
+    XCTAssertTrue(success, @"objects should be saved successfully!");
 }
 
 - (void)testRemoveDictionaryWithOIDSucceeds
@@ -44,9 +44,9 @@
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"joe blow"} inCollection:_collection error:NULL];
     NSDictionary *fooObj = results[0];
     BOOL success = [_collection removeObjectWithOID:[fooObj objectForKey:@"_id"]];
-    STAssertTrue(success, @"Should remove joe blow dictionary successfully!");
+    XCTAssertTrue(success, @"Should remove joe blow dictionary successfully!");
     NSArray *resultsWithoutFoo = [_db findObjectsWithQuery:@{@"name" : @"joe blow"} inCollection:_collection error:NULL];
-    STAssertTrue([resultsWithoutFoo count] == 0, @"Results for joe blow query should return 0!");
+    XCTAssertTrue([resultsWithoutFoo count] == 0, @"Results for joe blow query should return 0!");
 }
 
 - (void)testRemoveObjectWithOIDSucceeds
@@ -61,16 +61,16 @@
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:_collection error:NULL];
     CustomArchivableClass *fooObj = results[0];
     BOOL success = [_collection removeObject:fooObj];
-    STAssertTrue(success, @"Should remove foo object successfully!");
+    XCTAssertTrue(success, @"Should remove foo object successfully!");
     NSArray *resultsWithoutFoo = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:_collection error:NULL];
-    STAssertTrue([resultsWithoutFoo count] == 0, @"Results for foo query should return 0!");
+    XCTAssertTrue([resultsWithoutFoo count] == 0, @"Results for foo query should return 0!");
 }
 
 - (void)testRemovingUnsupportedObjectFails
 {
     NSSet *unsupportedObj = [NSSet setWithObject:@"Unsupported"];
     BOOL success = [_collection removeObject:unsupportedObj];
-    STAssertFalse(success, @"Removing an Unsupported object should fail!");
+    XCTAssertFalse(success, @"Removing an Unsupported object should fail!");
 }
 
 - (void)testRemovingDictionaryWithoutOIDFails
@@ -82,22 +82,22 @@
                                     inCollection:_collection error:NULL];
     NSDictionary *objWithoutOID = results[0];
     BOOL success = [_collection removeObject:objWithoutOID];
-    STAssertFalse(success, @"Removing a dictionary without an OID should fail!");
+    XCTAssertFalse(success, @"Removing a dictionary without an OID should fail!");
 }
 
 - (void)testProvidingInvalidOIDForRemovalOfObjectFails
 {
-    STAssertFalse([_collection removeObjectWithOID:@"123"], @"Trying to remove an object by supplying an invalid OID should fail!");
+    XCTAssertFalse([_collection removeObjectWithOID:@"123"], @"Trying to remove an object by supplying an invalid OID should fail!");
 }
 
 - (void)testFetchingObjectWithInvalidOIDReturnsNil
 {
-    STAssertNil([_collection fetchObjectWithOID:@"123"], @"Fetching an object with an invalid OID should return nil!");
+    XCTAssertNil([_collection fetchObjectWithOID:@"123"], @"Fetching an object with an invalid OID should return nil!");
 }
 
 - (void)testFetchingObjectWithNonExistentOIDReturnsNil
 {
-    STAssertNil([_collection fetchObjectWithOID:@"012345678901234567890123"],
+    XCTAssertNil([_collection fetchObjectWithOID:@"012345678901234567890123"],
                 @"Fetching an object with a non existent OID should return nil!");
 }
 
@@ -107,8 +107,8 @@
     NSDictionary *obj1 = @{@"_id" : OID,@"name" : @"foo", @"age" : @32};
     [_collection saveObject:obj1];
     NSDictionary *fetchedObj = [_collection fetchObjectWithOID:OID];
-    STAssertNotNil(fetchedObj, @"Fetching dictionary object with existing OID should not return nil!");
-    STAssertTrue([obj1 isEqualToDictionary:fetchedObj], @"Created object and fetched object should be equal!");
+    XCTAssertNotNil(fetchedObj, @"Fetching dictionary object with existing OID should not return nil!");
+    XCTAssertTrue([obj1 isEqualToDictionary:fetchedObj], @"Created object and fetched object should be equal!");
 }
 
 - (void)testFetchingObjectShouldNotReturnNil
@@ -119,8 +119,8 @@
     obj1.age = @32;
     [_collection saveObject:obj1];
     CustomArchivableClass *fetchedObj = [_collection fetchObjectWithOID:obj1.oid];
-    STAssertNotNil(fetchedObj, @"Fetching custom object with existing OID should not return nil!");
-    STAssertTrue([[fetchedObj toDictionary] isEqualToDictionary:[obj1 toDictionary]], @"Created object and fetched object should be equal!");
+    XCTAssertNotNil(fetchedObj, @"Fetching custom object with existing OID should not return nil!");
+    XCTAssertTrue([[fetchedObj toDictionary] isEqualToDictionary:[obj1 toDictionary]], @"Created object and fetched object should be equal!");
 }
 
 - (void)testUpdatingObjectWithQueryReturnsCountOfOneRecord
@@ -135,15 +135,15 @@
       @"$set" : @{@"age": @35}
      };
     int updateCount = [_collection updateWithQuery:query];
-    STAssertEquals(updateCount, 1, @"Update query should update exactly 1 object!");
+    XCTAssertEqual(updateCount, 1, @"Update query should update exactly 1 object!");
     NSDictionary *fetchedObject = [_collection fetchObjectWithOID:@"012345678901234567890123"];
-    STAssertEquals([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
+    XCTAssertEqual([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
 }
 
 - (void)testSettingIndexSuccess
 {
     BOOL success = [_collection setIndexOption:EJDBIndexStringCaseInsensitive forFieldPath:@"name"];
-    STAssertTrue(success, @"Index set should return YES!");
+    XCTAssertTrue(success, @"Index set should return YES!");
 }
 
 - (void)testCreatingCollectionSuccess
@@ -151,21 +151,21 @@
     NSError *error;
     EJDBCollection *collection = [[EJDBCollection alloc]initWithName:@"bar" db:_db];
     BOOL success = [collection openWithError:&error];
-    STAssertTrue(success, @"Creating a new collection should return YES!");
-    STAssertNil(error, @"Error object for creating a new collection should be nil!");
+    XCTAssertTrue(success, @"Creating a new collection should return YES!");
+    XCTAssertNil(error, @"Error object for creating a new collection should be nil!");
     [_db removeCollectionWithName:@"bar"];
 }
 
 - (void)testRetrievingCollectionSuccess
 {
     EJDBCollection *collection = [EJDBCollection collectionWithName:@"foo" db:_db];
-    STAssertNotNil(collection, @"Retrieving existing collection should not be nil!");
+    XCTAssertNotNil(collection, @"Retrieving existing collection should not be nil!");
 }
 
 - (void)testRetrievingNonexistentCollectionReturnsNil
 {
     EJDBCollection *collection = [EJDBCollection collectionWithName:@"noexist" db:_db];
-    STAssertNil(collection, @"Retrieving a non existing collection should return nil!");
+    XCTAssertNil(collection, @"Retrieving a non existing collection should return nil!");
 }
 
 @end

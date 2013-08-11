@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "52EC76E0179F31B000EEC86D"
-               BuildableName = "EJDBKitTests.octest"
+               BuildableName = "EJDBKitTests.xctest"
                BlueprintName = "EJDBKitTests"
                ReferencedContainer = "container:EJDBKit.xcodeproj">
             </BuildableReference>
