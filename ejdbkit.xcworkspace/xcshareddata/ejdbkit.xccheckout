@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>C04A7BA0-D88A-43C2-9E96-8B3D53C6A57B</string>
+	<string>A9CBC05E-9C45-45A7-9B86-0CD66C152332</string>
 	<key>IDESourceControlProjectName</key>
 	<string>ejdbkit</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F2000071-01EA-44B1-8039-893AB16E9C87</key>
+		<key>D9FFFEC9-3D3A-4C06-B862-5CAEB7E63976</key>
 		<string>https://github.com/johnnyd/EJDBKit</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>ejdbkit.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F2000071-01EA-44B1-8039-893AB16E9C87</key>
+		<key>D9FFFEC9-3D3A-4C06-B862-5CAEB7E63976</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F2000071-01EA-44B1-8039-893AB16E9C87</string>
+	<string>D9FFFEC9-3D3A-4C06-B862-5CAEB7E63976</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F2000071-01EA-44B1-8039-893AB16E9C87</string>
+			<string>D9FFFEC9-3D3A-4C06-B862-5CAEB7E63976</string>
 			<key>IDESourceControlWCCName</key>
 			<string>EJDBKit</string>
 		</dict>
