@@ -6,6 +6,10 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+
+Aug 12, 2013 - v0.2.1
+- Bumped version to match ejdb release v1.1.18 (support for $ projection operator)
+
 Aug 11. 2013 - v0.2.0
 -  Changed overall structure so that collections now have a reference to db and queries have a reference to their collection.
 -  Queries can now be repeatedly executed. 
