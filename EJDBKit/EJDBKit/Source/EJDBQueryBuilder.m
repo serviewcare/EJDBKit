@@ -104,12 +104,12 @@
     [_query setObject:@{@"$exists" : [NSNumber numberWithBool:exists]} forKey:path];
 }
 
-- (void)path:(NSString *)path stringAllIn:(id)values
+- (void)path:(NSString *)path stringAllIn:(NSArray *)values
 {
     [_query setObject:@{@"$strand": values} forKey:path];
 }
 
-- (void)path:(NSString *)path stringAnyIn:(id)values
+- (void)path:(NSString *)path stringAnyIn:(NSArray *)values
 {
     [_query setObject:@{@"$stror": values} forKey:path];
 }
