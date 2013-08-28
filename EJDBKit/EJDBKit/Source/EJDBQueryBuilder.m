@@ -51,7 +51,7 @@
 
 - (void)path:(NSString *)path notBeginsWith:(NSString *)value
 {
-    [_query setObject:@{@"$not": @{@"begin": value}} forKey:path];
+    [_query setObject:@{@"$not": @{@"$begin": value}} forKey:path];
 }
 
 - (void)path:(NSString *)path greaterThan:(NSNumber *)number
@@ -86,7 +86,7 @@
 
 - (void)path:(NSString *)path inIgnoreCase:(NSArray *)inValues
 {
-    [_query setObject:@{@"$in": @{@"$icase": inValues}} forKey:path];
+    [_query setObject:@{@"$icase" : @{@"$in" : inValues}} forKey:path];
 }
 
 - (void)path:(NSString *)path notIn:(NSArray *)inValues
@@ -96,7 +96,7 @@
 
 - (void)path:(NSString *)path notInIgnoreCase:(NSArray *)inValues
 {
-    [_query setObject:@{@"$nin": @{@"$icase": inValues}} forKey:path];
+    [_query setObject:@{@"$icase" : @{@"$nin" : inValues}} forKey:path];
 }
 
 - (void)path:(NSString *)path exists:(BOOL)exists
