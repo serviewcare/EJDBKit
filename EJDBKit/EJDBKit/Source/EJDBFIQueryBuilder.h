@@ -2,12 +2,14 @@
 
 @class EJDBFIQueryBuilder;
 
+typedef EJDBFIQueryBuilder*(^EmptyBlock)();
 typedef EJDBFIQueryBuilder*(^PathBlock)(NSString *fieldPath);
 typedef EJDBFIQueryBuilder*(^NumberBlock)(NSNumber *number);
 typedef EJDBFIQueryBuilder*(^ArrayBlock)(NSArray *array);
+typedef EJDBFIQueryBuilder*(^DictionaryBlock)(NSDictionary *dictionary);
 typedef EJDBFIQueryBuilder*(^PathValueBlock)(NSString *fieldPath, id obj);
 typedef EJDBFIQueryBuilder*(^PathNumberBlock)(NSString *fieldPath, NSNumber *number);
-typedef EJDBFIQueryBuilder*(^SubstringBlock)(NSString *fieldPath, NSString *substring);
+typedef EJDBFIQueryBuilder*(^StringsBlock)(NSString *fieldPath, NSString *string);
 typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
 
 @interface EJDBFIQueryBuilder : NSObject
@@ -18,9 +20,9 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
 + (EJDBFIQueryBuilder *)build;
 - (PathValueBlock)match;
 - (PathValueBlock)notMatch;
-- (SubstringBlock)matchIgnoreCase;
-- (SubstringBlock)beginsWith;
-- (SubstringBlock)notBeginsWith;
+- (StringsBlock)matchIgnoreCase;
+- (StringsBlock)beginsWith;
+- (StringsBlock)notBeginsWith;
 - (PathNumberBlock)greaterThan;
 - (PathNumberBlock)greaterThanOrEqualTo;
 - (PathNumberBlock)lessThan;
@@ -37,6 +39,15 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
 - (PathValueBlock)elemsMatch;
 - (AndOrJoinBlock)andJoin;
 - (AndOrJoinBlock)orJoin;
+- (PathBlock)projection;
+- (DictionaryBlock)set;
+- (DictionaryBlock)upsert;
+- (DictionaryBlock)increment;
+- (EmptyBlock)dropAll;
+- (DictionaryBlock)addToSet;
+- (DictionaryBlock)addToSetAll;
+- (DictionaryBlock)pull;
+- (DictionaryBlock)pullAll;
 - (NumberBlock)maxRecords;
 - (NumberBlock)skipRecords;
 - (ArrayBlock)onlyFields;

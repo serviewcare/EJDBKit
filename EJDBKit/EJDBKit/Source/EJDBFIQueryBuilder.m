@@ -37,7 +37,7 @@
     };
 }
 
-- (SubstringBlock)matchIgnoreCase
+- (StringsBlock)matchIgnoreCase
 {
     return ^(NSString *path, NSString *substring) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
@@ -46,7 +46,7 @@
     };
 }
 
-- (SubstringBlock)beginsWith
+- (StringsBlock)beginsWith
 {
     return ^(NSString *path, NSString *substring) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
@@ -55,7 +55,7 @@
     };
 }
 
-- (SubstringBlock)notBeginsWith
+- (StringsBlock)notBeginsWith
 {
     return ^(NSString *path, NSString *substring) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
@@ -222,6 +222,99 @@
        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
     };
 }
+
+- (PathBlock)projection
+{
+    return ^(NSString *path) {
+        NSString *projectionPath = [path stringByAppendingString:@".$"];
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:@1 forKey:projectionPath];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (DictionaryBlock)set
+{
+    return ^(NSDictionary *dictionary) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:dictionary forKey:@"$set"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (DictionaryBlock)upsert
+{
+    return ^(NSDictionary *dictionary) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:dictionary forKey:@"$upsert"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (DictionaryBlock)increment
+{
+    return ^(NSDictionary *dictionary) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:dictionary forKey:@"$inc"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (EmptyBlock)dropAll
+{
+    return ^{
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:@YES forKey:@"$dropall"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (DictionaryBlock)addToSet
+{
+    return ^(NSDictionary *dictionary) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:dictionary forKey:@"$addToSet"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (DictionaryBlock)addToSetAll
+{
+    return ^(NSDictionary *dictionary) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:dictionary forKey:@"$addToSetAll"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (DictionaryBlock)pull
+{
+    return ^(NSDictionary *dictionary) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:dictionary forKey:@"$pull"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (DictionaryBlock)pullAll
+{
+    return ^(NSDictionary *dictionary) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:dictionary forKey:@"$pullAll"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+- (StringsBlock)collectionJoin
+{
+    return ^(NSString *path, NSString *collectionName) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:@{path : @{@"$join": collectionName}} forKey:@"$do"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
+#pragma mark - Hints
 
 - (NumberBlock)maxRecords
 {

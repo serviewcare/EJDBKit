@@ -22,8 +22,18 @@
 - (void)path:(NSString *)path stringAllIn:(id)values;
 - (void)path:(NSString *)path stringAnyIn:(id)values;
 - (void)path:(NSString *)path elementsMatch:(EJDBQueryBuilder *)builder;
+- (void)path:(NSString *)path joinCollectionNamed:(NSString *)collectionName;
 - (void)andJoin:(NSArray *)subqueries;
 - (void)orJoin:(NSArray *)subqueries;
+- (void)projectionForPath:(NSString *)path;
+- (void)set:(NSDictionary *)keysAndValues;
+- (void)upsert:(NSDictionary *)keysAndValues;
+- (void)increment:(NSDictionary *)keysAndValues;
+- (void)dropAll;
+- (void)addToSet:(NSDictionary *)keysAndValues;
+- (void)addToSetAll:(NSDictionary *)keysAndValues;
+- (void)pull:(NSDictionary *)keysAndValues;
+- (void)pullAll:(NSDictionary *)keysAndValues;
 - (void)maxRecords:(NSNumber *)number;
 - (void)skipRecords:(NSNumber *)number;
 - (void)onlyFields:(NSArray *)fields;

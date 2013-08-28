@@ -131,6 +131,15 @@
     STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
+- (void)testProjection
+{
+    EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].greaterThan(@"a",@10)
+                                                            .projection(@"a");
+    NSDictionary *builtQuery = builder.query;
+    NSDictionary *expectedQuery = @{@"a" : @{@"$gt": @10},@"a.$" : @1};
+    STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+}
+
 - (void)testComplexQueryWithHints
 {
     EJDBFIQueryBuilder *builder =

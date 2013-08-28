@@ -119,6 +119,11 @@
     [_query setObject:@{@"$elemMatch" : builder.query} forKey:path];
 }
 
+- (void)path:(NSString *)path joinCollectionNamed:(NSString *)collectionName
+{
+    [_query setObject:@{path : @{@"$join": collectionName}} forKey:@"$do"];
+}
+
 - (void)andJoin:(NSArray *)subqueries
 {
     NSMutableArray *subqueriesArray = [NSMutableArray array];
@@ -137,6 +142,52 @@
         [subqueriesArray addObject:builder.query];
     }
     [_query setObject:[NSArray arrayWithArray:subqueriesArray] forKey:@"$or"];
+}
+
+- (void)projectionForPath:(NSString *)path
+{
+    NSString *projectionPath = [path stringByAppendingString:@".$"];
+    [_query setObject:@1 forKey:projectionPath];
+}
+
+- (void)set:(NSDictionary *)keysAndValues
+{
+    [_query setObject:keysAndValues forKey:@"$set"];
+}
+
+- (void)upsert:(NSDictionary *)keysAndValues
+{
+    [_query setObject:keysAndValues forKey:@"$upsert"];
+}
+
+- (void)increment:(NSDictionary *)keysAndValues
+{
+    [_query setObject:keysAndValues forKey:@"$inc"];
+}
+
+- (void)dropAll
+{
+    [_query setObject:@YES forKey:@"$dropall"];
+}
+
+- (void)addToSet:(NSDictionary *)keysAndValues
+{
+    [_query setObject:keysAndValues forKey:@"$addToSet"];
+}
+
+- (void)addToSetAll:(NSDictionary *)keysAndValues
+{
+    [_query setObject:keysAndValues forKey:@"$addToSetAll"];
+}
+
+- (void)pull:(NSDictionary *)keysAndValues
+{
+    [_query setObject:keysAndValues forKey:@"$pull"];
+}
+
+- (void)pullAll:(NSDictionary *)keysAndValues
+{
+    [_query setObject:keysAndValues forKey:@"$pullAll"];
 }
 
 - (void)maxRecords:(NSNumber *)number
