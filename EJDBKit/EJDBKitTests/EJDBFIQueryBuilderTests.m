@@ -73,7 +73,7 @@
     EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].match(@"a",@"someValue");
     NSDictionary *builtQuery = builder.query;
     NSDictionary *expectedQuery = @{@"a": @"someValue"};
-    STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+    XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testBeginsWithOperatorQuery
@@ -81,7 +81,7 @@
     EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].beginsWith(@"a",@"beg");
     NSDictionary *builtQuery = builder.query;
     NSDictionary *expectedQuery = @{@"a": @{@"$begin": @"beg"}};
-    STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+    XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testNumberOperatorQuery
@@ -89,7 +89,7 @@
     EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].greaterThan(@"a",@50);
     NSDictionary *builtQuery = builder.query;
     NSDictionary *expectedQuery = @{@"a": @{@"$gt": @50}};
-    STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+    XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testNestedOperatorQuery
@@ -97,7 +97,7 @@
     EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].notBeginsWith(@"a",@"beg");
     NSDictionary *builtQuery = builder.query;
     NSDictionary *expectedQuery = @{@"a": @{@"$not": @{@"$begin": @"beg"}}};
-    STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+    XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testComplexQuery
@@ -105,7 +105,7 @@
    EJDBFIQueryBuilder *builder = [self testBuilderObject];
    NSDictionary *builtQuery = builder.query;
    NSDictionary *expectedQuery = [self complexQuery];
-   STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+   XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testComplexQueryWithAndOrJoin
@@ -128,7 +128,7 @@
                                ]
                               forKey:@"$and"];
     NSDictionary *expectedQuery = [NSDictionary dictionaryWithDictionary:complexQueryAndOrJoin];
-    STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+    XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testProjection
@@ -137,7 +137,7 @@
                                                             .projection(@"a");
     NSDictionary *builtQuery = builder.query;
     NSDictionary *expectedQuery = @{@"a" : @{@"$gt": @10},@"a.$" : @1};
-    STAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+    XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testComplexQueryWithHints
@@ -157,7 +157,7 @@
                                     @"$skip":@0,
                                     @"$orderby": @{@"a": @-1,@"f":@1}
                                    };
-    STAssertTrue([builtHints isEqualToDictionary:expectedHints], @"Built hints should equal expected hints!");
+    XCTAssertTrue([builtHints isEqualToDictionary:expectedHints], @"Built hints should equal expected hints!");
 }
 
 @end
