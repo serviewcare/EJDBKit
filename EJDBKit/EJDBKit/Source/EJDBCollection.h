@@ -25,6 +25,18 @@ typedef enum
 }
 EJDBIndexOptions;
 
+/** 
+ EJDBCollectionOptions structure fields.
+ 
+ bool large; Large collection. It can be larger than 2GB. Default false.
+ 
+ bool compressed; Collection records will be compressed with DEFLATE compression. Default: false.
+ 
+ int64_t records; Expected records number in the collection. Default: 128K.
+ 
+ int cachedrecords; Maximum number of records cached in memory. Default: 0.
+ 
+*/
 typedef EJCOLLOPTS EJDBCollectionOptions;
 
 /** The notification name that is sent when an object is saved via saveObjects. */
@@ -70,7 +82,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
 - (BOOL)openWithError:(NSError **)error;
 /**
  Creates a collectionif it doesn't exist with the supplied options.
- @param options - The options the collection should be created with.
+ @param options - The options the collection should be created with. See ::EJDBCollectionOptions for more info.
  @param error - The error object to be filled if there was an error.
  @returns - YES if the collection was created successfully, NO if not.
  @since - v0.2.0
@@ -130,6 +142,7 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
  Sets an index with the supplied index option for the provided field path.
  @param indexOption - The index option (s). You can provide multiple options by bitwise OR-ing. 
                       example: (EJDBIndexNumber | EJDBIndexNumberString).
+ See ::EJDBIndexOptions for more info.
  @param fieldPath - The path of the field, for example "address.city"
  @returns
  @since - v0.1.0

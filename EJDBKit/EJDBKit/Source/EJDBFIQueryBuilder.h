@@ -74,7 +74,7 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
        build.match(@"a",@1).beginsWith(@"b",@"prefix");
  
  because the underlying dictionaries that hold the query and the hints are immutable and will be effectively
- "finalized" using the second approach.
+ "finalized" using the last approach.
 */
 + (EJDBFIQueryBuilder *)build;
 
