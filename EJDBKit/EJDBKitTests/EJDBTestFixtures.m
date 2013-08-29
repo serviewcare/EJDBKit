@@ -121,5 +121,4 @@
     return [[BogusOIDClass alloc]init];
 }
 
-
 @end

@@ -30,27 +30,23 @@ typedef enum {
  @since - v0.2.0
 */
 - (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query hints:(NSDictionary *)hints;
-
 /**
  A convenience initializer if you don't plan on providing hints for query execution.
  You can always do so at a later point by setting the hints property.
  @since - v0.2.0
 */
 - (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query;
-
 /**
  The count of records returned by a query.
  @since - v0.1.0
 */
 - (NSUInteger)recordCount;
-
 /**
  Executes the query but only fetches the amount of records instead of the results.
  @returns count - The count of records.
  @since - v0.1.0
 */
 - (int)fetchCount;
-
 /**
  Executes the query but only fetches the amount of records instead of the results.
  @param error - The error object that will be filled if there is an error.
@@ -58,14 +54,12 @@ typedef enum {
  @since - v0.2.0
 */
 - (int)fetchCountWithError:(NSError **)error;
-
 /** 
  Fetch a single object.
  @returns - The returned object or nil if not found.
  @since - v0.1.0
 */
 - (id)fetchObject;
-
 /**
  Fetch a single object.
  @param error - The error object that will be filled if there is an error.
@@ -73,14 +67,12 @@ typedef enum {
  @since - v0.2.0
 */
 - (id)fetchObjectWithError:(NSError **)error;
-
 /**
  Fetch an array of objects. You can safely call this method multiple times across the EJBDQuery's lifetime.
  @returns - An array of objects.
  @since - v0.1.0
 */
 - (NSArray *)fetchObjects;
-
 /**
  Fetch an array of objects. You can safely call this method multiple times across the EJBDQuery's lifetime.
  @param error - The error object that will be filled if there is an error.

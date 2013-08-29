@@ -16,13 +16,11 @@
  whereas the default initializer is only allowed for fetching, saving or updating.
 */
 - (id)initAsQuery;
-
 /**
  Encodes the dictionary into a bson object.
  @param dictionary - The dictionary to be encoded.
 */
 - (void)encodeDictionary:(NSDictionary *)dictionary;
-
 /**
  Finish the underlying bson object, that is, once this method is called, further modifications can't be made to it.
 */

@@ -195,6 +195,16 @@
     };
 }
 
+- (StringsBlock)joinCollection
+{
+    return ^(NSString *path, NSString *collectionName)
+    {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:[self applyOperator:@"$join" toObject:collectionName] forKey:@"$do"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
 - (AndOrJoinBlock)andJoin
 {
     return ^(NSArray *subqueries) {

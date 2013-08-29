@@ -10,6 +10,7 @@
 		5213BBFE179F4DBA00E34A62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
 		5213E2E217A4635C00E47033 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
 		5213E2E417A4637400E47033 /* libtcejdb.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
+		521BBB6217CF533500920BE4 /* import in Resources */ = {isa = PBXBuildFile; fileRef = 521BBB6117CF533500920BE4 /* import */; };
 		522909DA17AA745800634082 /* EJDBKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9A117A520D70014A63A /* EJDBKit.h */; };
 		522909DC17AA770900634082 /* tcejdb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 522909DB17AA770900634082 /* tcejdb */; };
 		522909DD17AA778100634082 /* EJDBDatabase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99F17A520D70014A63A /* EJDBDatabase.h */; };
@@ -83,6 +84,7 @@
 /* Begin PBXFileReference section */
 		5213BBFD179F4DBA00E34A62 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5213E2E117A4635C00E47033 /* libtcejdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtcejdb.a; path = ejdb/lib/libtcejdb.a; sourceTree = "<group>"; };
+		521BBB6117CF533500920BE4 /* import */ = {isa = PBXFileReference; lastKnownFileType = folder; path = import; sourceTree = "<group>"; };
 		522909DB17AA770900634082 /* tcejdb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tcejdb; path = ejdb/include/tcejdb; sourceTree = "<group>"; };
 		5237E99917A520D70014A63A /* BSONDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONDecoder.h; sourceTree = "<group>"; };
 		5237E99A17A520D70014A63A /* BSONDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONDecoder.m; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 		52EC76EA179F31B000EEC86D /* EJDBKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				521BBB6117CF533500920BE4 /* import */,
 				52D916BC17A414DE00B0060D /* ejdblogo3.png */,
 				52D916B917A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.h */,
 				52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */,
@@ -332,6 +335,7 @@
 			files = (
 				52EC76EF179F31B000EEC86D /* InfoPlist.strings in Resources */,
 				52D916BD17A414DE00B0060D /* ejdblogo3.png in Resources */,
+				521BBB6217CF533500920BE4 /* import in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -164,4 +164,82 @@
     XCTAssertTrue([results count] == 0, @"Results of query after aborting transaction should be exactly 0!");
 }
 
+- (void)testExportAsBSONSuccess
+{
+    EJDBCollection *collectionA = [_db ensureCollectionWithName:@"a" error:NULL];
+    EJDBCollection *collectionB = [_db ensureCollectionWithName:@"b" error:NULL];
+    [collectionA saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    [collectionB saveObjects:[EJDBTestFixtures complexDictionaries]];
+    NSString *exportPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ejdbtest/export"];
+    BOOL success = [_db exportCollections:@[@"a",@"b"] toDirectory:exportPath asJSON:NO];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDir;
+    [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
+    NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
+    STAssertTrue(success, @"Export as BSON should return success!");
+    STAssertTrue(isDir, @"Export directory should exist!");
+    STAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
+}
+
+- (void)testExportAsJSONSuccess
+{
+    EJDBCollection *collectionA = [_db ensureCollectionWithName:@"a" error:NULL];
+    EJDBCollection *collectionB = [_db ensureCollectionWithName:@"b" error:NULL];
+    [collectionA saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    [collectionB saveObjects:[EJDBTestFixtures complexDictionaries]];
+    NSString *exportPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ejdbtest/export"];
+    BOOL success = [_db exportCollections:@[@"a",@"b"] toDirectory:exportPath asJSON:YES];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDir;
+    [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
+    NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
+    STAssertTrue(success, @"Export as JSON should return success!");
+    STAssertTrue(isDir, @"Export directory should exist!");
+    STAssertTrue([exportDirContents count] == 4, @"JSON export directory should contain exactly 4 files!");
+}
+
+- (void)testExportAllSuccess
+{
+    EJDBCollection *collectionA = [_db ensureCollectionWithName:@"a" error:NULL];
+    EJDBCollection *collectionB = [_db ensureCollectionWithName:@"b" error:NULL];
+    [collectionA saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    [collectionB saveObjects:[EJDBTestFixtures complexDictionaries]];
+    NSString *exportPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ejdbtest/export"];
+    BOOL success = [_db exportAllCollectionsToDirectory:exportPath asJSON:NO];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDir;
+    [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
+    NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
+    STAssertTrue(success, @"Export all collections as BSON should return success!");
+    STAssertTrue(isDir, @"Export directory should exist!");
+    STAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
+}
+
+- (void)testImportSuccess
+{
+    NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
+    NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
+    BOOL success = [_db importCollections:@[@"a",@"b"] fromDirectory:importPath options:EJDBImportReplace];
+    STAssertTrue(success, @"Import of collections a and b should be successful!");
+}
+
+- (void)testImportFail
+{
+    NSError *error;
+    NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
+    NSString *importPath = [bundlePath stringByAppendingPathComponent:@"pathNotExists"];
+    BOOL success = [_db importCollections:@[@"a",@"b"] fromDirectory:importPath options:EJDBImportReplace];
+    STAssertFalse(success, @"Import of collections a and b from non-existent directory should not be successful!");
+    [_db populateError:&error];
+    STAssertNotNil(error, @"Error for failed import should not be nil!");
+}
+
+- (void)testImportAllSuccess
+{
+    NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
+    NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
+    BOOL success = [_db importAllCollectionsFromDirectory:importPath options:EJDBImportReplace];
+    STAssertTrue(success, @"Import of collections a and b from non-existent directory should not be successful!");
+}
+
 @end
