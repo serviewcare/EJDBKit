@@ -135,13 +135,6 @@
     return ejdbQuery;
 }
 
-/* DEPRECATED! REMOVE IN v0.3.0! */
-- (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection error:(NSError **)error
-{
-    EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithCollection:collection query:query hints:queryHints];
-    return ejdbQuery;
-}
-
 - (BOOL)transactionInCollection:(EJDBCollection *)collection error:(NSError **)error transaction:(EJDBTransactionBlock)transaction
 {
     if(ejdbtranbegin(collection.collection))
@@ -172,6 +165,64 @@
         return NO;
     }
     return YES;
+}
+
+- (BOOL)exportCollections:(NSArray *)collections toDirectory:(NSString *)path asJSON:(BOOL)asJSON
+{
+    BOOL success = YES;
+    
+    if ([collections count] > 0)
+    {
+        TCLIST *cnames = tclistnew2([collections count]);
+        for (NSString *collectionName in collections)
+        {
+            tclistpush2(cnames, [collectionName cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+        const char *cPath = [path cStringUsingEncoding:NSUTF8StringEncoding];
+        int flags = asJSON;
+        success = ejdbexport(_db, cPath, cnames, flags, NULL);
+        tclistdel(cnames);
+    }
+    
+    return success;
+}
+
+- (BOOL)exportAllCollectionsToDirectory:(NSString *)path asJSON:(BOOL)asJSON
+{
+    BOOL success = YES;
+    const char *cPath = [path cStringUsingEncoding:NSUTF8StringEncoding];
+    int flags = asJSON;
+    success = ejdbexport(_db, cPath, NULL, flags, NULL);
+    return success;
+}
+
+- (BOOL)importCollections:(NSArray *)collections fromDirectory:(NSString *)path options:(EJDBImportOptions)options
+{
+    BOOL success = YES;
+    
+    if ([collections count] > 0)
+    {
+        TCLIST *cnames = tclistnew2([collections count]);
+        for (NSString *collectionName in collections)
+        {
+            tclistpush2(cnames, [collectionName cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+        const char *cPath = [path cStringUsingEncoding:NSUTF8StringEncoding];
+        int flags = options;
+        success = ejdbimport(_db, cPath, cnames, flags, NULL);
+        tclistdel(cnames);
+    }
+    
+    return success;
+}
+
+- (BOOL)importAllCollectionsFromDirectory:(NSString *)path options:(EJDBImportOptions)options
+{
+    BOOL success = YES;
+    const char *cPath = [path cStringUsingEncoding:NSUTF8StringEncoding];
+    int flags = options;
+    success = ejdbimport(_db, cPath, NULL, flags, NULL);
+    return success;
 }
 
 - (int)errorCode

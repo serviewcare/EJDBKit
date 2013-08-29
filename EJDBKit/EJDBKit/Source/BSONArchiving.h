@@ -13,14 +13,12 @@
   This method will be called when the decoder wants to know what type the custom object is.
 */
 - (NSString *)type;
-
 /** 
  This method will be called when the decoder wants to return an OID (in other words the _id field). For obvious
  reasons having a property name called id may not be such a good idea. You must return the name
  of the property in the class that will represent the OID.
 */
 - (NSString *)oidPropertyName;
-
 /**
  This method will be called when the encoder wants to encode your object into BSON. You must provide a
  dictionary with a key named "type", it's value being the name of the class. You can optionally provide a key named "_id"
@@ -28,7 +26,6 @@
  If you don't follow the rules, bad things will happen!
 */
 - (NSDictionary *)toDictionary;
-
 /**
  This method will be called when the code wants to decode your object from BSON. If the query you specified contains
  the "_id" key it will be returned as the name you specified in the oidPropertyName method. This makes it convenient
