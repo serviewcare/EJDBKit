@@ -176,9 +176,9 @@
     BOOL isDir;
     [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
     NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
-    STAssertTrue(success, @"Export as BSON should return success!");
-    STAssertTrue(isDir, @"Export directory should exist!");
-    STAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
+    XCTAssertTrue(success, @"Export as BSON should return success!");
+    XCTAssertTrue(isDir, @"Export directory should exist!");
+    XCTAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
 }
 
 - (void)testExportAsJSONSuccess
@@ -193,9 +193,9 @@
     BOOL isDir;
     [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
     NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
-    STAssertTrue(success, @"Export as JSON should return success!");
-    STAssertTrue(isDir, @"Export directory should exist!");
-    STAssertTrue([exportDirContents count] == 4, @"JSON export directory should contain exactly 4 files!");
+    XCTAssertTrue(success, @"Export as JSON should return success!");
+    XCTAssertTrue(isDir, @"Export directory should exist!");
+    XCTAssertTrue([exportDirContents count] == 4, @"JSON export directory should contain exactly 4 files!");
 }
 
 - (void)testExportAllSuccess
@@ -210,9 +210,9 @@
     BOOL isDir;
     [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
     NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
-    STAssertTrue(success, @"Export all collections as BSON should return success!");
-    STAssertTrue(isDir, @"Export directory should exist!");
-    STAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
+    XCTAssertTrue(success, @"Export all collections as BSON should return success!");
+    XCTAssertTrue(isDir, @"Export directory should exist!");
+    XCTAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
 }
 
 - (void)testImportSuccess
@@ -220,7 +220,7 @@
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
     NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
     BOOL success = [_db importCollections:@[@"a",@"b"] fromDirectory:importPath options:EJDBImportReplace];
-    STAssertTrue(success, @"Import of collections a and b should be successful!");
+    XCTAssertTrue(success, @"Import of collections a and b should be successful!");
 }
 
 - (void)testImportFail
@@ -229,9 +229,9 @@
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
     NSString *importPath = [bundlePath stringByAppendingPathComponent:@"pathNotExists"];
     BOOL success = [_db importCollections:@[@"a",@"b"] fromDirectory:importPath options:EJDBImportReplace];
-    STAssertFalse(success, @"Import of collections a and b from non-existent directory should not be successful!");
+    XCTAssertFalse(success, @"Import of collections a and b from non-existent directory should not be successful!");
     [_db populateError:&error];
-    STAssertNotNil(error, @"Error for failed import should not be nil!");
+    XCTAssertNotNil(error, @"Error for failed import should not be nil!");
 }
 
 - (void)testImportAllSuccess
@@ -239,7 +239,7 @@
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
     NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
     BOOL success = [_db importAllCollectionsFromDirectory:importPath options:EJDBImportReplace];
-    STAssertTrue(success, @"Import of collections a and b from non-existent directory should not be successful!");
+    XCTAssertTrue(success, @"Import of collections a and b from non-existent directory should not be successful!");
 }
 
 @end
