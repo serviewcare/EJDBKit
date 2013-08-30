@@ -2,7 +2,7 @@
 #import "CrudObject.h"
 #import "CrudObjectScoresViewController.h"
 
-@interface CrudObjectViewController () <UITextFieldDelegate>
+@interface CrudObjectViewController ()
 @property (assign,nonatomic) BOOL isNewObject;
 @property (weak,nonatomic) UITextField *firstResponderTextField;
 @end
@@ -55,7 +55,16 @@
 - (void)saveButtonPressed
 {
     [_firstResponderTextField resignFirstResponder];
-    if (!_crudObject.name || !_crudObject.age || !_crudObject.money) return;
+    
+    UITableViewCell *nameCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    UITableViewCell *ageCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    UITableViewCell *moneyCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    
+    _crudObject.name = [(UITextField *)[nameCell.contentView viewWithTag:2] text];
+    _crudObject.age = [NSNumber numberWithInt:[[(UITextField *)[ageCell.contentView viewWithTag:2] text]intValue]];
+    _crudObject.money =  [NSNumber numberWithDouble:[[(UITextField *)[moneyCell.contentView viewWithTag:2] text]doubleValue]];
+    
+    if ([_crudObject.name length] == 0 || !_crudObject.age || !_crudObject.money) return;
     
     if ([_collection saveObject:_crudObject])
     {
@@ -87,7 +96,6 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         UITextField *txtField = (UITextField *)[cell.contentView viewWithTag:2];
-        txtField.delegate = self;
         
         if (indexPath.row == 0)
         {
@@ -127,29 +135,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 50.;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    _firstResponderTextField = textField;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    CGPoint point = [[textField superview]superview].frame.origin;
-    NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:point];
-    if (indexPath.row == 0)
-    {
-        _crudObject.name = textField.text;
-    }
-    else if (indexPath.row == 1)
-    {
-        _crudObject.age = [NSNumber numberWithInt:[textField.text intValue]];
-    }
-    else if (indexPath.row == 2)
-    {
-        _crudObject.money = [NSNumber numberWithDouble:[textField.text doubleValue]];
-    }
 }
 
 @end
