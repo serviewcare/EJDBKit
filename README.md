@@ -6,13 +6,13 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Sep 4, 2013 - v0.3.1
+- Bumped ejdb submodule to ejdb release v1.1.23
+
 Aug 29, 2013 - v0.3.0
 - Added import/export functionality to EJDBDatabase class.
 - Added new EJDBQueryBuilder and EJDBFIQueryBuilder classes for programmatic query building.
 - Bumped ejdb submodule to ejdb release v1.1.22
-
-Aug 12, 2013 - v0.2.1
-- Bumped version to match ejdb release v1.1.18 (support for $ projection operator)
 
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
