@@ -170,7 +170,9 @@
 - (void)appendData:(NSData *)data forKey:(NSString *)key
 {
     const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
-    bson_append_binary(&_bsonObj, cKeyString, BSON_BINDATA, [data bytes], [data length]);
+    //bson_append_binary(<#bson *b#>, <#const char *name#>, <#char type#>, <#const char *str#>, <#int len#>)
+    CFIndex dLength = CFDataGetLength((__bridge CFDataRef)(data));
+    bson_append_binary(&_bsonObj, cKeyString, BSON_BINDATA, [data bytes], dLength);
 }
 
 - (void)appendNull:(NSNull *)nullData forKey:(NSString *)key
