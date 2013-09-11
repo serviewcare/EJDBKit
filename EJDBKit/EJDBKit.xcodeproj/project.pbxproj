@@ -85,6 +85,7 @@
 		5213BBFD179F4DBA00E34A62 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5213E2E117A4635C00E47033 /* libtcejdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtcejdb.a; path = ejdb/lib/libtcejdb.a; sourceTree = "<group>"; };
 		521BBB6117CF533500920BE4 /* import */ = {isa = PBXFileReference; lastKnownFileType = folder; path = import; sourceTree = "<group>"; };
+		5225E70317E0888500A48CCF /* EJDBKitTests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "EJDBKitTests copy-Info.plist"; path = "/Users/john/src/myIOSProjects/EJDBKitProject/EJDBKit/EJDBKit/EJDBKitTests copy-Info.plist"; sourceTree = "<absolute>"; };
 		522909DB17AA770900634082 /* tcejdb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tcejdb; path = ejdb/include/tcejdb; sourceTree = "<group>"; };
 		5237E99917A520D70014A63A /* BSONDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONDecoder.h; sourceTree = "<group>"; };
 		5237E99A17A520D70014A63A /* BSONDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONDecoder.m; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 				52EC76EA179F31B000EEC86D /* EJDBKitTests */,
 				52EC76D2179F31B000EEC86D /* Frameworks */,
 				52EC76D1179F31B000EEC86D /* Products */,
+				5225E70317E0888500A48CCF /* EJDBKitTests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -307,7 +309,7 @@
 		52EC76C8179F31B000EEC86D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = john;
 			};
 			buildConfigurationList = 52EC76CB179F31B000EEC86D /* Build configuration list for PBXProject "EJDBKit" */;
@@ -514,7 +516,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
@@ -535,7 +536,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
