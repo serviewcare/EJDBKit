@@ -173,7 +173,8 @@
     
     if ([collections count] > 0)
     {
-        TCLIST *cnames = tclistnew2([collections count]);
+        NSNumber *collectionCount = [NSNumber numberWithUnsignedInteger:[collections count]];
+        TCLIST *cnames = tclistnew2([collectionCount intValue]);
         for (NSString *collectionName in collections)
         {
             tclistpush2(cnames, [collectionName cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -202,7 +203,8 @@
     
     if ([collections count] > 0)
     {
-        TCLIST *cnames = tclistnew2([collections count]);
+        NSNumber *collectionCount = [NSNumber numberWithUnsignedInteger:[collections count]];
+        TCLIST *cnames = tclistnew2([collectionCount intValue]);
         for (NSString *collectionName in collections)
         {
             tclistpush2(cnames, [collectionName cStringUsingEncoding:NSUTF8StringEncoding]);
