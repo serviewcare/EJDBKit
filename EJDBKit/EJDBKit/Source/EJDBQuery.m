@@ -7,7 +7,7 @@
 
 @interface EJDBQuery ()
 @property (strong,nonatomic) EJDBCollection *collection;
-@property (assign,nonatomic) NSUInteger recordCount;
+@property (assign,nonatomic) uint32_t recordCount;
 @end
 
 @implementation EJDBQuery
@@ -30,7 +30,7 @@
     return [self initWithCollection:collection query:query hints:nil];
 }
 
-- (NSUInteger)recordCount
+- (uint32_t)recordCount
 {
     return _recordCount;
 }
@@ -40,9 +40,9 @@
     return [self fetchCountWithError:NULL];
 }
 
-- (int)fetchCountWithError:(NSError **)error
+- (uint32_t)fetchCountWithError:(NSError **)error
 {
-    NSUInteger recordCount;
+    uint32_t recordCount;
     EJQ *qry = [self createQueryWithError:error];
     if (!qry) return 0;
     ejdbqryexecute(_collection.collection, qry, &recordCount, EJDBQueryCountOnly, NULL);

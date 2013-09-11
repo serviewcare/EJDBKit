@@ -40,7 +40,7 @@ typedef enum {
  The count of records returned by a query.
  @since - v0.1.0
 */
-- (NSUInteger)recordCount;
+- (uint32_t)recordCount;
 /**
  Executes the query but only fetches the amount of records instead of the results.
  @returns count - The count of records.
@@ -53,7 +53,7 @@ typedef enum {
  @returns - The count of records.
  @since - v0.2.0
 */
-- (int)fetchCountWithError:(NSError **)error;
+- (uint32_t)fetchCountWithError:(NSError **)error;
 /** 
  Fetch a single object.
  @returns - The returned object or nil if not found.
