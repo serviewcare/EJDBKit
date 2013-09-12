@@ -6,14 +6,13 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Sep 12, 2013 - v0.3.2
+- Bumped ejdb to v1.1.24.
+- Fixed up implicit conversion warnings.
+- The 0.3.x series will be the last to support Xcode 4.
+
 Sep 4, 2013 - v0.3.1
 - Bumped ejdb submodule to ejdb release v1.1.23
-
-Aug 29, 2013 - v0.3.0
-- Added import/export functionality to EJDBDatabase class.
-- Added new EJDBQueryBuilder and EJDBFIQueryBuilder classes for programmatic query building.
-- Bumped ejdb submodule to ejdb release v1.1.22
-
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
@@ -24,6 +23,10 @@ Having said that, I encourage you to, at least, start experimenting with the fra
 If you find any showstoppers, serious bugs or anything else noteworthy (not feature requests)
 please do let me know! One more thing...enjoy!!!!
 
+Xcode 4 support
+===================
+
+The 0.3.x series will be the last to support Xcode 4!
 
 Feature Requests
 ====================
