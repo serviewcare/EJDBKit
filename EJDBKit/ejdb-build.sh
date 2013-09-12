@@ -83,9 +83,24 @@ setenv_arm64()
         export DEVROOT=/Applications/Xcode5.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
         export SDKROOT=$DEVROOT/SDKs/iPhoneOS$IOS_BASE_SDK.sdk
  
-        export CFLAGS="-arch arm64 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=$IOS_DEPLOY_TGT -I$SDKROOT/usr/include/"
+        export CFLAGS="-arch arm64 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=7.0 -I$SDKROOT/usr/include/"
  
         setenv_all
+}
+
+setenv_x86_64()
+{
+        unsetenv
+        export DEVROOT=/Applications/Xcode5.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer
+        export SDKROOT=$DEVROOT/SDKs/iPhoneSimulator$IOS_BASE_SDK.sdk
+        export CFLAGS="-arch x86_64 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=7.0"
+ 
+        setenv_all
+        export LD=$DEVELOPER_DIR/usr/bin/ld
+        export AR=/Applications/Xcode5.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/ar
+        export AS=$DEVELOPER_DIR/usr/bin/as
+        export NM=$DEVELOPER_DIR/usr/bin/nm
+        export RANLIB=$DEVELOPER_DIR/usr/bin/ranlib
 }
 
 setenv_i386()
@@ -96,7 +111,7 @@ setenv_i386()
         export DEVROOT=/Applications/Xcode5.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer
         export SDKROOT=$DEVROOT/SDKs/iPhoneSimulator$IOS_BASE_SDK.sdk
  
-        export CFLAGS="-arch i386 -m64 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=$IOS_DEPLOY_TGT"
+        export CFLAGS="-arch i386 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=$IOS_DEPLOY_TGT"
  
         setenv_all
         export LD=$DEVELOPER_DIR/usr/bin/ld
@@ -106,10 +121,6 @@ setenv_i386()
         export RANLIB=$DEVELOPER_DIR/usr/bin/ranlib
 }
 
-
-#
-# iOS
-#
 
 unset OUTDIR
 OUTDIR="`pwd`/ejdb"
@@ -145,7 +156,17 @@ mkdir $OUTDIR/build/arm64
 make clean 2> /dev/null
 make distclean 2> /dev/null
 setenv_arm64
-./configure --host=arm-apple-darwin7 --enable-shared=no --prefix=$OUTDIR/build/arm64
+./configure --host=arm-apple-darwin8 --enable-shared=no --prefix=$OUTDIR/build/arm64
+make
+make install
+
+#x86_64
+rm -rf $OUTDIR/build/x86_64
+mkdir $OUTDIR/build/x86_64
+make clean 2> /dev/null
+make distclean 2> /dev/null
+setenv_x86_64
+./configure --host=arm-apple-darwin7 --enable-shared=no --prefix=$OUTDIR/build/x86_64
 make
 make install
 
@@ -168,6 +189,6 @@ cp -r $OUTDIR/build/armv7/* .
 
 # Fat Binary
 rm -rf $OUTDIR/lib/libtcejdb.a
-xcrun -sdk iphoneos lipo -arch arm64 $OUTDIR/build/arm64/lib/libtcejdb.a -arch armv7 $OUTDIR/build/armv7/lib/libtcejdb.a -arch armv7s $OUTDIR/build/armv7s/lib/libtcejdb.a -arch i386 $OUTDIR/build/i386/lib/libtcejdb.a -create -output $OUTDIR/lib/libtcejdb.a
-
+xcrun -sdk iphoneos lipo -arch arm64 $OUTDIR/build/arm64/lib/libtcejdb.a  -arch armv7 $OUTDIR/build/armv7/lib/libtcejdb.a  -arch armv7s $OUTDIR/build/armv7s/lib/libtcejdb.a -arch i386 $OUTDIR/build/i386/lib/libtcejdb.a -arch x86_64 $OUTDIR/build/x86_64/lib/libtcejdb.a -create -output $OUTDIR/lib/libtcejdb.a 
+# \
 popd
