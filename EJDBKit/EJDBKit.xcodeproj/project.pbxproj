@@ -52,7 +52,7 @@
 		5297C22217E1BD3800E27F7E /* EJDBFIQueryBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 528F17C017C73AB0006BE069 /* EJDBFIQueryBuilderTests.m */; };
 		5297C22317E1BD3800E27F7E /* EJDBQueryBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 528F17CA17C7A48D006BE069 /* EJDBQueryBuilderTests.m */; };
 		5297C22517E1BD3800E27F7E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
-		5297C22617E1BD3800E27F7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E4179F31B000EEC86D /* UIKit.framework */; };
+		5297C22617E1BD3800E27F7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E4179F31B000EEC86D /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5297C22717E1BD3800E27F7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
 		5297C22A17E1BD3800E27F7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52EC76ED179F31B000EEC86D /* InfoPlist.strings */; };
 		5297C22B17E1BD3800E27F7E /* ejdblogo3.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D916BC17A414DE00B0060D /* ejdblogo3.png */; };
@@ -141,7 +141,7 @@
 		528F17CA17C7A48D006BE069 /* EJDBQueryBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBQueryBuilderTests.m; sourceTree = "<group>"; };
 		5294231117A274C4007FFD63 /* EJDBDatabaseTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBDatabaseTests.h; sourceTree = "<group>"; };
 		5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBDatabaseTests.m; sourceTree = "<group>"; };
-		5297C23117E1BD3800E27F7E /* EJDBKitTests copy.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EJDBKitTests copy.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5297C23117E1BD3800E27F7E /* EJDBKitTests64.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EJDBKitTests64.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5297C23217E1BD3800E27F7E /* EJDBKitTests64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "EJDBKitTests64-Info.plist"; path = "/Users/john/src/myIOSProjects/EJDBKitProject/EJDBKit/EJDBKit/EJDBKitTests64-Info.plist"; sourceTree = "<absolute>"; };
 		52D916B617A3AB7900B0060D /* BSONEncoderDecoderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoderDecoderTests.h; sourceTree = "<group>"; };
 		52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoderDecoderTests.m; sourceTree = "<group>"; };
@@ -235,7 +235,7 @@
 			children = (
 				52EC76D0179F31B000EEC86D /* libEJDBKit.a */,
 				52EC76E1179F31B000EEC86D /* EJDBKitTests.xctest */,
-				5297C23117E1BD3800E27F7E /* EJDBKitTests copy.xctest */,
+				5297C23117E1BD3800E27F7E /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -323,7 +323,7 @@
 			);
 			name = EJDBKitTests64;
 			productName = EJDBKitTests;
-			productReference = 5297C23117E1BD3800E27F7E /* EJDBKitTests copy.xctest */;
+			productReference = 5297C23117E1BD3800E27F7E /* EJDBKitTests64.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		52EC76CF179F31B000EEC86D /* EJDBKit */ = {
@@ -542,7 +542,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
-				PRODUCT_NAME = "EJDBKitTests copy";
+				PRODUCT_NAME = EJDBKitTests64;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -564,7 +564,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
-				PRODUCT_NAME = "EJDBKitTests copy";
+				PRODUCT_NAME = EJDBKitTests64;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
