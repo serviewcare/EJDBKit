@@ -8,6 +8,7 @@ IOS_DEPLOY_TGT="6.1"
 export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
 IOS_DEVROOT="${DEVELOPER_DIR}/Platforms/iPhoneOS.platform/Developer"
 IOS_SIM_DEVROOT="${DEVELOPER_DIR}/Platforms/iPhoneSimulator.platform/Developer"
+MAC_DEVROOT="${DEVELOPER_DIR}/Platforms/MacOSX.platform/Developer"
 
 
 unsetenv()
@@ -65,6 +66,15 @@ setenv_x86_64()
         export DEVROOT=$IOS_SIM_DEVROOT
         export SDKROOT=$DEVROOT/SDKs/iPhoneSimulator$IOS_BASE_SDK.sdk
         export CFLAGS="-arch x86_64 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=7.0" 
+        setenv_all
+}
+
+setenv_x86_64_mac()
+{
+        unsetenv
+        export DEVROOT=$MAC_DEVROOT
+        export SDKROOT=$DEVROOT/SDKs/MacOSX10.8.sdk
+        export CFLAGS="-arch x86_64 -pipe -no-cpp-precomp -isysroot $SDKROOT"
         setenv_all
 }
 
@@ -129,6 +139,19 @@ install_x86_64()
         make install        
 }
 
+install_x86_64_mac()
+{
+        rm -rf $OUTDIR/build/x86_64_mac
+        mkdir $OUTDIR/build/x86_64_mac
+        mkdir $OUTDIR/build/x86_64_mac/lib
+        make clean 2> /dev/null
+        make distclean 2> /dev/null
+        setenv_x86_64_mac
+        ./configure --host=x86_64 --enable-shared=no --prefix=$OUTDIR/build/x86_64_mac
+        make
+        make install
+}
+
 install_i386()
 {
         rm -rf $OUTDIR/build/i386
@@ -150,11 +173,32 @@ pushd ../vendor/ejdb/tcejdb
 rm -rf $OUTDIR/build
 mkdir $OUTDIR/build
 
-install_armv7
-install_armv7s
-install_arm64
-install_x86_64
-install_i386
+if [ $# = 0 ]
+then
+  install_armv7
+  install_armv7s
+  install_arm64
+  install_x86_64
+  install_x86_64_mac
+  install_i386
+else
+  for arg
+  do
+     # Yes..it's an ugly ass if statement and No, I don't care because...shell script is...UGLY!!! :)   
+     if [[ ("$arg" != "armv7") && ("$arg" != "armv7s") && ("$arg" != "arm64") && ("$arg" != "x86_64") && ("$arg" != "x86_64_mac") && ("$arg" != "i386") ]]
+     then
+        echo
+        echo "usage: ejdb-build.sh [architecture options]"
+        echo "architecture options (0 or more): "
+        echo "armv7 armv7s arm64 x86_64 x86_64_mac i386"
+        echo "Supply no options if you want to build all architectures."
+        echo
+        exit
+     fi
+     install_$arg   
+  done         
+fi
+
 
 popd
 pushd ejdb

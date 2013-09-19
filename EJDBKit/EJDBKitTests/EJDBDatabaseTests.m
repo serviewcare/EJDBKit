@@ -46,8 +46,7 @@
 {
     NSError *error;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    EJDBQuery *query = [_db createQuery:@{@"$name" : @"joe blow"} forCollection:collection error:&error];
-    
+    EJDBQuery *query = [_db createQuery:@{@"$name" : @"joe blow"} hints:nil forCollection:collection];
     XCTAssertNil([query fetchObjectWithError:&error], @"Query object for bad query should be nil!");
     XCTAssertNotNil(error, @"Error for bad query creation should not be nil!");
 }
@@ -130,7 +129,7 @@
 - (void)testCreatedQueryNotNil
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    EJDBQuery *query = [_db createQuery:@{@"name" : @"joe blow"} forCollection:collection error:NULL];
+    EJDBQuery *query = [_db createQuery:@{@"name" : @"joe blow"} hints:nil forCollection:collection];
     XCTAssertNotNil(query, @"Query should not be nil!");
 }
 
@@ -218,7 +217,12 @@
 - (void)testImportSuccess
 {
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
-    NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
+    NSString *importPath;
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    importPath = [bundlePath stringByAppendingPathComponent:@"import"];
+#else
+    importPath = [bundlePath stringByAppendingPathComponent:@"Contents/Resources/import"];
+#endif
     BOOL success = [_db importCollections:@[@"a",@"b"] fromDirectory:importPath options:EJDBImportReplace];
     XCTAssertTrue(success, @"Import of collections a and b should be successful!");
 }
@@ -237,7 +241,12 @@
 - (void)testImportAllSuccess
 {
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
-    NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
+    NSString *importPath;
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    importPath = [bundlePath stringByAppendingPathComponent:@"import"];
+#else
+    importPath = [bundlePath stringByAppendingPathComponent:@"Contents/Resources/import"];
+#endif
     BOOL success = [_db importAllCollectionsFromDirectory:importPath options:EJDBImportReplace];
     XCTAssertTrue(success, @"Import of collections a and b from non-existent directory should not be successful!");
 }

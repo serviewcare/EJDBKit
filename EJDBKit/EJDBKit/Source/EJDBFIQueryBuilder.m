@@ -195,9 +195,9 @@
     };
 }
 
-- (StringsBlock)joinCollection
+- (PathBlock)joinCollection
 {
-    return ^(NSString *path, NSString *collectionName)
+    return ^(NSString *collectionName)
     {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:[self applyOperator:@"$join" toObject:collectionName] forKey:@"$do"];

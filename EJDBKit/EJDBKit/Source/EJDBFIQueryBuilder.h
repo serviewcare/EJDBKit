@@ -216,7 +216,7 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
  @param collectionName - The name of the collection to be joined.
  @since - v0.3.0
 */
-- (StringsBlock)joinCollection;
+- (PathBlock)joinCollection;
 
 /**
  And join. Please see: http://docs.mongodb.org/manual/reference/operator/and/#op._S_and

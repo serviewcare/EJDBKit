@@ -125,8 +125,10 @@
     return results;
 }
 
+/* DEPRECATED METHOD!!! REMOVE IN 0.5.0!!!! */
 - (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error
 {
+    error = nil; // let's shut up our unused parameter warning.
     return [self createQuery:query hints:nil forCollection:collection];
 }
 

@@ -156,6 +156,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
 /**
  Create a query with the provided dictionary. This method doesn't actually fetch the objects, it only creates the query for later fetching.
  Please look at ejdb.h for more info on queries and query hints.
+ This method is deprecated and will be removed from v0.5.0
  
  @param query - The query dictionary.
  @param collection - The collection to create the query for.
@@ -163,7 +164,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @returns - The EJDBQuery ready for fetching or nil if there was an error.
  @since - v0.1.0
 */
-- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error;
+- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error __deprecated;
 /**
  Create a query with the provided dictionary and hints. This method doesn't actually fetch the objects, it only creates the query for later fetching.
  Please look at ejdb.h for more info on queries and query hints.

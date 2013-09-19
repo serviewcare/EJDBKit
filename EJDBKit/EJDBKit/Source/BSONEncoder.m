@@ -65,7 +65,8 @@
     }
     else if ([value isKindOfClass:[NSNull class]])
     {
-        [self appendNull:value forKey:key];
+        //[self appendNull:value forKey:key];
+        [self appendNullForKey:key];
     }
     else if ([value conformsToProtocol:@protocol(BSONArchiving)])
     {
@@ -174,11 +175,20 @@
     bson_append_binary(&_bsonObj, cKeyString, BSON_BINDATA, [data bytes], [length intValue]);
 }
 
+/*
 - (void)appendNull:(NSNull *)nullData forKey:(NSString *)key
 {
     const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
     bson_append_null(&_bsonObj, cKeyString);
 }
+*/
+
+- (void)appendNullForKey:(NSString *)key
+{
+    const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    bson_append_null(&_bsonObj, cKeyString);
+}
+
 
 - (void)finish
 {
