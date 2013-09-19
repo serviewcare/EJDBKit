@@ -3,7 +3,11 @@ ejdbkit.xcworkspace/xcuserdata
 ejdbkit.xcworkspace/xcshareddata/ejdbkit.xccheckout
 ejdbkit.xcodeproj/xcuserdata/*.*
 ejdbkit.xcodeproj/project.xcworkspace/xcuserdata/*.*
+<<<<<<< HEAD
 EJDBKit/EJDBKit.xcodeproj/xcuserdata/*.*
+=======
+EJDBKit/EJDBKit.xcodeproj/xcuserdata/john.xcuserdatad
+>>>>>>> ios7
 EJDBKit/ejdb/
 EJDBKit/build
 EJDBKit/coverage

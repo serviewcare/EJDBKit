@@ -38,12 +38,31 @@
 		528F17CB17C7A48D006BE069 /* EJDBQueryBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 528F17CA17C7A48D006BE069 /* EJDBQueryBuilderTests.m */; };
 		528F17CC17C7A76D006BE069 /* EJDBQueryBuilder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 528F17C617C794C1006BE069 /* EJDBQueryBuilder.h */; };
 		5294231317A274C4007FFD63 /* EJDBDatabaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */; };
+		5297C21717E1BD3800E27F7E /* EJDBDatabaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */; };
+		5297C21817E1BD3800E27F7E /* BSONEncoderDecoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */; };
+		5297C21917E1BD3800E27F7E /* EJDBDatabase+DBTestExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */; };
+		5297C21A17E1BD3800E27F7E /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
+		5297C21B17E1BD3800E27F7E /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99C17A520D70014A63A /* BSONEncoder.m */; };
+		5297C21C17E1BD3800E27F7E /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99E17A520D70014A63A /* EJDBCollection.m */; };
+		5297C21D17E1BD3800E27F7E /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A017A520D70014A63A /* EJDBDatabase.m */; };
+		5297C21E17E1BD3800E27F7E /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A317A520D70014A63A /* EJDBQuery.m */; };
+		5297C21F17E1BD3800E27F7E /* EJDBCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5267ADCE17A64B0C00F22C6E /* EJDBCollectionTests.m */; };
+		5297C22017E1BD3800E27F7E /* EJDBTestFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 52527A7A17ACF0AC00BE2B2C /* EJDBTestFixtures.m */; };
+		5297C22117E1BD3800E27F7E /* EJDBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E68E0F17B0DAEE00047614 /* EJDBQueryTests.m */; };
+		5297C22217E1BD3800E27F7E /* EJDBFIQueryBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 528F17C017C73AB0006BE069 /* EJDBFIQueryBuilderTests.m */; };
+		5297C22317E1BD3800E27F7E /* EJDBQueryBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 528F17CA17C7A48D006BE069 /* EJDBQueryBuilderTests.m */; };
+		5297C22517E1BD3800E27F7E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
+		5297C22617E1BD3800E27F7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E4179F31B000EEC86D /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5297C22717E1BD3800E27F7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
+		5297C22A17E1BD3800E27F7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52EC76ED179F31B000EEC86D /* InfoPlist.strings */; };
+		5297C22B17E1BD3800E27F7E /* ejdblogo3.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D916BC17A414DE00B0060D /* ejdblogo3.png */; };
+		5297C22C17E1BD3800E27F7E /* import in Resources */ = {isa = PBXBuildFile; fileRef = 521BBB6117CF533500920BE4 /* import */; };
+		5297C23317E1BDA200E27F7E /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D0179F31B000EEC86D /* libEJDBKit.a */; };
 		52D916B817A3AB7900B0060D /* BSONEncoderDecoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */; };
 		52D916BB17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */; };
 		52D916BD17A414DE00B0060D /* ejdblogo3.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D916BC17A414DE00B0060D /* ejdblogo3.png */; };
 		52E68E1017B0DAEE00047614 /* EJDBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E68E0F17B0DAEE00047614 /* EJDBQueryTests.m */; };
 		52EC76D4179F31B000EEC86D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
-		52EC76E3179F31B000EEC86D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E2179F31B000EEC86D /* SenTestingKit.framework */; };
 		52EC76E5179F31B000EEC86D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76E4179F31B000EEC86D /* UIKit.framework */; };
 		52EC76E6179F31B000EEC86D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D3179F31B000EEC86D /* Foundation.framework */; };
 		52EC76E9179F31B000EEC86D /* libEJDBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC76D0179F31B000EEC86D /* libEJDBKit.a */; };
@@ -51,6 +70,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5297C21517E1BD3800E27F7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52EC76C8179F31B000EEC86D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
+			remoteInfo = EJDBKit;
+		};
 		52EC76E7179F31B000EEC86D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 52EC76C8179F31B000EEC86D /* Project object */;
@@ -115,6 +141,8 @@
 		528F17CA17C7A48D006BE069 /* EJDBQueryBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBQueryBuilderTests.m; sourceTree = "<group>"; };
 		5294231117A274C4007FFD63 /* EJDBDatabaseTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBDatabaseTests.h; sourceTree = "<group>"; };
 		5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBDatabaseTests.m; sourceTree = "<group>"; };
+		5297C23117E1BD3800E27F7E /* EJDBKitTests64.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EJDBKitTests64.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5297C23217E1BD3800E27F7E /* EJDBKitTests64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "EJDBKitTests64-Info.plist"; path = "/Users/john/src/myIOSProjects/EJDBKitProject/EJDBKit/EJDBKit/EJDBKitTests64-Info.plist"; sourceTree = "<absolute>"; };
 		52D916B617A3AB7900B0060D /* BSONEncoderDecoderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoderDecoderTests.h; sourceTree = "<group>"; };
 		52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoderDecoderTests.m; sourceTree = "<group>"; };
 		52D916B917A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EJDBDatabase+DBTestExtensions.h"; sourceTree = "<group>"; };
@@ -125,14 +153,24 @@
 		52EC76D0179F31B000EEC86D /* libEJDBKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEJDBKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EC76D3179F31B000EEC86D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		52EC76D7179F31B000EEC86D /* EJDBKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EJDBKit-Prefix.pch"; sourceTree = "<group>"; };
-		52EC76E1179F31B000EEC86D /* EJDBKitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EJDBKitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		52EC76E2179F31B000EEC86D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		52EC76E1179F31B000EEC86D /* EJDBKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EJDBKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EC76E4179F31B000EEC86D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		52EC76EC179F31B000EEC86D /* EJDBKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EJDBKitTests-Info.plist"; sourceTree = "<group>"; };
 		52EC76EE179F31B000EEC86D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5297C22417E1BD3800E27F7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5297C23317E1BDA200E27F7E /* libEJDBKit.a in Frameworks */,
+				5297C22517E1BD3800E27F7E /* libz.dylib in Frameworks */,
+				5297C22617E1BD3800E27F7E /* UIKit.framework in Frameworks */,
+				5297C22717E1BD3800E27F7E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52EC76CD179F31B000EEC86D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,7 +185,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5213BBFE179F4DBA00E34A62 /* libz.dylib in Frameworks */,
-				52EC76E3179F31B000EEC86D /* SenTestingKit.framework in Frameworks */,
 				52EC76E5179F31B000EEC86D /* UIKit.framework in Frameworks */,
 				52EC76E6179F31B000EEC86D /* Foundation.framework in Frameworks */,
 				52EC76E9179F31B000EEC86D /* libEJDBKit.a in Frameworks */,
@@ -197,7 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				52EC76D0179F31B000EEC86D /* libEJDBKit.a */,
-				52EC76E1179F31B000EEC86D /* EJDBKitTests.octest */,
+				52EC76E1179F31B000EEC86D /* EJDBKitTests.xctest */,
+				5297C23117E1BD3800E27F7E /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,7 +246,6 @@
 				5213E2E117A4635C00E47033 /* libtcejdb.a */,
 				5213BBFD179F4DBA00E34A62 /* libz.dylib */,
 				52EC76D3179F31B000EEC86D /* Foundation.framework */,
-				52EC76E2179F31B000EEC86D /* SenTestingKit.framework */,
 				52EC76E4179F31B000EEC86D /* UIKit.framework */,
 			);
 			name = Frameworks;
@@ -261,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				52EC76EC179F31B000EEC86D /* EJDBKitTests-Info.plist */,
+				5297C23217E1BD3800E27F7E /* EJDBKitTests64-Info.plist */,
 				52EC76ED179F31B000EEC86D /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -269,10 +307,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5297C21317E1BD3800E27F7E /* EJDBKitTests64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5297C22E17E1BD3800E27F7E /* Build configuration list for PBXNativeTarget "EJDBKitTests64" */;
+			buildPhases = (
+				5297C21617E1BD3800E27F7E /* Sources */,
+				5297C22417E1BD3800E27F7E /* Frameworks */,
+				5297C22917E1BD3800E27F7E /* Resources */,
+				5297C22D17E1BD3800E27F7E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5297C21417E1BD3800E27F7E /* PBXTargetDependency */,
+			);
+			name = EJDBKitTests64;
+			productName = EJDBKitTests;
+			productReference = 5297C23117E1BD3800E27F7E /* EJDBKitTests64.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		52EC76CF179F31B000EEC86D /* EJDBKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52EC76F5179F31B000EEC86D /* Build configuration list for PBXNativeTarget "EJDBKit" */;
 			buildPhases = (
+				52C93CD817EAE1E600C01F50 /* ShellScript */,
 				52EC76CC179F31B000EEC86D /* Sources */,
 				52EC76CD179F31B000EEC86D /* Frameworks */,
 				52EC76CE179F31B000EEC86D /* CopyFiles */,
@@ -302,8 +360,8 @@
 			);
 			name = EJDBKitTests;
 			productName = EJDBKitTests;
-			productReference = 52EC76E1179F31B000EEC86D /* EJDBKitTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 52EC76E1179F31B000EEC86D /* EJDBKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -311,7 +369,7 @@
 		52EC76C8179F31B000EEC86D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = john;
 			};
 			buildConfigurationList = 52EC76CB179F31B000EEC86D /* Build configuration list for PBXProject "EJDBKit" */;
@@ -328,11 +386,22 @@
 			targets = (
 				52EC76CF179F31B000EEC86D /* EJDBKit */,
 				52EC76E0179F31B000EEC86D /* EJDBKitTests */,
+				5297C21317E1BD3800E27F7E /* EJDBKitTests64 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5297C22917E1BD3800E27F7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5297C22A17E1BD3800E27F7E /* InfoPlist.strings in Resources */,
+				5297C22B17E1BD3800E27F7E /* ejdblogo3.png in Resources */,
+				5297C22C17E1BD3800E27F7E /* import in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52EC76DE179F31B000EEC86D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -346,6 +415,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5297C22D17E1BD3800E27F7E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call\n# lcov is pretty cool though! You can install through brew (or maybe macporst too?).\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
+		};
+		52C93CD817EAE1E600C01F50 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "##################################################################################\n# This script makes a fat binary based on the current architecture in an effort\n# to minimize the size of the lipo'd archive file.\n# NOTE: You must launch ejdb-build.sh before running this or else it will FAIL!!!!\n##################################################################################\n\nEJDB_DIR=`pwd`/ejdb\n\nif [ $CURRENT_ARCH = \"i386\" -o $CURRENT_ARCH = \"x86_64\" ]\nthen\n#lipo for simulator\nxcrun -sdk iphoneos lipo -arch i386 ${EJDB_DIR}/build/i386/lib/libtcejdb.a -arch x86_64 ${EJDB_DIR}/build/x86_64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nelse\n#lipo for device\nxcrun -sdk iphoneos lipo -arch armv7 ${EJDB_DIR}/build/armv7/lib/libtcejdb.a -arch armv7s ${EJDB_DIR}/build/armv7s/lib/libtcejdb.a -arch arm64 ${EJDB_DIR}/build/arm64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nfi\n";
+		};
 		52EC76DF179F31B000EEC86D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -357,11 +452,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n\n# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call\n# lcov is pretty cool though! You can install through brew (or maybe macporst too?).\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
+			shellScript = "# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call\n# lcov is pretty cool though! You can install through brew (or maybe macporst too?).\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5297C21617E1BD3800E27F7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5297C21717E1BD3800E27F7E /* EJDBDatabaseTests.m in Sources */,
+				5297C21817E1BD3800E27F7E /* BSONEncoderDecoderTests.m in Sources */,
+				5297C21917E1BD3800E27F7E /* EJDBDatabase+DBTestExtensions.m in Sources */,
+				5297C21A17E1BD3800E27F7E /* BSONDecoder.m in Sources */,
+				5297C21B17E1BD3800E27F7E /* BSONEncoder.m in Sources */,
+				5297C21C17E1BD3800E27F7E /* EJDBCollection.m in Sources */,
+				5297C21D17E1BD3800E27F7E /* EJDBDatabase.m in Sources */,
+				5297C21E17E1BD3800E27F7E /* EJDBQuery.m in Sources */,
+				5297C21F17E1BD3800E27F7E /* EJDBCollectionTests.m in Sources */,
+				5297C22017E1BD3800E27F7E /* EJDBTestFixtures.m in Sources */,
+				5297C22117E1BD3800E27F7E /* EJDBQueryTests.m in Sources */,
+				5297C22217E1BD3800E27F7E /* EJDBFIQueryBuilderTests.m in Sources */,
+				5297C22317E1BD3800E27F7E /* EJDBQueryBuilderTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52EC76CC179F31B000EEC86D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -400,6 +515,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5297C21417E1BD3800E27F7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52EC76CF179F31B000EEC86D /* EJDBKit */;
+			targetProxy = 5297C21517E1BD3800E27F7E /* PBXContainerItemProxy */;
+		};
 		52EC76E8179F31B000EEC86D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 52EC76CF179F31B000EEC86D /* EJDBKit */;
@@ -419,6 +539,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5297C22F17E1BD3800E27F7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				INFOPLIST_FILE = "EJDBKitTests64-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/ejdb/lib\"",
+				);
+				PRODUCT_NAME = EJDBKitTests64;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		5297C23017E1BD3800E27F7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				INFOPLIST_FILE = "EJDBKitTests64-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/ejdb/lib\"",
+				);
+				PRODUCT_NAME = EJDBKitTests64;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
 		52EC76F3179F31B000EEC86D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -476,10 +640,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ejdb/lib\"",
@@ -497,10 +662,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ejdb/lib\"",
@@ -518,10 +684,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -533,9 +697,7 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
 				USER_HEADER_SEARCH_PATHS = "";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -543,10 +705,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -558,15 +718,22 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
 				USER_HEADER_SEARCH_PATHS = "";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5297C22E17E1BD3800E27F7E /* Build configuration list for PBXNativeTarget "EJDBKitTests64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5297C22F17E1BD3800E27F7E /* Debug */,
+				5297C23017E1BD3800E27F7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		52EC76CB179F31B000EEC86D /* Build configuration list for PBXProject "EJDBKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

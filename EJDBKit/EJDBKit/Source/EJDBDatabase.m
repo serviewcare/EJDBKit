@@ -121,7 +121,8 @@
                             error:(NSError **)error
 {
     EJDBQuery *ejdbQuery = [self createQuery:query hints:queryHints forCollection:collection];
-    return [ejdbQuery fetchObjectsWithError:error];
+    NSArray *results = [ejdbQuery fetchObjectsWithError:error];
+    return results;
 }
 
 - (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error

@@ -30,7 +30,7 @@
     [collection saveObject:inDictionary];
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"Антонов"} inCollection:collection error:NULL];
     NSDictionary *outDictionary = results[0];
-    STAssertTrue([inDictionary isEqualToDictionary:outDictionary], @"Encoded and Decoded dictionaries should be the same!");
+    XCTAssertTrue([inDictionary isEqualToDictionary:outDictionary], @"Encoded and Decoded dictionaries should be the same!");
 }
 
 - (void)testEncodingDecodingA2Object
@@ -40,7 +40,7 @@
     [collection saveObject:inDictionary];
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"Адаманский"} inCollection:collection error:NULL];
     NSDictionary *outDictionary = results[0];
-    STAssertTrue([inDictionary isEqualToDictionary:outDictionary], @"Encoded and Decoded dictionaries should be the same!");
+    XCTAssertTrue([inDictionary isEqualToDictionary:outDictionary], @"Encoded and Decoded dictionaries should be the same!");
 }
 
 - (void)testEncodingDate
@@ -51,7 +51,7 @@
     [collection saveObject:inDictionary];
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:collection error:NULL];
     NSDictionary *outDictionary = results[0];
-    STAssertEquals(floor([[inDictionary objectForKey:@"aDate"]timeIntervalSince1970]),
+    XCTAssertEqual(floor([[inDictionary objectForKey:@"aDate"]timeIntervalSince1970]),
                    floor([[outDictionary objectForKey:@"aDate"]timeIntervalSince1970]),
                    @"Date in and date out should be equal!");
 }
@@ -66,7 +66,7 @@
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"logo"} inCollection:collection error:NULL];
     NSDictionary *outDictionary = results[0];
     NSData *imageDataOut = [outDictionary objectForKey:@"image"];
-    STAssertTrue([imageDataIn isEqualToData:imageDataOut], @"Image in and Image out data should be equal!");
+    XCTAssertTrue([imageDataIn isEqualToData:imageDataOut], @"Image in and Image out data should be equal!");
 }
 
 - (void)testEncodingDecodingNSNull
@@ -76,7 +76,7 @@
     [collection saveObject:inDictionary];
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"null obj"} inCollection:collection error:NULL];
     NSDictionary *outDictionary = results[0];
-    STAssertTrue([[inDictionary objectForKey:@"nullval"]
+    XCTAssertTrue([[inDictionary objectForKey:@"nullval"]
                   isEqual:[outDictionary objectForKey:@"nullval"]], @"Out null obj should match in!");
 }
 
@@ -89,7 +89,7 @@
     [collection saveObject:obj];
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:collection error:NULL];
     CustomArchivableClass *outObj = results[0];
-    STAssertTrue([outObj isKindOfClass:[CustomArchivableClass class]],@"Saved object should be an Instance of CustomArchivableClass!");
+    XCTAssertTrue([outObj isKindOfClass:[CustomArchivableClass class]],@"Saved object should be an Instance of CustomArchivableClass!");
 }
 
 /*
@@ -108,7 +108,7 @@
     NSDictionary *savedObj = results[0];
     CustomArchivableClass *customSavedObj = [[CustomArchivableClass alloc]init];
     [customSavedObj fromDictionary:[savedObj objectForKey:@"customObject"]];
-    STAssertTrue([customObj.name isEqual:customSavedObj.name] &&
+    XCTAssertTrue([customObj.name isEqual:customSavedObj.name] &&
                  [customObj.age isEqual:customSavedObj.age] &&
                  [customObj.type isEqual:customSavedObj.type], @"Encoded custom object should equal decoded custom object!");
 }
@@ -120,7 +120,7 @@
     bogusObj.name = @"bogus";
     bogusObj.age = @1;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    STAssertFalse([collection saveObject:bogusObj], @"Saving an object with an invalid OID should fail!");
+    XCTAssertFalse([collection saveObject:bogusObj], @"Saving an object with an invalid OID should fail!");
 }
 
 - (void)testSavingNonSupportedObjectShouldFail
@@ -128,7 +128,7 @@
     NSSet *unsupportedObj = [NSSet setWithObject:@"Something"];
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     ;
-    STAssertFalse([collection saveObject:unsupportedObj], @"Saving an unsupported object should fail!");
+    XCTAssertFalse([collection saveObject:unsupportedObj], @"Saving an unsupported object should fail!");
 }
 
 /*
@@ -139,14 +139,14 @@
 {
     NSDictionary *inDictionary = @{@"_id": @"123"};
     BSONEncoder *encoder = [[BSONEncoder alloc]init];
-    STAssertThrows([encoder encodeDictionary:inDictionary], @"Should throw an exception when attempting to create an object with an Invalid OID!");
+    XCTAssertThrows([encoder encodeDictionary:inDictionary], @"Should throw an exception when attempting to create an object with an Invalid OID!");
 }
 
 - (void)testShouldThrowExceptionOnUnsupportedType
 {
     NSDictionary *inDictionary = @{@"unsupported type" : [NSSet setWithArray:@[@1,@2]]};
     BSONEncoder *encoder = [[BSONEncoder alloc]init];
-    STAssertThrows([encoder encodeDictionary:inDictionary], @"Should throw an exception when attempting to create an object with an unsupported class!");
+    XCTAssertThrows([encoder encodeDictionary:inDictionary], @"Should throw an exception when attempting to create an object with an unsupported class!");
 }
 
 @end

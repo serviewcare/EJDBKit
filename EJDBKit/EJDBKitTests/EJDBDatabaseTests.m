@@ -19,7 +19,7 @@
     _dbFileName = [@"test.db" copy];
     _db = [[EJDBDatabase alloc]initWithPath:_dbParentDir dbFileName:_dbFileName];
     BOOL success = [_db openWithError:NULL];
-    STAssertTrue(success, @"Db should open successfully!");
+    XCTAssertTrue(success, @"Db should open successfully!");
 }
 
 - (void)tearDown
@@ -38,8 +38,8 @@
     NSError *error;
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     NSArray *objects = [_db findObjectsWithQuery:@{@"$name" : @"joe blow"} inCollection:collection error:&error];
-    STAssertNil(objects, @"Objects should be nil for bad query!");
-    STAssertNotNil(error, @"Error for bad query should not be nil!");
+    XCTAssertNil(objects, @"Objects should be nil for bad query!");
+    XCTAssertNotNil(error, @"Error for bad query should not be nil!");
 }
 
 - (void)testCreateQueryFails
@@ -48,8 +48,8 @@
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     EJDBQuery *query = [_db createQuery:@{@"$name" : @"joe blow"} forCollection:collection error:&error];
     
-    STAssertNil([query fetchObjectWithError:&error], @"Query object for bad query should be nil!");
-    STAssertNotNil(error, @"Error for bad query creation should not be nil!");
+    XCTAssertNil([query fetchObjectWithError:&error], @"Query object for bad query should be nil!");
+    XCTAssertNotNil(error, @"Error for bad query creation should not be nil!");
 }
 
 - (void)testTransactionFails
@@ -58,36 +58,36 @@
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     BOOL success = [_db transactionInCollection:collection error:&error transaction:^BOOL(EJDBCollection *collection, NSError *__autoreleasing *error) {
         [_db findObjectsWithQuery:@{@"$name" : @"joe blow"} inCollection:collection error:error];
-        STAssertNotNil(*error, @"Error in transaction block should not be nil!");
+        XCTAssertNotNil(*error, @"Error in transaction block should not be nil!");
         return YES;
     }];
-    STAssertFalse(success, @"Failed transaction should return NO!");
-    STAssertNotNil(error, @"Error from transaction should not be nil!");
+    XCTAssertFalse(success, @"Failed transaction should return NO!");
+    XCTAssertNotNil(error, @"Error from transaction should not be nil!");
 }
 
 
 - (void)testDbIsOpen
 {
-    STAssertTrue([_db isOpen], @"Database should be open!");
+    XCTAssertTrue([_db isOpen], @"Database should be open!");
 }
 
 - (void)testCollectionDoesNotExist
 {
     EJDBCollection *collection = [_db collectionWithName:@"foo"];
-    STAssertNil(collection, @"Collection should not exist!");
+    XCTAssertNil(collection, @"Collection should not exist!");
 }
 
 - (void)testCollectionCreationSuccess
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
-    STAssertNotNil(collection, @"Collection should be created with success!");
+    XCTAssertNotNil(collection, @"Collection should be created with success!");
 }
 
 - (void)testCollectionRemovalSuccess
 {
     [_db ensureCollectionWithName:@"foo" error:NULL];
     [_db removeCollectionWithName:@"foo"];
-    STAssertNil([_db collectionWithName:@"foo"], @"Collection should not exist!");
+    XCTAssertNil([_db collectionWithName:@"foo"], @"Collection should not exist!");
 }
 
 - (void)testCollectionNames
@@ -95,7 +95,7 @@
     [_db ensureCollectionWithName:@"a" error:NULL];
     [_db ensureCollectionWithName:@"b" error:NULL];
     NSArray *collectionNames = [_db collectionNames];
-    STAssertTrue([collectionNames count] == 2, @"Collection count should be exactly 2!.");
+    XCTAssertTrue([collectionNames count] == 2, @"Collection count should be exactly 2!.");
 }
 
 - (void)testOpenCollections
@@ -103,7 +103,7 @@
     [_db ensureCollectionWithName:@"a" error:NULL];
     [_db ensureCollectionWithName:@"b" error:NULL];
     NSArray *collections = [_db collections];
-    STAssertTrue([collections count] == 2, @"Collection list must have exactly 2 collections!");
+    XCTAssertTrue([collections count] == 2, @"Collection list must have exactly 2 collections!");
 }
 
 - (void)testFindObjectsSuccessfully
@@ -111,8 +111,8 @@
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
     NSArray *results = [_db findObjectsWithQuery:@{@"name":@{@"$begin":@"j"}} inCollection:collection error:NULL];
-    STAssertNotNil(results, @"results should not be nil!");
-    STAssertTrue([results count] == 2, @"results count should be exactly 2");
+    XCTAssertNotNil(results, @"results should not be nil!");
+    XCTAssertTrue([results count] == 2, @"results count should be exactly 2");
 }
 
 - (void)testFindObjectsWithHintsSuccessfully
@@ -122,16 +122,16 @@
     NSArray *results = [_db findObjectsWithQuery:@{@"name":@{@"$begin":@"j"}}
                          hints:@{@"$fields":@{@"name": @YES}}
                          inCollection:collection error:NULL];
-    STAssertNotNil(results, @"results should not be nil!");
-    STAssertTrue([results count] == 2, @"results count should be exactly 2");
-    STAssertNil([results[0] valueForKey:@"address"], @"address field should not exist!");
+    XCTAssertNotNil(results, @"results should not be nil!");
+    XCTAssertTrue([results count] == 2, @"results count should be exactly 2");
+    XCTAssertNil([results[0] valueForKey:@"address"], @"address field should not exist!");
 }
 
 - (void)testCreatedQueryNotNil
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     EJDBQuery *query = [_db createQuery:@{@"name" : @"joe blow"} forCollection:collection error:NULL];
-    STAssertNotNil(query, @"Query should not be nil!");
+    XCTAssertNotNil(query, @"Query should not be nil!");
 }
 
 - (void)testTransactionCommit
@@ -143,12 +143,12 @@
         NSMutableDictionary *simpleDict2 = [NSMutableDictionary dictionaryWithDictionary:simpleDictionaries[1]];
         [simpleDict2 setObject:@36 forKey:@"age"];
         [collection saveObjects:@[simpleDictionaries[0],simpleDict2]];
-        STAssertNil(*error, @"Error should be nil!");
+        XCTAssertNil(*error, @"Error should be nil!");
         return YES;
     }];
     
     NSArray *results = [_db findObjectsWithQuery:@{@"age" : @36} inCollection:collection error:NULL];
-    STAssertTrue([results count] == 2, @"Results of query after commiting transaction should be exactly 2!");
+    XCTAssertTrue([results count] == 2, @"Results of query after commiting transaction should be exactly 2!");
 }
 
 - (void)testTransactionAbort
@@ -157,11 +157,11 @@
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     [_db transactionInCollection:collection error:&error transaction:^BOOL(EJDBCollection *collection,NSError **error) {
         [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
-        STAssertNil(*error, @"Error should be nil!");
+        XCTAssertNil(*error, @"Error should be nil!");
         return NO;
     }];
     NSArray *results = [_db findObjectsWithQuery:@{@"age" : @35} inCollection:collection error:NULL];
-    STAssertTrue([results count] == 0, @"Results of query after aborting transaction should be exactly 0!");
+    XCTAssertTrue([results count] == 0, @"Results of query after aborting transaction should be exactly 0!");
 }
 
 - (void)testExportAsBSONSuccess
@@ -176,9 +176,9 @@
     BOOL isDir;
     [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
     NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
-    STAssertTrue(success, @"Export as BSON should return success!");
-    STAssertTrue(isDir, @"Export directory should exist!");
-    STAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
+    XCTAssertTrue(success, @"Export as BSON should return success!");
+    XCTAssertTrue(isDir, @"Export directory should exist!");
+    XCTAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
 }
 
 - (void)testExportAsJSONSuccess
@@ -193,9 +193,9 @@
     BOOL isDir;
     [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
     NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
-    STAssertTrue(success, @"Export as JSON should return success!");
-    STAssertTrue(isDir, @"Export directory should exist!");
-    STAssertTrue([exportDirContents count] == 4, @"JSON export directory should contain exactly 4 files!");
+    XCTAssertTrue(success, @"Export as JSON should return success!");
+    XCTAssertTrue(isDir, @"Export directory should exist!");
+    XCTAssertTrue([exportDirContents count] == 4, @"JSON export directory should contain exactly 4 files!");
 }
 
 - (void)testExportAllSuccess
@@ -210,9 +210,9 @@
     BOOL isDir;
     [fileManager fileExistsAtPath:exportPath isDirectory:&isDir];
     NSArray *exportDirContents = [fileManager contentsOfDirectoryAtPath:exportPath error:NULL];
-    STAssertTrue(success, @"Export all collections as BSON should return success!");
-    STAssertTrue(isDir, @"Export directory should exist!");
-    STAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
+    XCTAssertTrue(success, @"Export all collections as BSON should return success!");
+    XCTAssertTrue(isDir, @"Export directory should exist!");
+    XCTAssertTrue([exportDirContents count] == 4, @"BSON export directory should contain exactly 4 files!");
 }
 
 - (void)testImportSuccess
@@ -220,7 +220,7 @@
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
     NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
     BOOL success = [_db importCollections:@[@"a",@"b"] fromDirectory:importPath options:EJDBImportReplace];
-    STAssertTrue(success, @"Import of collections a and b should be successful!");
+    XCTAssertTrue(success, @"Import of collections a and b should be successful!");
 }
 
 - (void)testImportFail
@@ -229,9 +229,9 @@
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
     NSString *importPath = [bundlePath stringByAppendingPathComponent:@"pathNotExists"];
     BOOL success = [_db importCollections:@[@"a",@"b"] fromDirectory:importPath options:EJDBImportReplace];
-    STAssertFalse(success, @"Import of collections a and b from non-existent directory should not be successful!");
+    XCTAssertFalse(success, @"Import of collections a and b from non-existent directory should not be successful!");
     [_db populateError:&error];
-    STAssertNotNil(error, @"Error for failed import should not be nil!");
+    XCTAssertNotNil(error, @"Error for failed import should not be nil!");
 }
 
 - (void)testImportAllSuccess
@@ -239,7 +239,7 @@
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]]bundlePath];
     NSString *importPath = [bundlePath stringByAppendingPathComponent:@"import"];
     BOOL success = [_db importAllCollectionsFromDirectory:importPath options:EJDBImportReplace];
-    STAssertTrue(success, @"Import of collections a and b from non-existent directory should not be successful!");
+    XCTAssertTrue(success, @"Import of collections a and b from non-existent directory should not be successful!");
 }
 
 @end

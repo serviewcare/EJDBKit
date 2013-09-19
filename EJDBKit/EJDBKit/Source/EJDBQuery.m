@@ -78,6 +78,7 @@
     if (!qry) return nil;
     
     TCLIST *r = ejdbqryexecute(_collection.collection, qry, &_recordCount, queryOptions, NULL);
+    
     NSMutableArray *results = [[NSMutableArray alloc]init];
     for (int i = 0; i < TCLISTNUM(r);i++)
     {
@@ -89,10 +90,9 @@
         [results addObject:obj];
         bson_del(data);
     }
+    tcfree(r);
     ejdbquerydel(qry);
-    free(r);
-
-    return results;
+    return [NSArray arrayWithArray:results];
 }
 
 - (BSONEncoder *)queryBSON
