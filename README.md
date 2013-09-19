@@ -6,13 +6,16 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Sep 19, 2013 - v0.4.0
+- Support for Xcode 5
+- Support for OS X.
+- Cleaned up ejdb-build script.
+- Fixed up some warnings in codebase (-Wall).
+
 Sep 12, 2013 - v0.3.2
 - Bumped ejdb to v1.1.24.
 - Fixed up implicit conversion warnings.
 - The 0.3.x series will be the last to support Xcode 4.
-
-Sep 4, 2013 - v0.3.1
-- Bumped ejdb submodule to ejdb release v1.1.23
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
@@ -23,10 +26,11 @@ Having said that, I encourage you to, at least, start experimenting with the fra
 If you find any showstoppers, serious bugs or anything else noteworthy (not feature requests)
 please do let me know! One more thing...enjoy!!!!
 
-Xcode 4 support
+Xcode support
 ===================
 
-The 0.3.x series will be the last to support Xcode 4!
+From 0.4.0 and onwards only Xcode 5 or greater is supported.
+If you still use or need Xcode 4 you can clone/download the 0.3.2 release.
 
 Feature Requests
 ====================
@@ -203,8 +207,8 @@ It will create a docs directory with the generated HTML inside.
 iOS versions supported
 =======================
 
-The tcejdb library is built with a base of iOS 5.0 and deployment target of iOS 6.1.
-I can't vouch for earlier versions and I'm not really concerned either (come on folks we'll have 7.0 soon)!
+The tcejdb library is built with a base of iOS 7.0 and deployment target of iOS 6.1.
+Older SDKs are not supported.
 
 Collaboration
 ==============
