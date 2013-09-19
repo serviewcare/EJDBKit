@@ -12,7 +12,7 @@ IOS_SIM_DEVROOT="${DEVELOPER_DIR}/Platforms/iPhoneSimulator.platform/Developer"
 
 unsetenv()
 {
-        unset DEVROOT SDKROOT CFLAGS MYCFLAGS CC LD AR AS NM RANLIB LDFLAGS
+        unset DEVROOT SDKROOT CFLAGS MYCFLAGS CC LD AR AS NM RANLIB LDFLAGS MYCPPFLAGS MYCXXFLAGS CPPFLAGS CXXFLAGS
 }
 
 setenv_all()
@@ -22,10 +22,14 @@ setenv_all()
         export LD=$TOOLCHAIN_BIN_DIR/ld
         export AR=$TOOLCHAIN_BIN_DIR/ar
         export AS=$TOOLCHAIN_BIN_DIR/as
-        export NM=$TOOLCHAIN_BIN_DIR//nm
+        export NM=$TOOLCHAIN_BIN_DIR/nm
         export RANLIB=$TOOLCHAIN_BIN_DIR/ranlib
         export LDFLAGS="-L$SDKROOT/usr/lib/"
-        export MYCFLAGS=$CFLAGS        
+        export MYCFLAGS=$CFLAGS
+        export MYCPPFLAGS=$CFLAGS
+        export MYCXXFLAGS=$CFLAGS
+        export CPPFLAGS=$CFLAGS
+        export CXXFLAGS=$CFLAGS        
 }
  
 setenv_arm7()
