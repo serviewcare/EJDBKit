@@ -330,6 +330,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52EC76F5179F31B000EEC86D /* Build configuration list for PBXNativeTarget "EJDBKit" */;
 			buildPhases = (
+				52C93CD817EAE1E600C01F50 /* ShellScript */,
 				52EC76CC179F31B000EEC86D /* Sources */,
 				52EC76CD179F31B000EEC86D /* Frameworks */,
 				52EC76CE179F31B000EEC86D /* CopyFiles */,
@@ -426,6 +427,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call\n# lcov is pretty cool though! You can install through brew (or maybe macporst too?).\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
+		};
+		52C93CD817EAE1E600C01F50 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "##################################################################################\n# This script makes a fat binary based on the current architecture in an effort\n# to minimize the size of the lipo'd archive file.\n# NOTE: You must launch ejdb-build.sh before running this or else it will FAIL!!!!\n##################################################################################\n\nEJDB_DIR=`pwd`/ejdb\n\nif [ $CURRENT_ARCH = \"i386\" -o $CURRENT_ARCH = \"x86_64\" ]\nthen\n#lipo for simulator\nxcrun -sdk iphoneos lipo -arch i386 ${EJDB_DIR}/build/i386/lib/libtcejdb.a -arch x86_64 ${EJDB_DIR}/build/x86_64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nelse\n#lipo for device\nxcrun -sdk iphoneos lipo -arch armv7 ${EJDB_DIR}/build/armv7/lib/libtcejdb.a -arch armv7s ${EJDB_DIR}/build/armv7s/lib/libtcejdb.a -arch arm64 ${EJDB_DIR}/build/arm64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nfi\n";
 		};
 		52EC76DF179F31B000EEC86D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -630,7 +644,7 @@
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ejdb/lib\"",
@@ -652,7 +666,7 @@
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ejdb/lib\"",
