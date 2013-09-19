@@ -1,3 +1,4 @@
 [submodule "vendor/ejdb"]
 	path = vendor/ejdb
 	url = https://github.com/Softmotions/ejdb
+        ignore = dirty
