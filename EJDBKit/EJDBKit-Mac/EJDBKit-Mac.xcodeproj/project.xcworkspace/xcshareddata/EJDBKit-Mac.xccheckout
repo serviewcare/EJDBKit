@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>88EC3360-C5EA-4ADA-BB8C-BDAD5358DA98</string>
+	<string>13BE0553-8BCD-4599-A480-BFB645280B42</string>
 	<key>IDESourceControlProjectName</key>
 	<string>EJDBKit-Mac</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>186D2F72-0C60-4DF8-A19A-8DF3D514DD9D</key>
+		<key>4FDB6007-94EB-4183-94C7-A7AE734003BF</key>
 		<string>https://github.com/johnnyd/EJDBKit</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>186D2F72-0C60-4DF8-A19A-8DF3D514DD9D</key>
+		<key>4FDB6007-94EB-4183-94C7-A7AE734003BF</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>186D2F72-0C60-4DF8-A19A-8DF3D514DD9D</string>
+	<string>4FDB6007-94EB-4183-94C7-A7AE734003BF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>186D2F72-0C60-4DF8-A19A-8DF3D514DD9D</string>
+			<string>4FDB6007-94EB-4183-94C7-A7AE734003BF</string>
 			<key>IDESourceControlWCCName</key>
 			<string>EJDBKit</string>
 		</dict>

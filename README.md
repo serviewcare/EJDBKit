@@ -6,16 +6,15 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Sep 20, 203  - v0.4.1
+- Fixed a rather broken ejdb-build.sh script. Please make sure to delete your ejdb
+folder and re-run ejdb-build script after pulling!
+
 Sep 19, 2013 - v0.4.0
 - Support for Xcode 5
 - Support for OS X.
 - Cleaned up ejdb-build script.
 - Fixed up some warnings in codebase (-Wall).
-
-Sep 12, 2013 - v0.3.2
-- Bumped ejdb to v1.1.24.
-- Fixed up implicit conversion warnings.
-- The 0.3.x series will be the last to support Xcode 4.
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
