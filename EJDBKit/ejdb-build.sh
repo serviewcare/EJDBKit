@@ -1,6 +1,7 @@
-#!/bin/sh
-## A modified version of the cross compiler script from:
-## http://tinsuke.wordpress.com/2011/02/17/how-to-cross-compiling-libraries-for-ios-armv6armv7i386/
+#!/bin/bash
+# A modified version of the cross compiler script from:
+# http://tinsuke.wordpress.com/2011/02/17/how-to-cross-compiling-libraries-for-ios-armv6armv7i386/
+# Yes, it's sloppy...and Yes, it needs some love but for now it will have to do.
 
 IOS_BASE_SDK="7.0"
 IOS_DEPLOY_TGT="6.1"
@@ -168,10 +169,27 @@ install_i386()
 unset OUTDIR
 OUTDIR="`pwd`/ejdb"
 
-pushd ../vendor/ejdb/tcejdb
+if [ ! -d "$OUTDIR" ]
+then
+  mkdir $OUTDIR
+  mkdir $OUTDIR/build
+  mkdir -p $OUTDIR/include/tcejdb
+  mkdir -p $OUTDIR/include/tcejdb/nix
+fi
 
-rm -rf $OUTDIR/build
-mkdir $OUTDIR/build
+#cd to tcejdb folder
+#copy header files into OUTDIR/include/tcejdb
+
+cd ../vendor/ejdb/tcejdb
+HEADER_FILES=(tcutil.h tchdb.h tcbdb.h tcfdb.h tctdb.h tcadb.h ejdb.h ejdb_private.h bson.h myconf.h basedefs.h)
+for headerfile in ${HEADER_FILES[*]}
+do
+ cp $headerfile $OUTDIR/include/tcejdb
+done
+cp nix/platform.h $OUTDIR/include/tcejdb/nix/
+
+# if no args then make every arch
+# if args then do some very ugly string comparisons and if valid make for provided arg(s)
 
 if [ $# = 0 ]
 then
@@ -199,7 +217,7 @@ else
   done         
 fi
 
-
-popd
-pushd ejdb
-popd
+#keep our vendor/ejdb/tcejdb folder tidy by removing generated folders/files
+rm -r -f static
+rm libtcejdb.a
+cd -
