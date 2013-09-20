@@ -172,6 +172,7 @@ OUTDIR="`pwd`/ejdb"
 if [ ! -d "$OUTDIR" ]
 then
   mkdir $OUTDIR
+  mkdir $OUTDIR/lib
   mkdir $OUTDIR/build
   mkdir -p $OUTDIR/include/tcejdb
   mkdir -p $OUTDIR/include/tcejdb/nix
