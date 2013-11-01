@@ -66,7 +66,7 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
  Or:
        
        [EJDBFIQueryBuilder build].match(@"a",@1)
-                                 .beginsWith(@"b",@"prefix);
+                                 .beginsWith(@"b",@"prefix");
  
  You CANNOT however, do something like this:
  
