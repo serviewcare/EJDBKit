@@ -177,6 +177,12 @@
 */
 - (void)set:(NSDictionary *)keysAndValues;
 /**
+ Field(s) unset operation.
+ @param keys - An array containing the keys or keypaths that will be unset i.e. deleted.
+ @since - v0.4.2
+*/
+- (void)unset:(NSArray *)keys;
+/**
  Upsert operation.
  If matching records are found a set operation will be used, otherwise a new record will be inserted
  with the keys and values.

@@ -252,6 +252,15 @@
     };
 }
 
+- (ArrayBlock)unset
+{
+    return ^(NSArray *keys) {
+        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        [results setObject:keys forKey:@"$unset"];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+    };
+}
+
 - (DictionaryBlock)upsert
 {
     return ^(NSDictionary *dictionary) {

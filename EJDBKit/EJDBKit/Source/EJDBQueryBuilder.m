@@ -155,6 +155,11 @@
     [_query setObject:keysAndValues forKey:@"$set"];
 }
 
+- (void)unset:(NSArray *)keys
+{
+    [_query setObject:keys forKey:@"$unset"];
+}
+
 - (void)upsert:(NSDictionary *)keysAndValues
 {
     [_query setObject:keysAndValues forKey:@"$upsert"];

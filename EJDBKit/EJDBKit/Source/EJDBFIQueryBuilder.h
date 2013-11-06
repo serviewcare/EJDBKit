@@ -243,6 +243,12 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
 */
 - (DictionaryBlock)set;
 /**
+ Field unset operation.
+ @param keys - An array containing the fields or field paths that will be unset i.e. deleted.
+ @since - v0.4.2
+**/
+- (ArrayBlock)unset;
+/**
  Upsert operation.
  If matching records are found a set operation will be used, otherwise a new record will be inserted
  with the keys and values.
