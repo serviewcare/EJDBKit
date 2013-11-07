@@ -6,13 +6,13 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
-Nov 6, 2013  - v0.4.2
-- Bumped ejdb to v1.1.25
-- added support for unset operation in builder classes.
+Nov 7, 2013  - v0.4.3
+- Changed typedef enums to NS_* macros.
+- Removed some commented cruft from BSONEncoder.
 
-Sep 20, 2013  - v0.4.1
-- Fixed a rather broken ejdb-build.sh script. Please make sure to delete your ejdb
-folder and re-run ejdb-build script after pulling!
+Nov 6, 2013  - v0.4.2
+- Bumped ejdb to v1.1.25.
+- added support for unset operation in builder classes.
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
@@ -28,6 +28,12 @@ Xcode support
 
 From 0.4.0 and onwards only Xcode 5 or greater is supported.
 If you still use or need Xcode 4 you can clone/download the 0.3.2 release.
+
+Unit test support
+===================
+
+Unit tests use the new XCTest framework which means in order for the tests to run you must
+have your sim or device >= iOS v7.0!
 
 Feature Requests
 ====================

@@ -2,34 +2,33 @@
 #include "tcejdb/ejdb.h"
 #import "EJDBCollection.h"
 
-
 @class EJDBQuery;
 
-typedef enum {
-  /** Open as a reader. */
-  EJDBOpenReader = 1 << 0,
-  /** Open as a writer. */
-  EJDBOpenWriter = 1 << 1,
-  /** Create if db file does not exist. */
-  EJDBOpenCreator = 1 << 2,
-  /** Truncate db on open. */
-  EJDBOpenTruncator = 1 << 3,
-  /** Open without locking. */
-  EJDBOpenWithoutLock = 1 << 4,
-  /** Lock without blocking. */
-  EJDBOpenWithoutBlocking = 1 << 5,
-  /** Synchronize every transaction. */
-  EJDBOpenSynchronize = 1 << 6
-} EJDBOpenModes;
+typedef NS_OPTIONS(int, EJDBOpenModes)
+{
+    /** EJDBOpenReader - Open as a reader. */
+    EJDBOpenReader = 1 << 0,
+    /** EJDBOpenWriter - Open as a writer. */
+    EJDBOpenWriter = 1 << 1,
+    /** EJDBOpenCreator - Create if db file does not exist. */
+    EJDBOpenCreator = 1 << 2,
+    /** EJDBOpenTruncator - Truncate db on open. */
+    EJDBOpenTruncator = 1 << 3,
+    /** EJDBOpenWithoutLock - Open without locking. */
+    EJDBOpenWithoutLock = 1 << 4,
+    /** EJDBOpenWithoutBlocking - Lock without blocking. */
+    EJDBOpenWithoutBlocking = 1 << 5,
+    /** EJDBOpenSynchronize - Synchronize every transaction. */
+    EJDBOpenSynchronize = 1 << 6
+};
 
-typedef enum {
-  /** Update existing collection entries with imported ones. Collections will not be recreated and its options are ignored. */
-  EJDBImportUpdate = 1 << 1,
-  /** Recreate existing collections and replace all collection data with imported entries. */
-  EJDBImportReplace = 1 << 2
-} EJDBImportOptions;
-
-
+typedef NS_OPTIONS(int, EJDBImportOptions)
+{
+    /** EJDBImportUpdate - Update existing collection entries with imported ones. Collections will not be recreated and its options are ignored. */
+    EJDBImportUpdate = 1 << 1,
+    /** EJDBImportReplace - Recreate existing collections and replace all collection data with imported entries. */
+    EJDBImportReplace = 1 << 2
+};
 
 /** Transaction block definition. Used for executing statements in transaction. 
  @return YES - if you'd like to commit the transaction. NO - if you'd like to abort it.
@@ -192,7 +191,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param path - The directory path to which the collections should be exported.
  @param asJSON - YES, if you'd like the collections to be exported as JSON. NO, if you want them exported as BSON.
  Note: You can only import collections that were exported in BSON format!
- @returns - YES if successfull. NO if not.
+ @returns - YES if successful. NO if not.
  @since - v0.3.0
 */
 - (BOOL)exportCollections:(NSArray *)collections toDirectory:(NSString *)path asJSON:(BOOL)asJSON;
@@ -201,7 +200,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param path - The directory path to which the collections should be exported.
  @param asJSON - YES, if you'd like the collections to be exported as JSON. NO, if you want them exported as BSON.
  Note: You can only import collections that were exported in BSON format!
- @returns - YES if successfull. NO if not.
+ @returns - YES if successful. NO if not.
  @since - v0.3.0
 */
 - (BOOL)exportAllCollectionsToDirectory:(NSString *)path asJSON:(BOOL)asJSON;
@@ -210,7 +209,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @param collections - The array of names of the collections to be imported.
  @param path - The directory path from which to import.
  @param options - The options that can be supplied that affect import. See ::EJDBImportOptions for possible options.
- @returns - YES if successfull. NO if not.
+ @returns - YES if successful. NO if not.
  @since - v0.3.0
 */
 - (BOOL)importCollections:(NSArray *)collections fromDirectory:(NSString *)path options:(EJDBImportOptions)options;
@@ -218,7 +217,7 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  Import all collections from a specified directory.
  @param path - The directory path from which to import.
  @param options - The options that can be supplied that affect import. See ::EJDBImportOptions for possible options.
- @returns - YES if successfull. NO if not.
+ @returns - YES if successful. NO if not.
  @since - v0.3.0
 */
 - (BOOL)importAllCollectionsFromDirectory:(NSString *)path options:(EJDBImportOptions)options;

@@ -4,26 +4,25 @@
 @class BSONEncoder;
 @class EJDBDatabase;
 
-typedef enum
+typedef NS_OPTIONS(int, EJDBIndexOptions)
 {
-  /** Drop index. */
-  EJDBIndexDrop = 1 << 0,
-  /** Drop index for all types. */
-  EJDBIndexDropAll = 1 << 1,
-  /** Optimize indexes. */
-  EJDBIndexOptimize = 1 << 2,
-  /** Rebuild index. */
-  EJDBIndexRebuild = 1 << 3,
-  /** Number index. */
-  EJDBIndexNumber = 1 << 4,
-  /** String index. */
-  EJDBIndexString = 1 << 5,
-  /** Array token index. */
-  EJDBIndexArray = 1 << 6,
-  /** Case insensitive string index. */
-  EJDBIndexStringCaseInsensitive = 1 << 7
-}
-EJDBIndexOptions;
+    /** EJDBIndexDrop - Drop index. */
+    EJDBIndexDrop = 1 << 0,
+    /** EJDBIndexDropAll - Drop index for all types. */
+    EJDBIndexDropAll = 1 << 1,
+    /** EJDBIndexOptimize - Optimize indexes. */
+    EJDBIndexOptimize = 1 << 2,
+    /** EJDBIndexRebuild - Rebuild index. */
+    EJDBIndexRebuild = 1 << 3,
+    /** EJDBIndexNumber - Number index. */
+    EJDBIndexNumber = 1 << 4,
+    /** EJDBIndexString - String index. */
+    EJDBIndexString = 1 << 5,
+    /** EJDBIndexArray - Array token index. */
+    EJDBIndexArray = 1 << 6,
+    /** EJDBIndexStringCaseInsensitive - Case insensitive string index. */
+    EJDBIndexStringCaseInsensitive = 1 << 7
+};
 
 /** 
  EJDBCollectionOptions structure fields.

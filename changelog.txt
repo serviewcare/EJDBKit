@@ -1,7 +1,11 @@
+Nov 7, 2013  - v0.4.3
+- Changed typedef enums to NS_* macros.
+- Removed some commented cruft from BSONEncoder.
+------------------------------------
 Nov 6, 2013  - v0.4.2
 - Bumped ejdb to v1.1.25
 - added support for unset operation in builder classes.
-
+------------------------------------
 Sep 20, 2013  - v0.4.1
 - Fixed a rather broken ejdb-build.sh script. Please make sure to delete your ejdb
 folder and re-run ejdb-build script after pulling!

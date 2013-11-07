@@ -1,12 +1,12 @@
 #import <Foundation/Foundation.h>
 #include "tcejdb/ejdb.h"
 
-typedef enum {
-  /** Fetch only the count of records. */
-  EJDBQueryCountOnly = 1,
-  /** Fetch only the first record. */
-  EJDBQueryFetchFirstOnly = 1 << 1
-} EJDBQueryOptions;
+typedef NS_OPTIONS(int, EJDBQueryOptions) {
+    /** EJDBQueryCountOnly - Fetch only the count of records. */
+    EJDBQueryCountOnly = 1,
+    /** EJDBQueryFetchFirstOnly - Fetch only the first record. */
+    EJDBQueryFetchFirstOnly = 1 << 1
+};
 
 @class EJDBCollection;
 
