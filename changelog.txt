@@ -1,3 +1,7 @@
+Jan 10, 2014 - v0.5.1
+- Oops! Forgot to add EJDBQueryBuilderProtocol to EJDBKit.h and thus broke iOS demo. v0.5.0 release is therefore broken!
+- Added convenience method to EJDBCollection to allow for updating with a builder instance.
+
 Jan 10, 2014 - v0.5.0
 - Created EJDBQueryBuilderProtocol to make querying more convenient/cleaner.
 - Created convenience methods in Database, Collection and Query classes to allow for easier use of QueryBuilder classes.
