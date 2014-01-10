@@ -6,13 +6,13 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Jan 10, 2014 - v0.5.0
+- Created EJDBQueryBuilderProtocol to make querying more convenient/cleaner.
+- Created convenience methods in Database, Collection and Query classes to allow for easier use of QueryBuilder classes.
+
 Nov 7, 2013  - v0.4.3
 - Changed typedef enums to NS_* macros.
 - Removed some commented cruft from BSONEncoder.
-
-Nov 6, 2013  - v0.4.2
-- Bumped ejdb to v1.1.25.
-- added support for unset operation in builder classes.
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)

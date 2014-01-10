@@ -1,3 +1,7 @@
+Jan 10, 2014 - v0.5.0
+- Created EJDBQueryBuilderProtocol to make querying more convenient/cleaner.
+- Created convenience methods in Database, Collection and Query classes to allow for easier use of QueryBuilder classes.
+------------------------------------
 Nov 7, 2013  - v0.4.3
 - Changed typedef enums to NS_* macros.
 - Removed some commented cruft from BSONEncoder.
