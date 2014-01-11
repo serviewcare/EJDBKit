@@ -1,6 +1,7 @@
 .DS_Store
 ejdbkit.xcworkspace/xcuserdata
 ejdbkit.xcworkspace/xcuserdata/*.xcuserdatad
+ejdbkit.xcworkspace/xcuserdata/*.xcuserdatad/xcschemes
 ejdbkit.xcodeproj/xcuserdata
 ejdbkit.xcodeproj/project.xcworkspace/xcuserdata
 EJDBKit/EJDBKit.xcodeproj/xcuserdata
