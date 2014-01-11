@@ -6,6 +6,7 @@ ejdbkit.xcodeproj/xcuserdata
 ejdbkit.xcodeproj/project.xcworkspace/xcuserdata
 EJDBKit/EJDBKit.xcodeproj/xcuserdata
 EJDBKit/EJDBKit.xcodeproj/xcuserdata/*.xcuserdatad
+EJDBKit/EJDBKit.xcodeproj/xcuserdata/*.xcuserdatad/xcschemes/
 EJDBKit/ejdb/
 EJDBKit/build
 EJDBKit/coverage
