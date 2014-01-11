@@ -1,11 +1,10 @@
 .DS_Store
 ejdbkit.xcworkspace/xcuserdata
-ejdbkit.xcodeproj/xcuserdata/*.*
-ejdbkit.xcodeproj/project.xcworkspace/xcuserdata/*.*
-EJDBKit/EJDBKit.xcodeproj/xcuserdata/*.*
+ejdbkit.xcodeproj/xcuserdata
+ejdbkit.xcodeproj/project.xcworkspace/xcuserdata
+EJDBKit/EJDBKit.xcodeproj/xcuserdata
 EJDBKit/ejdb/
 EJDBKit/build
 EJDBKit/coverage
-EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/project.xcworkspace/xcuserdata/*.*
-EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/project.xcworkspace/xcshareddata/*.*
+EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/project.xcworkspace/xcuserdata
 docs
