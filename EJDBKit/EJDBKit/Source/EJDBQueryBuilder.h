@@ -1,10 +1,11 @@
 #import <Foundation/Foundation.h>
+#import "EJDBQueryBuilderDelegate.h"
 
 /**
  This class is a utility to create ejdb queries in a programmatic fashion
  as opposed to hand coding queries with dictionaries.
 */
-@interface EJDBQueryBuilder : NSObject
+@interface EJDBQueryBuilder : NSObject <EJDBQueryBuilderDelegate>
 
 /** 
  The dictionary representation of the query built so far.

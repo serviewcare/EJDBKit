@@ -21,12 +21,14 @@
 
 - (NSDictionary *)query
 {
-    return [NSDictionary dictionaryWithDictionary:_query];
+    //return [NSDictionary dictionaryWithDictionary:_query];
+    return _query;
 }
 
 - (NSDictionary *)hints
 {
-    return [NSDictionary dictionaryWithDictionary:_hints];
+    //return [NSDictionary dictionaryWithDictionary:_hints];
+    return _hints;
 }
 
 - (void)path:(NSString *)path matches:(id)value
@@ -210,7 +212,7 @@
     NSMutableDictionary *fieldsDictionary = [NSMutableDictionary dictionary];
     for (NSString *field in fields)
     {
-        [fieldsDictionary setObject:@YES forKey:field];
+        [fieldsDictionary setObject:@1 forKey:field];
     }
     [_hints setObject:[NSDictionary dictionaryWithDictionary:fieldsDictionary] forKey:@"$fields"];
 }

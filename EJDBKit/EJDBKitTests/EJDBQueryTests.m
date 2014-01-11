@@ -2,7 +2,10 @@
 #import "EJDBDatabase+DBTestExtensions.h"
 #import "EJDBQuery.h"
 #import "EJDBCollection.h"
+#import "EJDBQueryBuilder.h"
+#import "EJDBFIQueryBuilder.h"
 #import "EJDBTestFixtures.h"
+
 
 @interface EJDBQueryTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
@@ -22,6 +25,7 @@
 - (void)tearDown
 {
     [EJDBDatabase closeAndDeleteDb:_db];
+    _collection = nil;
     [super tearDown];
 }
 
@@ -52,6 +56,32 @@
     XCTAssertNotNil(object, @"Fetched object should not be nil!");
     XCTAssertTrue([[object objectForKey:@"name"] isEqualToString:name], @"Saved name should equal fetched name!");
 }
+
+
+- (void)testFetchObjectWithEJDBQueryBuilder
+{
+    NSString *name = [[EJDBTestFixtures simpleDictionaries][0] objectForKey:@"name"];
+    [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc]init];
+    [builder path:@"name" beginsWith:@"j"];
+    [builder onlyFields:@[@"name"]];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection queryBuilder:builder];
+    NSDictionary *object = [query fetchObject];
+    XCTAssertNotNil(object, @"Fetched object should not be nil!");
+    XCTAssertTrue([[object objectForKey:@"name"] isEqualToString:name], @"Saved name should equal fetched name!");
+}
+
+- (void)testFetchObjectWithEJDBFIQueryBuilder
+{
+    NSString *name = [[EJDBTestFixtures simpleDictionaries][0] objectForKey:@"name"];
+    [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].beginsWith(@"name",@"j").onlyFields(@[@"name"]);
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection queryBuilder:builder];
+    NSDictionary *object = [query fetchObject];
+    XCTAssertNotNil(object, @"Fetched object should not be nil!");
+    XCTAssertTrue([[object objectForKey:@"name"] isEqualToString:name], @"Saved name should equal fetched name!");
+}
+
 
 - (void)testFetchObjectWithError
 {

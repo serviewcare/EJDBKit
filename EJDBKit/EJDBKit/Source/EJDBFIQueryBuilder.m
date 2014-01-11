@@ -360,7 +360,7 @@
         NSMutableDictionary *fieldsDictionary = [NSMutableDictionary dictionary];
         for (NSString *field in fields)
         {
-            [fieldsDictionary setObject:@YES forKey:field];
+            [fieldsDictionary setObject:@1 forKey:field];
         }
         [results setObject:[NSDictionary dictionaryWithDictionary:fieldsDictionary] forKey:@"$fields"];
         return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results]];

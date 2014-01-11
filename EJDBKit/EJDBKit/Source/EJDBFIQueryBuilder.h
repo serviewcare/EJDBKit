@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "EJDBQueryBuilderDelegate.h"
 
 @class EJDBFIQueryBuilder;
 
@@ -43,7 +44,7 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
  If you are an objective-c purist and believe this is as an abomination :), take a look at the EJDBQueryBuilder
  class for a more traditional means of building queries.
 */
-@interface EJDBFIQueryBuilder : NSObject
+@interface EJDBFIQueryBuilder : NSObject <EJDBQueryBuilderDelegate>
 
 /**
  The dictionary representation of the query built so far.
