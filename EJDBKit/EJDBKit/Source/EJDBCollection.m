@@ -93,11 +93,13 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
 
 - (BOOL)saveObject:(id)object
 {
+   if (!object) return 0;
    return [self saveObjects:@[object]];
 }
 
 - (BOOL)saveObjects:(NSArray *)objects
 {
+    if (!objects) return NO;
     for (id object in objects)
     {
         if (![EJDBCollection isSupportedObject:object]) return NO;
@@ -172,7 +174,6 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
 
 - (int)updateWithQueryBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder
 {
-
     return [self updateWithQuery:[queryBuilder query] hints:[queryBuilder hints]];
 }
 

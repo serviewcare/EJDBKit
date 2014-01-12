@@ -34,11 +34,23 @@
     BOOL success = [_collection saveObject:obj1];
     XCTAssertTrue(success, @"object should be saved successfully!");
 }
+
+- (void)testSavingNilObjectFails
+{
+    BOOL success = [_collection saveObject:nil];
+    XCTAssertFalse(success, @"Nil object should not be saved successfully!");
+}
  
 - (void)testSaveObjectsSuccessfully
 {
     BOOL success = [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
     XCTAssertTrue(success, @"objects should be saved successfully!");
+}
+
+- (void)testSavingNilObjectsFails
+{
+    BOOL success = [_collection saveObjects:nil];
+    XCTAssertFalse(success, @"Nil objects should not be saved successfully!");
 }
 
 - (void)testRemoveDictionaryWithOIDSucceeds
