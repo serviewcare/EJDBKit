@@ -6,6 +6,11 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Jan 12, 2013 - v0.5.0
+- added convenience methods to Database, Collection and Query classes to allow for use of query builders.          
+- gitignore cleanup and wrangling.
+- update mac project.
+
 Jan 11, 2013 - v0.4.4
 - gitignore cleanup      
 - readded xccheckout to work properly with xcode5.
