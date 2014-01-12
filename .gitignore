@@ -3,4 +3,5 @@ EJDBKit/ejdb/
 EJDBKit/build
 EJDBKit/coverage
 xcuserdata
+*.xccheckout
 docs
