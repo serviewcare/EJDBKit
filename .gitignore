@@ -11,5 +11,6 @@ EJDBKit/ejdb/
 EJDBKit/build
 EJDBKit/coverage
 EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/project.xcworkspace/xcuserdata
-xcuserdata
+EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/xcuserdata/*.xcuserdata/
+EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/xcuserdata/
 docs
