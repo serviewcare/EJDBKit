@@ -1,2 +1,4 @@
-IOSDemo.xcodeproj/xcuserdata
-IOSDemo.xcodeproj/project.xcworkspace/xcuserdata/*
+#IOSDemo.xcodeproj/xcuserdata
+#IOSDemo.xcodeproj/project.xcworkspace/xcuserdata/*
+xcuserdata
+*.xccheckout
