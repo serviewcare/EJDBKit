@@ -2,7 +2,10 @@
 #import "EJDBDatabase.h"
 #import "EJDBCollection.h"
 #import "EJDBQuery.h"
+#import "EJDBQueryBuilder.h"
+#import "EJDBFIQueryBuilder.h"
 #import "EJDBTestFixtures.h"
+
 
 @interface EJDBDatabaseTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
@@ -126,10 +129,52 @@
     XCTAssertNil([results[0] valueForKey:@"address"], @"address field should not exist!");
 }
 
+- (void)testFindObjectsWithQueryBuilderSuccessfully
+{
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc]init];
+    [builder path:@"name" beginsWith:@"j"];
+    [builder onlyFields:@[@"name"]];
+    NSArray *results = [_db findObjectsWithQueryBuilder:builder inCollection:collection error:NULL];
+    XCTAssertNotNil(results, @"results should not be nil!");
+    XCTAssertTrue([results count] == 2, @"results count should be exactly 2");
+    XCTAssertNil([results[0] valueForKey:@"address"], @"address field should not exist!");
+}
+
+- (void)testFindObjectsWithFIQueryBuilderSuccessfully
+{
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    [collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].beginsWith(@"name",@"j")
+                                                            .onlyFields(@[@"name"]);
+    NSArray *results = [_db findObjectsWithQueryBuilder:builder inCollection:collection error:NULL];
+    XCTAssertNotNil(results, @"results should not be nil!");
+    XCTAssertTrue([results count] == 2, @"results count should be exactly 2");
+    XCTAssertNil([results[0] valueForKey:@"address"], @"address field should not exist!");
+}
+
 - (void)testCreatedQueryNotNil
 {
     EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
     EJDBQuery *query = [_db createQuery:@{@"name" : @"joe blow"} hints:nil forCollection:collection];
+    XCTAssertNotNil(query, @"Query should not be nil!");
+}
+
+- (void)testQueryCreatedWithQueryBuilderNotNil
+{
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc] init];
+    [builder path:@"name" matches:@"joe blow"];
+    EJDBQuery *query = [_db createQueryWithBuilder:builder forCollection:collection];
+    XCTAssertNotNil(query, @"Query should not be nil!");
+}
+
+- (void)testQueryCreatedWithFIQueryBuilderNotNil
+{
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].match(@"name",@"joe blow");
+    EJDBQuery *query = [_db createQueryWithBuilder:builder forCollection:collection];
     XCTAssertNotNil(query, @"Query should not be nil!");
 }
 

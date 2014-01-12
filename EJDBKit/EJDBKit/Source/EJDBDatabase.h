@@ -153,17 +153,15 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
 - (NSArray *)findObjectsWithQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints inCollection:(EJDBCollection *)collection
                             error:(NSError **)error;
 /**
- Create a query with the provided dictionary. This method doesn't actually fetch the objects, it only creates the query for later fetching.
+ Finds all objects sthat match the criteria passed in the query builder.
  Please look at ejdb.h for more info on queries and query hints.
- This method is deprecated and will be removed from v0.5.0
- 
- @param query - The query dictionary.
- @param collection - The collection to create the query for.
+ @param queryBuilder - An object that implements the EJDBQueryBuilderDelegate protocol such as EJDBQueryBuilder or EJDBFIQueryBuilder.
+ @param collection - The collection to query.
  @param error - The error object. Pass a NULL if not interested in retrieving the possible error.
- @returns - The EJDBQuery ready for fetching or nil if there was an error.
- @since - v0.1.0
+ @returns - Array of objects matching the criteria or nil if there was an error.
+ @since - v0.5.0
 */
-- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error __deprecated;
+- (NSArray *)findObjectsWithQueryBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder inCollection:(EJDBCollection *)collection error:(NSError **)error;
 /**
  Create a query with the provided dictionary and hints. This method doesn't actually fetch the objects, it only creates the query for later fetching.
  Please look at ejdb.h for more info on queries and query hints.
@@ -175,6 +173,17 @@ typedef BOOL(^EJDBTransactionBlock)(EJDBCollection *collection, NSError **error)
  @since - v0.2.0
 */
 - (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection;
+
+/**
+ Create a query with the provided query builder. This method doesn't actually fetch the objects, it only creates the query for later fetching.
+ Please look at ejdb.h for more info on queries and query hints.
+ @param queryBuilder - An object that implements the EJDBQueryBuilderDelegate protocol such as EJDBQueryBuilder or EJDBFIQueryBuilder.
+ @param collection - The collection to create the query for.
+ @returns - The EJDBQuery ready for fetching.
+ @since - v0.5.0
+*/
+- (EJDBQuery *)createQueryWithBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder forCollection:(EJDBCollection *)collection;
+
 /**
  Executes the statements by the provided EJDBTransactionBlock as a transaction.
  The block gives you access to the EJDBCollection specified in the collection argument.

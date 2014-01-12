@@ -2,6 +2,7 @@
 #import "BSONEncoder.h"
 #import "BSONDecoder.h"
 #import "EJDBQuery.h"
+#import "EJDBQueryBuilderDelegate.h"
 
 @interface EJDBDatabase ()
 @property (copy,nonatomic) NSString *dbPath;
@@ -125,17 +126,20 @@
     return results;
 }
 
-/* DEPRECATED METHOD!!! REMOVE IN 0.5.0!!!! */
-- (EJDBQuery *)createQuery:(NSDictionary *)query forCollection:(EJDBCollection *)collection error:(NSError **)error
+- (NSArray *)findObjectsWithQueryBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder inCollection:(EJDBCollection *)collection error:(NSError **)error
 {
-    error = nil; // let's shut up our unused parameter warning.
-    return [self createQuery:query hints:nil forCollection:collection];
+   return  [self findObjectsWithQuery:[queryBuilder query] hints:[queryBuilder hints] inCollection:collection error:error];
 }
 
 - (EJDBQuery *)createQuery:(NSDictionary *)query hints:(NSDictionary *)queryHints forCollection:(EJDBCollection *)collection
 {
     EJDBQuery *ejdbQuery = [[EJDBQuery alloc]initWithCollection:collection query:query hints:queryHints];
     return ejdbQuery;
+}
+
+- (EJDBQuery *)createQueryWithBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder forCollection:(EJDBCollection *)collection
+{
+    return [self createQuery:[queryBuilder query] hints:[queryBuilder hints] forCollection:collection];
 }
 
 - (BOOL)transactionInCollection:(EJDBCollection *)collection error:(NSError **)error transaction:(EJDBTransactionBlock)transaction

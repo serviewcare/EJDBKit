@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #include "tcejdb/ejdb.h"
-#import "EJDBQueryBuilderDelegate.h"
 
 typedef NS_OPTIONS(int, EJDBQueryOptions) {
     /** EJDBQueryCountOnly - Fetch only the count of records. */
@@ -10,7 +9,7 @@ typedef NS_OPTIONS(int, EJDBQueryOptions) {
 };
 
 @class EJDBCollection;
-
+@protocol EJDBQueryBuilderDelegate;
 
 /**
  This class wraps the EJQ query object and provides a facility for fetching one or more objects.

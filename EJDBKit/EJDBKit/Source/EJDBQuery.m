@@ -4,6 +4,7 @@
 #import "BSONEncoder.h"
 #import "BSONDecoder.h"
 #import "BSONArchiving.h"
+#import "EJDBQueryBuilderDelegate.h"
 
 @interface EJDBQuery ()
 @property (strong,nonatomic) EJDBCollection *collection;
@@ -111,7 +112,7 @@
 
 - (BSONEncoder *)hintsBSON
 {
-    if (_hints != nil)
+    if (_hints != nil && [_hints count] > 0)
     {
         BSONEncoder *bsonHints = [[BSONEncoder alloc]initAsQuery];
         [bsonHints encodeDictionary:_hints];
