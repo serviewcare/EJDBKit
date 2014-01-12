@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1B2C6B53-5D0C-4CE3-8435-DB0768E40A97</string>
+	<key>IDESourceControlProjectName</key>
+	<string>EJDBKit-Mac</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>192A94A0-5E08-4691-AEEF-03B593B9BF94</key>
+		<string>https://github.com/johnnyd/EJDBKit</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>192A94A0-5E08-4691-AEEF-03B593B9BF94</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/johnnyd/EJDBKit</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>192A94A0-5E08-4691-AEEF-03B593B9BF94</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>192A94A0-5E08-4691-AEEF-03B593B9BF94</string>
+			<key>IDESourceControlWCCName</key>
+			<string>EJDBKit</string>
+		</dict>
+	</array>
+</dict>
+</plist>
