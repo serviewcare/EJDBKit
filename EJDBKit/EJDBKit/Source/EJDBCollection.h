@@ -3,6 +3,7 @@
 
 @class BSONEncoder;
 @class EJDBDatabase;
+@protocol EJDBQueryBuilderDelegate;
 
 typedef NS_OPTIONS(int, EJDBIndexOptions)
 {
@@ -115,6 +116,15 @@ extern NSString * const EJDBCollectionObjectRemovedNotification;
  @since - v0.1.0
 */
 - (int)updateWithQuery:(NSDictionary *)query;
+
+/**
+ Updates the collection that match the criteria specified in the query builder.
+ @param - An object that implements the EJDBQueryBuilderDelegate protocol such as EJDBQueryBuilder or EJDBFIQueryBuilder.
+ @returns - The count of objects updated in the collection.
+ @since - v0.5.0
+*/
+- (int)updateWithQueryBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder;
+
 /** 
  Updates the collection that match the criteria specified in the query dictionary.
  @param query - The query dictionary.

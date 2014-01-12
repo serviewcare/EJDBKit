@@ -21,14 +21,12 @@
 
 - (NSDictionary *)query
 {
-    //return [NSDictionary dictionaryWithDictionary:_query];
-    return _query;
+    return [NSDictionary dictionaryWithDictionary:_query];
 }
 
 - (NSDictionary *)hints
 {
-    //return [NSDictionary dictionaryWithDictionary:_hints];
-    return _hints;
+    return [NSDictionary dictionaryWithDictionary:_hints];
 }
 
 - (void)path:(NSString *)path matches:(id)value

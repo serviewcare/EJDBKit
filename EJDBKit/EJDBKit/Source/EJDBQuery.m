@@ -32,9 +32,7 @@
 
 - (id)initWithCollection:(EJDBCollection *)collection queryBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder
 {
-    NSDictionary *query = [queryBuilder query];
-    NSDictionary *hints = [queryBuilder hints];
-    return [self initWithCollection:collection query:query hints:hints];
+    return [self initWithCollection:collection query:[queryBuilder query] hints:[queryBuilder hints]];
 }
 
 - (uint32_t)recordCount

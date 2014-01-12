@@ -3,6 +3,7 @@
 #import "BSONDecoder.h"
 #import "BSONArchiving.h"
 #import "EJDBDatabase.h"
+#import "EJDBQueryBuilderDelegate.h"
 
 NSString * const EJDBCollectionObjectSavedNotification = @"EJDBCollectionObjectSavedNotification";
 NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjectRemovedNotification";
@@ -169,19 +170,29 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
     return [self updateWithQuery:query hints:NULL];
 }
 
+- (int)updateWithQueryBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder
+{
+
+    return [self updateWithQuery:[queryBuilder query] hints:[queryBuilder hints]];
+}
+
 - (int)updateWithQuery:(NSDictionary *)query hints:(NSDictionary *)hints
 {
+    NSDictionary *theQuery = [query count] == 0 ? NULL : query;
+    if (theQuery == nil) return 0;
+    NSDictionary *theHints = [hints count] == 0 ? NULL : hints;
     BSONEncoder *queryBsonEncoder = [[BSONEncoder alloc]initAsQuery];
-    [queryBsonEncoder encodeDictionary:query];
+    [queryBsonEncoder encodeDictionary:theQuery];
     [queryBsonEncoder finish];
     bson *queryHints = NULL;
-    if (hints)
+    if (theHints)
     {
         BSONEncoder *queryHintsBsonEncoder = [[BSONEncoder alloc]initAsQuery];
-        [queryBsonEncoder encodeDictionary:hints];
+        [queryBsonEncoder encodeDictionary:theHints];
         [queryBsonEncoder finish];
         queryHints = queryHintsBsonEncoder.bson;
     }
+    
     return ejdbupdate(_collection, queryBsonEncoder.bson, NULL, 0, queryHints, NULL);
 }
 

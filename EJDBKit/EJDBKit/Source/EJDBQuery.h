@@ -38,13 +38,13 @@ typedef NS_OPTIONS(int, EJDBQueryOptions) {
  @since - v0.2.0
 */
 - (id)initWithCollection:(EJDBCollection *)collection query:(NSDictionary *)query;
-
 /**
- 
+ A convenience initializer to allow for specifying a query with a query builder as opposed to plain dictionaries.
+ @param collection - The collection this query will belong to.
+ @param queryBuilder - An object that implements the EJDBQueryBuilderDelegate such as EJDBQueryBuilder or EJDBFIQueryBuilder.
+ @since - v0.5.0
 */
 - (id)initWithCollection:(EJDBCollection *)collection queryBuilder:(id<EJDBQueryBuilderDelegate>)queryBuilder;
-
-
 /**
  The count of records returned by a query.
  @since - v0.1.0

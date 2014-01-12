@@ -1,6 +1,8 @@
 #import "EJDBCollectionTests.h"
 #import "EJDBDatabase+DBTestExtensions.h"
 #import "EJDBCollection.h"
+#import "EJDBQueryBuilder.h"
+#import "EJDBFIQueryBuilder.h"
 #import "EJDBTestFixtures.h"
 
 
@@ -22,6 +24,7 @@
 - (void)tearDown
 {
     [EJDBDatabase closeAndDeleteDb:_db];
+    _collection = nil;
     [super tearDown];
 }
 
@@ -123,6 +126,18 @@
     XCTAssertTrue([[fetchedObj toDictionary] isEqualToDictionary:[obj1 toDictionary]], @"Created object and fetched object should be equal!");
 }
 
+- (void)testUpdatingObjectWithEmptyQueryAndHintsReturnsZero
+{
+    int updateCount = [_collection updateWithQuery:@{} hints:@{}];
+    XCTAssertTrue(updateCount == 0, @"Update count with empty query and hints should be exactly 0!");
+}
+
+- (void)testUpdatingObjectWithNilQueryAndHintsReturnsZero
+{
+    int updateCount = [_collection updateWithQuery:nil hints:nil];
+    XCTAssertTrue(updateCount == 0, @"Update count with nil query and hints should be exactly 0!");
+}
+
 - (void)testUpdatingObjectWithQueryReturnsCountOfOneRecord
 {
     NSDictionary *obj1 = @{@"_id" : @"012345678901234567890123",@"name" : @"foo", @"age" : @32};
@@ -135,6 +150,32 @@
       @"$set" : @{@"age": @35}
      };
     int updateCount = [_collection updateWithQuery:query];
+    XCTAssertEqual(updateCount, 1, @"Update query should update exactly 1 object!");
+    NSDictionary *fetchedObject = [_collection fetchObjectWithOID:@"012345678901234567890123"];
+    XCTAssertEqual([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
+}
+
+- (void)testUpdatingObjectWithQueryBuilderSucceeds
+{
+    NSDictionary *obj1 = @{@"_id" : @"012345678901234567890123",@"name" : @"foo", @"age" : @32};
+    NSDictionary *obj2 = @{@"_id" : @"123456789012345678901234", @"name": @"bar", @"age" : @25};
+    [_collection saveObjects:@[obj1,obj2]];
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc]init];
+    [builder path:@"_id" matches:@"012345678901234567890123"];
+    [builder set:@{@"age": @35}];
+    int updateCount = [_collection updateWithQueryBuilder:builder];
+    XCTAssertEqual(updateCount, 1, @"Update query should update exactly 1 object!");
+    NSDictionary *fetchedObject = [_collection fetchObjectWithOID:@"012345678901234567890123"];
+    XCTAssertEqual([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");
+}
+
+- (void)testUpdatingObjectWithFIQueryBuilderSucceeds
+{
+    NSDictionary *obj1 = @{@"_id" : @"012345678901234567890123",@"name" : @"foo", @"age" : @32};
+    NSDictionary *obj2 = @{@"_id" : @"123456789012345678901234", @"name": @"bar", @"age" : @25};
+    [_collection saveObjects:@[obj1,obj2]];
+    EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].match(@"_id",@"012345678901234567890123").set(@{@"age" : @35});
+    int updateCount = [_collection updateWithQueryBuilder:builder];
     XCTAssertEqual(updateCount, 1, @"Update query should update exactly 1 object!");
     NSDictionary *fetchedObject = [_collection fetchObjectWithOID:@"012345678901234567890123"];
     XCTAssertEqual([[fetchedObject objectForKey:@"age"]intValue], 35, @"Age of foo should be 35 after update!");

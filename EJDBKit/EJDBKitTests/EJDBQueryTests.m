@@ -82,6 +82,21 @@
     XCTAssertTrue([[object objectForKey:@"name"] isEqualToString:name], @"Saved name should equal fetched name!");
 }
 
+- (void)testEmptyQueryAndHintsWithQueryBuilderSuccess
+{
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc] init];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection queryBuilder:builder];
+    NSDictionary *object = [query fetchObject];
+    XCTAssertNil(object, @"object should be nil for empty query!");
+}
+
+- (void)testEmptyFIQueryAndHintsWithFIQueryBuilderSuccess
+{
+    EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection queryBuilder:builder];
+    NSDictionary *object = [query fetchObject];
+    XCTAssertNil(object, @"object should be nil for empty query!");
+}
 
 - (void)testFetchObjectWithError
 {
@@ -102,6 +117,27 @@
     NSArray *results = [query fetchObjects];
     XCTAssertTrue([results count] == 2, @"Fetched objects count should be exactly 2!");
     XCTAssertTrue([query recordCount] == 2, @"Record count should be exactly 2!");
+}
+
+- (void)testFetchObjectsWithQueryBuilder
+{
+    [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc]init];
+    [builder path:@"name" beginsWith:@"j"];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection queryBuilder:builder];
+    NSArray *results = [query fetchObjects];
+    XCTAssertTrue([results count] == 2, @"Fetched objects count should be exactly 2!");
+    XCTAssertTrue([query recordCount] == 2, @"Record counts should be exactly 2!");
+}
+
+- (void)testFetchObjectsWithFIQueryBuilder
+{
+    [_collection saveObjects:[EJDBTestFixtures simpleDictionaries]];
+    EJDBFIQueryBuilder *builder = [EJDBFIQueryBuilder build].beginsWith(@"name",@"j");
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection queryBuilder:builder];
+    NSArray *results = [query fetchObjects];
+    XCTAssertTrue([results count] == 2, @"Fetched objects count should be exactly 2!");
+    XCTAssertTrue([query recordCount] == 2, @"Record counts should be exactly 2!");
 }
 
 - (void)testFetchObjectsWithError
