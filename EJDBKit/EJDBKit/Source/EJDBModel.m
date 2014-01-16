@@ -15,71 +15,138 @@
     self = [super init];
     if (self)
     {
-        NSMutableDictionary *propertyGetters = [NSMutableDictionary dictionary];
-        NSMutableDictionary *propertySetters = [NSMutableDictionary dictionary];
-        NSMutableDictionary *propertyTypes = [NSMutableDictionary dictionary];
-        Class klass = [self class];
-        while (klass != [NSObject class])
-        {
-            unsigned int outCount,i;
-            objc_property_t *properties = class_copyPropertyList(klass, &outCount);
-            for (i = 0;i < outCount;i++)
-            {
-                objc_property_t property = properties[i];
-                char *dynamic = property_copyAttributeValue(property, "D");
-                if (dynamic)
-                {
-                    free(dynamic);
-                    NSString *propertyName = [NSString stringWithUTF8String:property_getName(property)];
-                    char *getterName = property_copyAttributeValue(property, "G");
-                    if (getterName)
-                    {
-                        [propertyGetters setObject:propertyName forKey:[NSString stringWithUTF8String:getterName]];
-                        free(getterName);
-                    }
-                    else
-                    {
-                        [propertyGetters setObject:propertyName forKey:propertyName];
-                    }
-                    char *readonly = property_copyAttributeValue(property, "R");
-                    if (readonly)
-                    {
-                        free(readonly);
-                    }
-                    else
-                    {
-                        char *setterName = property_copyAttributeValue(property, "S");
-                        if (setterName)
-                        {
-                            [propertySetters setObject:propertyName forKey:[NSString stringWithUTF8String:setterName]];
-                            free(setterName);
-                        }
-                        else
-                        {
-                            NSString *selector = [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1)
-                                                                                       withString:[[propertyName substringToIndex:1] uppercaseString]];
-                            selector = [NSString stringWithFormat:@"set%@:",selector];
-                            [propertySetters setObject:propertyName forKey:selector];
-                        }
-                    }
-                    
-                    char *type = property_copyAttributeValue(property, "T");
-                    if (type)
-                    {
-                        [propertyTypes setObject:[NSString stringWithUTF8String:type] forKey:propertyName];
-                        free(type);
-                    }
-                }
-            }
-            free(properties);
-            klass = [klass superclass];
-        }
-        _propertyGetters = propertyGetters;
-        _propertySetters = propertySetters;
-        _propertyTypes = propertyTypes;
-        _values = [[NSMutableDictionary alloc] init];
+        [self parseProperties];
     }
     return self;
+}
+
+- (void)parseProperties
+{
+    NSMutableDictionary *propertyGetters = [NSMutableDictionary dictionary];
+    NSMutableDictionary *propertySetters = [NSMutableDictionary dictionary];
+    NSMutableDictionary *propertyTypes = [NSMutableDictionary dictionary];
+    Class klass = [self class];
+    while (klass != [NSObject class])
+    {
+        unsigned int outCount,i;
+        objc_property_t *properties = class_copyPropertyList(klass, &outCount);
+        for (i = 0;i < outCount;i++)
+        {
+            objc_property_t property = properties[i];
+            char *dynamic = property_copyAttributeValue(property, "D");
+            if (dynamic)
+            {
+                free(dynamic);
+                NSString *propertyName = [NSString stringWithUTF8String:property_getName(property)];
+                
+                if ([self checkIfReadOnlyProperty:property])
+                {
+                    free(properties);
+                    @throw [NSException exceptionWithName:@"EJDBKitUnsupportedDynamicPropertyAttribute!"
+                                                   reason:[NSString stringWithFormat:@"The property: %@ contains a readonly attribute!",propertyName]
+                                                 userInfo:nil];
+                    return;
+                }
+                
+                if (![self loadPropertyTypeFromProperty:property withName:propertyName intoDictionary:propertyTypes])
+                {
+                    free(properties);
+                    @throw [NSException exceptionWithName:@"EJDBKitUnsupportedDynamicPropertyType!"
+                                                   reason:[NSString stringWithFormat:@"The property: %@ is an unsupported type!",propertyName]
+                                                 userInfo:nil];
+                    return;
+                }
+                [self loadGetterFromProperty:property withName:propertyName intoDictionary:propertyGetters];
+                [self loadSetterFromProperty:property withName:propertyName intoDictionary:propertySetters];
+            }
+        }
+        free(properties);
+        klass = [klass superclass];
+    }
+    _propertyGetters = propertyGetters;
+    _propertySetters = propertySetters;
+    _propertyTypes = propertyTypes;
+    _values = [[NSMutableDictionary alloc] init];
+}
+
+- (BOOL)checkIfReadOnlyProperty:(objc_property_t)property
+{
+    BOOL isReadOnly = NO;
+    char *readonly = property_copyAttributeValue(property, "R");
+    if (readonly)
+    {
+        free(readonly);
+        isReadOnly = YES;
+    }
+    return isReadOnly;
+}
+
+- (BOOL)loadPropertyTypeFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
+{
+    BOOL isSupportedType = YES;
+    char *type = property_copyAttributeValue(property, "T");
+    if (type)
+    {
+        NSString *typeString = [NSString stringWithUTF8String:type];
+        if (![typeString hasPrefix:@"@"])
+        {
+            if (![typeString isEqualToString:@"i"] && ![typeString isEqualToString:@"B"] &&
+                ![typeString isEqualToString:@"f"] && ![typeString isEqualToString:@"d"])
+            {
+                isSupportedType = NO;
+            }
+        }
+        else
+        {
+            NSString *classString = [typeString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"@\""]];
+            Class klass =  NSClassFromString(classString);
+            if (![klass isSubclassOfClass:[NSString class]] && ![klass isSubclassOfClass:[NSNumber class]] &&
+                ![klass isSubclassOfClass:[NSDate class]] && ![klass isSubclassOfClass:[NSDictionary class]] &&
+                ![klass isSubclassOfClass:[NSArray class]] && ![klass isSubclassOfClass:[EJDBModel class]])
+            {
+                isSupportedType = NO;
+            }
+        }
+        if (isSupportedType)
+        {
+            [dictionary setObject:typeString forKey:propertyName];
+        }
+        free(type);
+    }
+    return isSupportedType;
+}
+
+- (void)loadGetterFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
+{
+    char *getterName = property_copyAttributeValue(property, "G");
+    if (getterName)
+    {
+        [dictionary setObject:propertyName forKey:[NSString stringWithUTF8String:getterName]];
+        free(getterName);
+    }
+    else
+    {
+        [dictionary setObject:propertyName forKey:propertyName];
+    }
+
+}
+
+- (void)loadSetterFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
+{
+    char *setterName = property_copyAttributeValue(property, "S");
+    if (setterName)
+    {
+        [dictionary setObject:propertyName forKey:[NSString stringWithUTF8String:setterName]];
+        free(setterName);
+    }
+    else
+    {
+        NSString *selector = [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1)
+                                                                   withString:[[propertyName substringToIndex:1] uppercaseString]];
+        selector = [NSString stringWithFormat:@"set%@:",selector];
+        [dictionary setObject:propertyName forKey:selector];
+    }
+
 }
 
 - (NSString *)type
@@ -155,6 +222,7 @@
     return [super methodSignatureForSelector:aSelector];
 }
 
+
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
     NSString *selectorAsString = NSStringFromSelector([anInvocation selector]);
@@ -195,15 +263,6 @@
         }
         else
         {
-            if (![propertyType isEqualToString:@"@NSString"] || ![propertyType isEqualToString:@"@NSNumber"] ||
-                ![propertyType isEqualToString:@"NSDate"] || ![propertyType isEqualToString:@"@NSDictionary"] ||
-                ![propertyType isEqualToString:@"@NSArray"])
-            {
-                @throw [NSException exceptionWithName:@"UnsupportedTypeException"
-                                               reason:[NSString stringWithFormat:@"The dynamic property: %@ is an unsupported type! Supported types are: NSString,NSNumber,NSDate,NSDictionary and NSArray!",propertyName]
-                                             userInfo:nil];
-                return;
-            }
             __unsafe_unretained id value = nil;
             [anInvocation getArgument:&value atIndex:2];
             [self setDynamicValue:value forKey:propertyName];
@@ -240,6 +299,7 @@
     }
 }
 
+
 - (void)savePrimitiveValueForPropertyName:(NSString *)propertyName invocation:(NSInvocation *)anInvocation
 {
     NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
@@ -268,13 +328,6 @@
         [anInvocation getArgument:&value atIndex:2];
         [self setDynamicValue:[NSNumber numberWithDouble:value] forKey:propertyName];
     }
-    else
-    {
-        @throw [NSException exceptionWithName:@"UnsupportedValueException"
-                                       reason:[NSString stringWithFormat:@"The dynamic property: %@ is an unsupported primitive value! Supported types are: int, bool,float and double only!",propertyName]
-                                     userInfo:nil];
-    }
 }
-
 
 @end

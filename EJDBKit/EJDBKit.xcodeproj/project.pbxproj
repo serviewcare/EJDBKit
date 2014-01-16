@@ -18,15 +18,10 @@
 		522909DF17AA778100634082 /* EJDBQuery.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9A217A520D70014A63A /* EJDBQuery.h */; };
 		522909E017AA778100634082 /* BSONArchiving.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9FF17A533130014A63A /* BSONArchiving.h */; };
 		5237E9A417A520D70014A63A /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
-		5237E9A517A520D70014A63A /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
 		5237E9A617A520D70014A63A /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99C17A520D70014A63A /* BSONEncoder.m */; };
-		5237E9A717A520D70014A63A /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99C17A520D70014A63A /* BSONEncoder.m */; };
 		5237E9A817A520D70014A63A /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99E17A520D70014A63A /* EJDBCollection.m */; };
-		5237E9A917A520D70014A63A /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99E17A520D70014A63A /* EJDBCollection.m */; };
 		5237E9AA17A520D70014A63A /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A017A520D70014A63A /* EJDBDatabase.m */; };
-		5237E9AB17A520D70014A63A /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A017A520D70014A63A /* EJDBDatabase.m */; };
 		5237E9AC17A520D70014A63A /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A317A520D70014A63A /* EJDBQuery.m */; };
-		5237E9AD17A520D70014A63A /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A317A520D70014A63A /* EJDBQuery.m */; };
 		52527A7B17ACF0AC00BE2B2C /* EJDBTestFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 52527A7A17ACF0AC00BE2B2C /* EJDBTestFixtures.m */; };
 		5267ADCF17A64B0C00F22C6E /* EJDBCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5267ADCE17A64B0C00F22C6E /* EJDBCollectionTests.m */; };
 		527BC0481881F708009115F8 /* EJDBQueryBuilderDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 527BC0471881F6CC009115F8 /* EJDBQueryBuilderDelegate.h */; };
@@ -42,11 +37,6 @@
 		5297C21717E1BD3800E27F7E /* EJDBDatabaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */; };
 		5297C21817E1BD3800E27F7E /* BSONEncoderDecoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */; };
 		5297C21917E1BD3800E27F7E /* EJDBDatabase+DBTestExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */; };
-		5297C21A17E1BD3800E27F7E /* BSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99A17A520D70014A63A /* BSONDecoder.m */; };
-		5297C21B17E1BD3800E27F7E /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99C17A520D70014A63A /* BSONEncoder.m */; };
-		5297C21C17E1BD3800E27F7E /* EJDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E99E17A520D70014A63A /* EJDBCollection.m */; };
-		5297C21D17E1BD3800E27F7E /* EJDBDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A017A520D70014A63A /* EJDBDatabase.m */; };
-		5297C21E17E1BD3800E27F7E /* EJDBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237E9A317A520D70014A63A /* EJDBQuery.m */; };
 		5297C21F17E1BD3800E27F7E /* EJDBCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5267ADCE17A64B0C00F22C6E /* EJDBCollectionTests.m */; };
 		5297C22017E1BD3800E27F7E /* EJDBTestFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 52527A7A17ACF0AC00BE2B2C /* EJDBTestFixtures.m */; };
 		5297C22117E1BD3800E27F7E /* EJDBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E68E0F17B0DAEE00047614 /* EJDBQueryTests.m */; };
@@ -476,11 +466,6 @@
 				5297C21717E1BD3800E27F7E /* EJDBDatabaseTests.m in Sources */,
 				5297C21817E1BD3800E27F7E /* BSONEncoderDecoderTests.m in Sources */,
 				5297C21917E1BD3800E27F7E /* EJDBDatabase+DBTestExtensions.m in Sources */,
-				5297C21A17E1BD3800E27F7E /* BSONDecoder.m in Sources */,
-				5297C21B17E1BD3800E27F7E /* BSONEncoder.m in Sources */,
-				5297C21C17E1BD3800E27F7E /* EJDBCollection.m in Sources */,
-				5297C21D17E1BD3800E27F7E /* EJDBDatabase.m in Sources */,
-				5297C21E17E1BD3800E27F7E /* EJDBQuery.m in Sources */,
 				5297C21F17E1BD3800E27F7E /* EJDBCollectionTests.m in Sources */,
 				5297C22017E1BD3800E27F7E /* EJDBTestFixtures.m in Sources */,
 				5297C22117E1BD3800E27F7E /* EJDBQueryTests.m in Sources */,
@@ -512,11 +497,6 @@
 				5294231317A274C4007FFD63 /* EJDBDatabaseTests.m in Sources */,
 				52D916B817A3AB7900B0060D /* BSONEncoderDecoderTests.m in Sources */,
 				52D916BB17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m in Sources */,
-				5237E9A517A520D70014A63A /* BSONDecoder.m in Sources */,
-				5237E9A717A520D70014A63A /* BSONEncoder.m in Sources */,
-				5237E9A917A520D70014A63A /* EJDBCollection.m in Sources */,
-				5237E9AB17A520D70014A63A /* EJDBDatabase.m in Sources */,
-				5237E9AD17A520D70014A63A /* EJDBQuery.m in Sources */,
 				5267ADCF17A64B0C00F22C6E /* EJDBCollectionTests.m in Sources */,
 				52527A7B17ACF0AC00BE2B2C /* EJDBTestFixtures.m in Sources */,
 				52E68E1017B0DAEE00047614 /* EJDBQueryTests.m in Sources */,
