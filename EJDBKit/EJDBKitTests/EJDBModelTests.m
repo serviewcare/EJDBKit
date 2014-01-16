@@ -80,9 +80,18 @@
     [super tearDown];
 }
 
-- (TestSupportedObject *)validEmptyModelObject
+- (TestSupportedObject *)validFilledModelObject
 {
     TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
+    testObj.anInteger = 100;
+    testObj.aBool = true;
+    testObj.aFloat = 123.456;
+    testObj.aDouble = 12345.678901;
+    testObj.aString = @"My string value!";
+    testObj.aNumber = @1000;
+    testObj.aDict = @{@"key1" : @"value1",@"key2" : @"value2"};
+    testObj.anArray = @[@1,@2,@3];
+    testObj.aDate = [NSDate date];
     return testObj;
 }
 
@@ -116,7 +125,7 @@
 - (void)testSupportedPrimitiveAndObjectTypes
 {
     TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
-    XCTAssertNoThrow([testObj setAnInteger:2], @"setting primitive int on object should not throw exception!");
+    XCTAssertNoThrow(testObj.anInteger = 2, @"setting primitive int on object should not throw exception!");
     XCTAssertNoThrow(testObj.aBool = true, @"setting primitive bool on object should not throw exception!");
     XCTAssertNoThrow(testObj.aFloat = 1.25f, @"setting primitive float on object should not throw exception!");
     XCTAssertNoThrow(testObj.aDouble = 25.75f,@"setting primitive double on object should not throw exception!");
@@ -133,7 +142,7 @@
 
 - (void)testToDictionaryWithNilPropertiesDoesntThrowException
 {
-    TestSupportedObject *testObj = [self validEmptyModelObject];
+    TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
     NSDictionary *dictionary;
     XCTAssertNoThrow(dictionary = [testObj toDictionary],@"getting dictionary representation of empty model object should not throw exception!");
 }
@@ -174,6 +183,28 @@
     EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
     TestSupportedObject *fetchedObject = [query fetchObject];
     XCTAssertNotNil(fetchedObject, @"fetched model object should not be nil!");
+}
+
+- (void)testSavingSupportedObjectWithPropertiesFilledToCollectionSucceeds
+{
+    BOOL success = [_collection saveObject:[self validFilledModelObject]];
+    XCTAssertTrue(success, @"Saving model object with values filled should succeed!");
+}
+
+- (void)testRetrievingFilledSupportedObjectFromCollectionSucceeds
+{
+    TestSupportedObject *objectToSave = [self validFilledModelObject];
+    [_collection saveObject:objectToSave];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
+    TestSupportedObject *fetchedObject = [query fetchObject];
+    XCTAssertTrue(fetchedObject.anInteger == objectToSave.anInteger, @"fetched integer value should be 100!");
+    XCTAssertTrue(fetchedObject.aBool == objectToSave.aBool, @"fetched bool value should be true!");
+    XCTAssertTrue(fetchedObject.aFloat == objectToSave.aFloat, @"fetched float value should be 123.456!");
+    XCTAssertTrue(fetchedObject.aDouble == objectToSave.aDouble, @"fetched double value should be 25.75!");
+    XCTAssertTrue([fetchedObject.aString isEqualToString:objectToSave.aString], @"fetched string object value should be equal to My stringValue!");
+    XCTAssertTrue([fetchedObject.aNumber isEqualToNumber:objectToSave.aNumber], @"fetched number object value should be equal to 1000!");
+    XCTAssertTrue([fetchedObject.aDict isEqualToDictionary:objectToSave.aDict],@"fetched dict object value should be equal to saved dict value!");
+    XCTAssertTrue([fetchedObject.anArray isEqualToArray:objectToSave.anArray], @"fetched array object value should be equal to saved array value!");
 }
 
 

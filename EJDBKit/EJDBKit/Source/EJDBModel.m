@@ -334,9 +334,39 @@
         NSArray *keys = [_propertySetters allKeysForObject:key];
         if ([keys count] > 0)
         {
+            if ([[dictionary valueForKey:key] isEqual:[NSNull null]]) continue;
             NSMethodSignature *signature = [self methodSignatureForSelector:NSSelectorFromString(keys[0])];
             NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
             [invocation setSelector:NSSelectorFromString(keys[0])];
+            NSString *type = _propertyTypes[key];
+            if (![type hasPrefix:@"@"])
+            {
+                if ([type isEqualToString:@"i"])
+                {
+                    int value = [[dictionary valueForKey:key] intValue];
+                    [invocation setArgument:&value atIndex:2];
+                }
+                else if([type isEqualToString:@"B"])
+                {
+                    bool value = [[dictionary valueForKey:key]boolValue];
+                    [invocation setArgument:&value atIndex:2];
+                }
+                else if([type isEqualToString:@"f"])
+                {
+                    float value = [[dictionary valueForKey:key]floatValue];
+                    [invocation setArgument:&value atIndex:2];
+                }
+                else if([type isEqualToString:@"d"])
+                {
+                    double value = [[dictionary valueForKey:key]doubleValue];
+                    [invocation setArgument:&value atIndex:2];
+                }
+            }
+            else
+            {
+                __unsafe_unretained id value = [dictionary valueForKey:key];
+                [invocation setArgument:&value atIndex:2];
+            }
             [self forwardInvocation:invocation];
         }
     }
