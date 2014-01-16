@@ -1,4 +1,6 @@
 #import <XCTest/XCTest.h>
+#import "EJDBDatabase+DBTestExtensions.h"
+#import "EJDBQuery.h"
 #import "EJDBModel.h"
 
 @interface TestSupportedObject : EJDBModel
@@ -55,17 +57,26 @@
 
 @end
 
+@interface EJDBModelTests ()
+@property (strong,nonatomic) EJDBDatabase *db;
+@property (strong,nonatomic) EJDBCollection *collection;
+@end
+
 @implementation EJDBModelTests
 
 - (void)setUp
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
+    _db = [EJDBDatabase createAndOpenDb];
+    _collection = [_db ensureCollectionWithName:@"foo" error:NULL];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here; it will be run once, after the last test case.
+    [EJDBDatabase closeAndDeleteDb:_db];
+    _db = nil;
+    _collection = nil;
     [super tearDown];
 }
 
@@ -129,7 +140,7 @@
 
 - (void)testToDictionaryWithNilPropertyValuesAreByDefaultNull
 {
-    TestSupportedObject *testObj = [self validEmptyModelObject];
+    TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
     NSDictionary *dictionary = [testObj toDictionary];
     XCTAssertEqualObjects(dictionary[@"anInteger"], [NSNull null], @"dictionary representation of unset primitive int should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"aBool"], [NSNull null], @"dictionary representation of unset primitive bool should be = [NSNull null]!");
@@ -142,6 +153,28 @@
     XCTAssertEqualObjects(dictionary[@"aDate"], [NSNull null], @"dictionary representation of unset date object should be = [NSNull null]!");
 }
 
+- (void)testToDictionaryConformsToPersistanceRequirements
+{
+    TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
+    NSDictionary *dictionary = [testObj toDictionary];
+    XCTAssertNotNil(dictionary[@"type"], @"dictionary representation must contain a type entry!");
+}
+
+- (void)testSavingEmptySupportedObjectToCollectionSucceeds
+{
+    TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
+    BOOL success = [_collection saveObject:testObj];
+    XCTAssertTrue(success, @"Saving empty supported object to collection should succed!");
+}
+
+- (void)testRetrievingEmptySupportedObjectFromCollectionSucceeds
+{
+    TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
+    [_collection saveObject:testObj];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
+    TestSupportedObject *fetchedObject = [query fetchObject];
+    XCTAssertNotNil(fetchedObject, @"fetched model object should not be nil!");
+}
 
 
 @end

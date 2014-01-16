@@ -149,39 +149,6 @@
 
 }
 
-- (NSString *)type
-{
-    return NSStringFromClass([self class]);
-}
-
-- (NSString *)oidPropertyName
-{
-    return @"oid";
-}
-
-- (NSDictionary *)toDictionary
-{
-    NSMutableDictionary *propertyKeysAndValues = [NSMutableDictionary dictionary];
-    for (NSString *key in [_propertyGetters keyEnumerator])
-    {
-        NSMethodSignature *signature = [self methodSignatureForSelector:NSSelectorFromString(_propertyGetters[key])];
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-        [invocation setSelector:NSSelectorFromString(_propertyGetters[key])];
-        [self forwardInvocation:invocation];
-        propertyKeysAndValues[key] = [self dynamicValueForKey:key] == nil ? [NSNull null] : self.values[key];
-    }
-    
-    return [NSDictionary dictionaryWithDictionary:propertyKeysAndValues];
-}
-
-- (void)fromDictionary:(NSDictionary *)dictionary
-{
-    for (id key in [dictionary keyEnumerator])
-    {
-        [self setValue:[dictionary objectForKey:key] forKey:key];
-    }
-}
-
 - (id)dynamicValueForKey:(NSString *)key
 {
     return [self.values objectForKey:key];
@@ -232,21 +199,21 @@
     propertyName = [self.propertyGetters objectForKey:selectorAsString];
     if (propertyName)
     {
-       NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
+        NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
         
-       if (![propertyType hasPrefix:@"@"])
-       {
-           [self fetchPrimitiveValueForPropertyName:propertyName invocation:anInvocation];
-           return;
-       }
-       else
-       {
-           id value = [self dynamicValueForKey:propertyName];
-           if (value == nil) value = [NSNull null];
-           [anInvocation setReturnValue:&value];
-           [anInvocation retainArguments];
-           return;
-       }
+        if (![propertyType hasPrefix:@"@"])
+        {
+            [self fetchPrimitiveValueForPropertyName:propertyName invocation:anInvocation];
+            return;
+        }
+        else
+        {
+            id value = [self dynamicValueForKey:propertyName];
+            if (value == nil) value = [NSNull null];
+            [anInvocation setReturnValue:&value];
+            [anInvocation retainArguments];
+            return;
+        }
         
     }
     
@@ -255,7 +222,7 @@
     if (propertyName)
     {
         NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
-       
+        
         if (![propertyType hasPrefix:@"@"])
         {
             [self savePrimitiveValueForPropertyName:propertyName invocation:anInvocation];
@@ -329,5 +296,52 @@
         [self setDynamicValue:[NSNumber numberWithDouble:value] forKey:propertyName];
     }
 }
+
+
+#pragma mark - BSONArchiving delegate methods
+
+- (NSString *)type
+{
+    return NSStringFromClass([self class]);
+}
+
+- (NSString *)oidPropertyName
+{
+    return @"oid";
+}
+
+- (NSDictionary *)toDictionary
+{
+    NSMutableDictionary *propertyKeysAndValues = [NSMutableDictionary dictionary];
+    for (NSString *key in [_propertyGetters keyEnumerator])
+    {
+        NSMethodSignature *signature = [self methodSignatureForSelector:NSSelectorFromString(_propertyGetters[key])];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+        [invocation setSelector:NSSelectorFromString(_propertyGetters[key])];
+        [self forwardInvocation:invocation];
+        propertyKeysAndValues[key] = [self dynamicValueForKey:key] == nil ? [NSNull null] : self.values[key];
+    }
+    propertyKeysAndValues[@"type"] = [self type];
+    
+    
+    return [NSDictionary dictionaryWithDictionary:propertyKeysAndValues];
+}
+
+- (void)fromDictionary:(NSDictionary *)dictionary
+{
+    for (NSString  *key in [dictionary keyEnumerator])
+    {
+        NSArray *keys = [_propertySetters allKeysForObject:key];
+        if ([keys count] > 0)
+        {
+            NSMethodSignature *signature = [self methodSignatureForSelector:NSSelectorFromString(keys[0])];
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+            [invocation setSelector:NSSelectorFromString(keys[0])];
+            [self forwardInvocation:invocation];
+        }
+    }
+    [self setOid:dictionary[@"oid"]];
+}
+
 
 @end
