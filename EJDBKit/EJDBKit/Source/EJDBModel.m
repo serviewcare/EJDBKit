@@ -102,7 +102,8 @@
             Class klass =  NSClassFromString(classString);
             if (![klass isSubclassOfClass:[NSString class]] && ![klass isSubclassOfClass:[NSNumber class]] &&
                 ![klass isSubclassOfClass:[NSDate class]] && ![klass isSubclassOfClass:[NSDictionary class]] &&
-                ![klass isSubclassOfClass:[NSArray class]] && ![klass isSubclassOfClass:[EJDBModel class]])
+                ![klass isSubclassOfClass:[NSArray class]] && ![klass isSubclassOfClass:[NSData class]] &&
+                ![klass isSubclassOfClass:[EJDBModel class]])
             {
                 isSupportedType = NO;
             }
@@ -189,7 +190,6 @@
     return [super methodSignatureForSelector:aSelector];
 }
 
-
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
     NSString *selectorAsString = NSStringFromSelector([anInvocation selector]);
@@ -266,7 +266,6 @@
     }
 }
 
-
 - (void)savePrimitiveValueForPropertyName:(NSString *)propertyName invocation:(NSInvocation *)anInvocation
 {
     NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
@@ -296,7 +295,6 @@
         [self setDynamicValue:[NSNumber numberWithDouble:value] forKey:propertyName];
     }
 }
-
 
 #pragma mark - BSONArchiving delegate methods
 
@@ -372,6 +370,5 @@
     }
     [self setOid:dictionary[@"oid"]];
 }
-
 
 @end

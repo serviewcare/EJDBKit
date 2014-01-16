@@ -9,6 +9,7 @@
 @property (strong,nonatomic) NSDictionary *aDict;
 @property (strong,nonatomic) NSArray *anArray;
 @property (strong,nonatomic) NSDate *aDate;
+@property (strong,nonatomic) NSData *someData;
 @property (nonatomic) int anInteger;
 @property (nonatomic) bool aBool;
 @property (nonatomic) float aFloat;
@@ -21,6 +22,7 @@
 @dynamic aDict;
 @dynamic anArray;
 @dynamic aDate;
+@dynamic someData;
 @dynamic anInteger;
 @dynamic aBool;
 @dynamic aFloat;
@@ -91,6 +93,8 @@
     testObj.aNumber = @1000;
     testObj.aDict = @{@"key1" : @"value1",@"key2" : @"value2"};
     testObj.anArray = @[@1,@2,@3];
+    testObj.someData = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
+                                                       pathForResource:@"ejdblogo3" ofType:@"png"]];
     testObj.aDate = [NSDate date];
     return testObj;
 }
@@ -138,6 +142,7 @@
     XCTAssertNoThrow(testObj.aDict, @"getting nil dictionary value from object should not throw exception!");
     XCTAssertNoThrow(testObj.anArray, @"getting nil array value from object should not throw exception!");
     XCTAssertNoThrow(testObj.aDate, @"getting nil date value from object should not throw exception!");
+    XCTAssertNoThrow(testObj.someData, @"getting nil data value from object should not throw exception!");
 }
 
 - (void)testToDictionaryWithNilPropertiesDoesntThrowException
@@ -160,6 +165,7 @@
     XCTAssertEqualObjects(dictionary[@"aDict"], [NSNull null], @"dictionary representation of unset dictionary object should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"anArray"], [NSNull null], @"dictionary representation of unset array object should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"aDate"], [NSNull null], @"dictionary representation of unset date object should be = [NSNull null]!");
+    XCTAssertEqualObjects(dictionary[@"someData"], [NSNull null], @"dictionary representation of unset data object should be = [NSNull null]!");
 }
 
 - (void)testToDictionaryConformsToPersistanceRequirements
@@ -205,7 +211,9 @@
     XCTAssertTrue([fetchedObject.aNumber isEqualToNumber:objectToSave.aNumber], @"fetched number object value should be equal to 1000!");
     XCTAssertTrue([fetchedObject.aDict isEqualToDictionary:objectToSave.aDict],@"fetched dict object value should be equal to saved dict value!");
     XCTAssertTrue([fetchedObject.anArray isEqualToArray:objectToSave.anArray], @"fetched array object value should be equal to saved array value!");
+    XCTAssertTrue([fetchedObject.aDate isEqualToDate:objectToSave.aDate], @"fetched date object value should be equal to saved date value!");
+    XCTAssertTrue([fetchedObject.someData isEqualToData:objectToSave.someData], @"fetched data object value should be equal to saved data value!");
+    
 }
-
 
 @end
