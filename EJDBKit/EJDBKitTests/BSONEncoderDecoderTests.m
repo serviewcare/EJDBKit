@@ -3,7 +3,7 @@
 #import "EJDBCollection.h"
 #import "EJDBDatabase+DBTestExtensions.h"
 #import "EJDBTestFixtures.h"
-//#import "ArchivableClasses.h"
+
 
 @interface BSONEncoderDecoderTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
@@ -43,6 +43,7 @@
     XCTAssertTrue([inDictionary isEqualToDictionary:outDictionary], @"Encoded and Decoded dictionaries should be the same!");
 }
 
+/* We most certainly should round a timeIntervalSinceDate result when comparing diff between two dates! */
 - (void)testEncodingDate
 {
     NSDate *date = [NSDate date];
@@ -51,9 +52,21 @@
     [collection saveObject:inDictionary];
     NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:collection error:NULL];
     NSDictionary *outDictionary = results[0];
-    XCTAssertEqual(floor([[inDictionary objectForKey:@"aDate"]timeIntervalSince1970]),
-                   floor([[outDictionary objectForKey:@"aDate"]timeIntervalSince1970]),
-                   @"Date in and date out should be equal!");
+    NSTimeInterval timeInterval = round([inDictionary[@"aDate"] timeIntervalSinceDate:outDictionary[@"aDate"]]);
+    XCTAssertTrue(timeInterval == 0, @"Date in and date out should have 0 seconds time interval between them!");
+}
+
+/*  If we don't round a timeIntervalSinceDate result and we expect the diff to be zero we are in for a disappointment! */
+- (void)testComparingDatesByUnroundedTimeIntervalFails
+{
+    NSDate *date = [NSDate date];
+    EJDBCollection *collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    NSDictionary *inDictionary = @{@"name" : @"foo",@"aDate": date};
+    [collection saveObject:inDictionary];
+    NSArray *results = [_db findObjectsWithQuery:@{@"name" : @"foo"} inCollection:collection error:NULL];
+    NSDictionary *outDictionary = results[0];
+    NSTimeInterval timeInterval = [inDictionary[@"aDate"] timeIntervalSinceDate:outDictionary[@"aDate"]];
+    XCTAssertFalse(timeInterval == 0, @"Unrounded Date in and date out time interval comparison should not be equal!");
 }
 
 - (void)testEncodingDecodingNSData

@@ -90,8 +90,9 @@
         NSString *typeString = [NSString stringWithUTF8String:type];
         if (![typeString hasPrefix:@"@"])
         {
-            if (![typeString isEqualToString:@"i"] && ![typeString isEqualToString:@"B"] &&
-                ![typeString isEqualToString:@"f"] && ![typeString isEqualToString:@"d"])
+            if (![typeString isEqualToString:@"i"] && ![typeString isEqualToString:@"q"] &&
+                ![typeString isEqualToString:@"B"] && ![typeString isEqualToString:@"f"] &&
+                ![typeString isEqualToString:@"d"])
             {
                 isSupportedType = NO;
             }
@@ -102,8 +103,8 @@
             Class klass =  NSClassFromString(classString);
             if (![klass isSubclassOfClass:[NSString class]] && ![klass isSubclassOfClass:[NSNumber class]] &&
                 ![klass isSubclassOfClass:[NSDate class]] && ![klass isSubclassOfClass:[NSDictionary class]] &&
-                ![klass isSubclassOfClass:[NSArray class]] && ![klass isSubclassOfClass:[NSData class]] &&
-                ![klass isSubclassOfClass:[EJDBModel class]])
+                ![klass isSubclassOfClass:[NSArray class]] && ![klass isSubclassOfClass:[NSData class]])
+                /* && ![klass isSubclassOfClass:[EJDBModel class]]) Let's put this back soon. Not ready yet though. */
             {
                 isSupportedType = NO;
             }
@@ -249,6 +250,11 @@
         int value = [aNumber intValue];
         [anInvocation setReturnValue:&value];
     }
+    else if ([propertyType isEqualToString:@"q"])
+    {
+        long long value = [aNumber longLongValue];
+        [anInvocation setReturnValue:&value];
+    }
     else if ([propertyType isEqualToString:@"B"])
     {
         bool value = [aNumber boolValue];
@@ -275,6 +281,12 @@
         int value;
         [anInvocation getArgument:&value atIndex:2];
         [self setDynamicValue:[NSNumber numberWithInt:value] forKey:propertyName];
+    }
+    else if ([propertyType isEqualToString:@"q"])
+    {
+        long long value;
+        [anInvocation getArgument:&value atIndex:2];
+        [self setDynamicValue:[NSNumber numberWithLongLong:value] forKey:propertyName];
     }
     else if ([propertyType isEqualToString:@"B"])
     {
@@ -342,6 +354,11 @@
                 if ([type isEqualToString:@"i"])
                 {
                     int value = [[dictionary valueForKey:key] intValue];
+                    [invocation setArgument:&value atIndex:2];
+                }
+                else if ([type isEqualToString:@"q"])
+                {
+                    long long value = [[dictionary valueForKey:key] longLongValue];
                     [invocation setArgument:&value atIndex:2];
                 }
                 else if([type isEqualToString:@"B"])

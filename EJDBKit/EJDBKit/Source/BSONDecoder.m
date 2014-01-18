@@ -129,7 +129,6 @@
 - (NSNumber *)decodeNumberFromIterator:(bson_iterator)iterator type:(bson_type)type
 {
     NSNumber *number;
-    
     switch (type) {
         case BSON_BOOL:
             number = [NSNumber numberWithBool:bson_iterator_bool(&iterator)];
@@ -139,6 +138,7 @@
             break;
         case BSON_LONG:
             number = [NSNumber numberWithLongLong:bson_iterator_long(&iterator)];
+            break;
         default:
             number = [NSNumber numberWithDouble:bson_iterator_double(&iterator)];
             break;
@@ -146,9 +146,14 @@
     return number;
 }
 
+/*
+ The most we can do here is cast/convert and round our int64_t instead of just pushing an int64_t into a double.
+ Presumably, we've already lost sub second precision when we saved this date so we're no worse off.
+*/
 - (NSDate *)decodeDateFromIterator:(bson_iterator)iterator
 {
-    return [NSDate dateWithTimeIntervalSince1970:bson_iterator_date(&iterator)];
+    NSTimeInterval timeInterval = round(bson_int64_to_double(bson_iterator_date(&iterator)));
+    return [NSDate dateWithTimeIntervalSince1970:timeInterval];
 }
 
 - (NSArray *)decodeArrayFromIterator:(bson_iterator)iterator

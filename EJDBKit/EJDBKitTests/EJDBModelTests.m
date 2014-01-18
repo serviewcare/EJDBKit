@@ -14,6 +14,7 @@
 @property (nonatomic) bool aBool;
 @property (nonatomic) float aFloat;
 @property (nonatomic) double aDouble;
+@property (nonatomic) long long aLongLong;
 @end
 
 @implementation TestSupportedObject
@@ -27,6 +28,7 @@
 @dynamic aBool;
 @dynamic aFloat;
 @dynamic aDouble;
+@dynamic aLongLong;
 @end
 
 
@@ -95,6 +97,7 @@
     testObj.anArray = @[@1,@2,@3];
     testObj.someData = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
                                                        pathForResource:@"ejdblogo3" ofType:@"png"]];
+    testObj.aLongLong = 9100200300400500600LL;
     testObj.aDate = [NSDate date];
     return testObj;
 }
@@ -133,10 +136,12 @@
     XCTAssertNoThrow(testObj.aBool = true, @"setting primitive bool on object should not throw exception!");
     XCTAssertNoThrow(testObj.aFloat = 1.25f, @"setting primitive float on object should not throw exception!");
     XCTAssertNoThrow(testObj.aDouble = 25.75f,@"setting primitive double on object should not throw exception!");
+    XCTAssertNoThrow(testObj.aLongLong = 1234567890LL, @"setting primitive long long on object should not throw exception!");
     XCTAssertNoThrow(testObj.anInteger, @"getting primitive int from object should not throw exception!");
     XCTAssertNoThrow(testObj.aBool, @"getting primitive bool from object should not throw exception!");
     XCTAssertNoThrow(testObj.aFloat, @"getting primitive float from object should not throw exception!");
     XCTAssertNoThrow(testObj.aDouble, @"getting primitive double from object should not throw exception!");
+    XCTAssertNoThrow(testObj.aLongLong, @"getting primitive long long from object should not throw exception!");
     XCTAssertNoThrow(testObj.aString, @"getting nil string value from object should not throw exception!");
     XCTAssertNoThrow(testObj.aNumber, @"getting nil number value from object should not throw exception!");
     XCTAssertNoThrow(testObj.aDict, @"getting nil dictionary value from object should not throw exception!");
@@ -160,6 +165,7 @@
     XCTAssertEqualObjects(dictionary[@"aBool"], [NSNull null], @"dictionary representation of unset primitive bool should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"aFloat"], [NSNull null], @"dictionary representation of unset primitive float should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"aDouble"], [NSNull null], @"dictionary representation of unset primitive double should be = [NSNull null]!");
+    XCTAssertEqualObjects(dictionary[@"aLongLong"], [NSNull null], @"dictionary representation of unset primitive long long should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"aString"], [NSNull null], @"dictionary representation of unset string object should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"aNumber"], [NSNull null], @"dictionary representation of unset number object should be = [NSNull null]!");
     XCTAssertEqualObjects(dictionary[@"aDict"], [NSNull null], @"dictionary representation of unset dictionary object should be = [NSNull null]!");
@@ -203,17 +209,18 @@
     [_collection saveObject:objectToSave];
     EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
     TestSupportedObject *fetchedObject = [query fetchObject];
+    NSTimeInterval timeInterval = round([fetchedObject.aDate timeIntervalSinceDate:objectToSave.aDate]);
+    XCTAssertTrue( timeInterval == 0, @"object to save date and fetched object date time intervals should have 0 seconds between them!");
     XCTAssertTrue(fetchedObject.anInteger == objectToSave.anInteger, @"fetched integer value should be 100!");
     XCTAssertTrue(fetchedObject.aBool == objectToSave.aBool, @"fetched bool value should be true!");
     XCTAssertTrue(fetchedObject.aFloat == objectToSave.aFloat, @"fetched float value should be 123.456!");
     XCTAssertTrue(fetchedObject.aDouble == objectToSave.aDouble, @"fetched double value should be 25.75!");
+    XCTAssertTrue(fetchedObject.aLongLong == objectToSave.aLongLong, @"fetched long long value should equal saved long long value!");
     XCTAssertTrue([fetchedObject.aString isEqualToString:objectToSave.aString], @"fetched string object value should be equal to My stringValue!");
     XCTAssertTrue([fetchedObject.aNumber isEqualToNumber:objectToSave.aNumber], @"fetched number object value should be equal to 1000!");
     XCTAssertTrue([fetchedObject.aDict isEqualToDictionary:objectToSave.aDict],@"fetched dict object value should be equal to saved dict value!");
     XCTAssertTrue([fetchedObject.anArray isEqualToArray:objectToSave.anArray], @"fetched array object value should be equal to saved array value!");
-    XCTAssertTrue([fetchedObject.aDate isEqualToDate:objectToSave.aDate], @"fetched date object value should be equal to saved date value!");
     XCTAssertTrue([fetchedObject.someData isEqualToData:objectToSave.someData], @"fetched data object value should be equal to saved data value!");
-    
 }
 
 @end

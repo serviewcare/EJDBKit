@@ -133,10 +133,15 @@
     }
 }
 
+/* 
+ The most we can do here is round and cast our timeinterval instead of just cramming a double into an int64_t.
+ We lose sub second precision because of this but for most uses this should not be an issue.
+ I don't like this but I haven't been able to come up with a better alternative.
+*/
 - (void)appendDate:(NSDate *)date forKey:(NSString *)key
 {
     const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
-    bson_append_date(&_bsonObj, cKeyString, [date timeIntervalSince1970]);
+    bson_append_date(&_bsonObj, cKeyString, (int64_t)round([date timeIntervalSince1970]));
 }
 
 - (void)appendDictionary:(NSDictionary *)dictionary forKey:(NSString *)key
