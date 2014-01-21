@@ -6,14 +6,15 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Jan 21, 2013 - v0.5.1 (IMPORTANT UPDATE!!!)               
+- fixed a case statement fallthrough bug in BSONDecoder (damn breaks!). This affects decoding of BSON_LONG types only and might give unexpected values because of the fallthrough to double.
+ My apologies for this minute, yet significant bug. Having said that, the framework is still pre 1.0 so there are still some dragons about! :)       
+- clarified nsdate encoding/decoding.
+
 Jan 12, 2013 - v0.5.0
 - added convenience methods to Database, Collection and Query classes to allow for use of query builders.          
 - gitignore cleanup and wrangling.
 - update mac project.
-
-Jan 11, 2013 - v0.4.4
-- gitignore cleanup      
-- readded xccheckout to work properly with xcode5.
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
