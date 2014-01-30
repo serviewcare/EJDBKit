@@ -1,5 +1,6 @@
 #import "BSONEncoder.h"
 #import "BSONArchiving.h"
+#import "EJDBModel.h"
 
 
 @interface BSONEncoder ()
@@ -66,6 +67,10 @@
     else if ([value isKindOfClass:[NSNull class]])
     {
         [self appendNullForKey:key];
+    }
+    else if ([value isKindOfClass:[EJDBModel class]])
+    {
+        [self appendModel:value forKey:key];
     }
     else if ([value conformsToProtocol:@protocol(BSONArchiving)])
     {
@@ -142,6 +147,13 @@
 {
     const char *cKeyString = [key cStringUsingEncoding:NSUTF8StringEncoding];
     bson_append_date(&_bsonObj, cKeyString, (int64_t)round([date timeIntervalSince1970]));
+}
+
+- (void)appendModel:(EJDBModel *)model forKey:(NSString *)key
+{
+    id oid = (model.oid == nil ? [NSNull null] : model.oid);
+    NSString *collectionName = [model collectionName];
+    [self appendDictionary:@{@"oid" : oid,@"collectionName" : collectionName, @"type" : key} forKey:key];
 }
 
 - (void)appendDictionary:(NSDictionary *)dictionary forKey:(NSString *)key
