@@ -6,7 +6,8 @@
 @class TestRelatedObject;
 
 @interface TestSupportedObject : EJDBModel
-@property (strong,nonatomic) NSString *aString;
+@property (copy,nonatomic) NSString *aString;
+@property (copy,nonatomic) NSString *ignoredProperty;
 @property (strong,nonatomic) NSNumber *aNumber;
 @property (strong,nonatomic) NSDictionary *aDict;
 @property (strong,nonatomic) NSArray *anArray;
@@ -21,18 +22,7 @@
 @end
 
 @implementation TestSupportedObject
-@dynamic aString;
-@dynamic aNumber;
-@dynamic aDict;
-@dynamic anArray;
-@dynamic aDate;
-@dynamic someData;
-@dynamic relatedObj;
-@dynamic anInteger;
-@dynamic aBool;
-@dynamic aFloat;
-@dynamic aDouble;
-@dynamic aLongLong;
+@dynamic ignoredProperty;
 @end
 
 
@@ -41,7 +31,6 @@
 @end
 
 @implementation TestRelatedObject
-@dynamic name;
 @end
 
 
@@ -77,6 +66,7 @@
 @interface EJDBModelTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
 @property (strong,nonatomic) EJDBCollection *collection;
+@property (strong,nonatomic) EJDBCollection *relatedCollection;
 @end
 
 @implementation EJDBModelTests
@@ -86,7 +76,8 @@
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
     _db = [EJDBDatabase createAndOpenDb];
-    _collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    _collection = [_db ensureCollectionWithName:@"TestSupportedObject" error:NULL];
+    _relatedCollection = [_db ensureCollectionWithName:@"TestRelatedObject" error:NULL];
 }
 
 - (void)tearDown
@@ -94,12 +85,13 @@
     [EJDBDatabase closeAndDeleteDb:_db];
     _db = nil;
     _collection = nil;
+    _relatedCollection = nil;
     [super tearDown];
 }
 
 - (TestSupportedObject *)validFilledModelObject
 {
-    TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
+    TestSupportedObject *testObj = [[TestSupportedObject alloc]initWithDatabase:_db];
     testObj.anInteger = 100;
     testObj.aBool = true;
     testObj.aFloat = 123.456;
@@ -112,9 +104,6 @@
                                                        pathForResource:@"ejdblogo3" ofType:@"png"]];
     testObj.aLongLong = 9100200300400500600LL;
     testObj.aDate = [NSDate date];
-    TestRelatedObject *relatedObject = [[TestRelatedObject alloc]init];
-    relatedObject.name = @"First Name Last Name";
-    testObj.relatedObj = relatedObject;
     return testObj;
 }
 
@@ -124,6 +113,7 @@
     XCTAssertNoThrow(testObj = [[TestSupportedObject alloc]init],@"Initializing a valid ejdbmodel object should not throw exception!");
 }
 
+/*
 - (void)testInitializingObjectWithUnsupportedPropertyAttributeThrowsException
 {
     TestObjectUnsupportedPropertyAttribute *testObj;
@@ -144,6 +134,7 @@
     XCTAssertThrows(testObj = [[TestObjectUnsupportedObjectProperty alloc]init],
                     @"Initializing an ejdbmodel with an unsupported object property type should throw exception!");
 }
+*/
 
 - (void)testSupportedPrimitiveAndObjectTypes
 {
@@ -221,7 +212,12 @@
 
 - (void)testRetrievingFilledSupportedObjectFromCollectionSucceeds
 {
+    
+    TestRelatedObject *relatedObject = [[TestRelatedObject alloc]initWithDatabase:_db];
+    relatedObject.name = @"First Name Last Name";
+    [_relatedCollection saveObject:relatedObject];
     TestSupportedObject *objectToSave = [self validFilledModelObject];
+    objectToSave.relatedObj = relatedObject;
     [_collection saveObject:objectToSave];
     EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
     TestSupportedObject *fetchedObject = [query fetchObject];
@@ -237,6 +233,7 @@
     XCTAssertTrue([fetchedObject.aDict isEqualToDictionary:objectToSave.aDict],@"fetched dict object value should be equal to saved dict value!");
     XCTAssertTrue([fetchedObject.anArray isEqualToArray:objectToSave.anArray], @"fetched array object value should be equal to saved array value!");
     XCTAssertTrue([fetchedObject.someData isEqualToData:objectToSave.someData], @"fetched data object value should be equal to saved data value!");
+    XCTAssertTrue([fetchedObject.relatedObj.oid isEqual:objectToSave.relatedObj.oid], @"fetched related object value should be equal to saved related object value!");
 }
 
 @end

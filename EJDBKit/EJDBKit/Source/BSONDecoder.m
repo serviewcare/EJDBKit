@@ -40,17 +40,11 @@
     NSDictionary *decodedDictionary = [self decodeFromIterator:iterator];
     NSString *type = [decodedDictionary objectForKey:@"type"];
     
-    if (type)
+    if (type && ![NSClassFromString(type) isSubclassOfClass:[EJDBModel class]])
     {
         Class aClass = NSClassFromString(type);
         id obj = [[aClass alloc]init];
-        if ([obj isKindOfClass:[EJDBModel class]])
-        {
-            [obj fromDictionary:decodedDictionary];
-            return obj;
-
-        }
-        else if ([obj conformsToProtocol:@protocol(BSONArchiving)])
+        if ([obj conformsToProtocol:@protocol(BSONArchiving)])
         {
             NSMutableDictionary *modifiedDict = [NSMutableDictionary dictionaryWithDictionary:decodedDictionary];
             NSString *oid = [modifiedDict objectForKey:@"_id"];
@@ -72,33 +66,6 @@
             @throw exception;
         }
     }
-    return decodedDictionary;
-    
-    /*
-    if (type)
-    {
-        Class aClass = NSClassFromString(type);
-        id obj = [[aClass alloc]init];
-        if (![obj conformsToProtocol:@protocol(BSONArchiving)])
-        {
-            NSException *exception = [NSException exceptionWithName:@"Unsupported BSON Type!"
-                                                             reason:[NSString stringWithFormat:@"Cannot encode class: %@!",NSStringFromClass([obj class])]
-                                                           userInfo:nil];
-            obj = nil;
-            @throw exception;
-        }
-        
-        NSMutableDictionary *modifiedDict = [NSMutableDictionary dictionaryWithDictionary:decodedDictionary];
-        NSString *oid = [modifiedDict objectForKey:@"_id"];
-        if (oid)
-        {
-            [modifiedDict setValue:[modifiedDict objectForKey:@"_id"] forKey:[obj oidPropertyName]];
-            [modifiedDict removeObjectForKey:@"_id"];
-        }
-        [obj fromDictionary:[NSDictionary dictionaryWithDictionary:modifiedDict]];
-        return obj;
-    }
-    */
     return decodedDictionary;
 }
 
@@ -159,7 +126,7 @@
 - (NSString *)decodeOIDFromIterator:(bson_iterator)iterator
 {
     bson_oid_t *oid = bson_iterator_oid(&iterator);
-    char str[25];
+    char str[24];
     bson_oid_to_string(oid, str);
     return [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
 }

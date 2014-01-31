@@ -5,6 +5,7 @@
 #import "BSONDecoder.h"
 #import "BSONArchiving.h"
 #import "EJDBQueryBuilderDelegate.h"
+#import "EJDBModel.h"
 
 @interface EJDBQuery ()
 @property (strong,nonatomic) EJDBCollection *collection;
@@ -93,7 +94,28 @@
         bson_init_with_data(data, p);
         BSONDecoder *bsonDecoder = [[BSONDecoder alloc]init];
         id obj = [bsonDecoder decodeObjectFromBSON:data];
-        [results addObject:obj];
+        if ([obj isKindOfClass:[NSDictionary class]])
+        {
+            NSString *type = [obj valueForKey:@"type"];
+            if (type)
+            {
+                Class class = NSClassFromString(type);
+                if ([class isSubclassOfClass:[EJDBModel class]])
+                {
+                    id modelObject = [[class alloc]initWithDatabase:self.collection.db];
+                    [modelObject fromDictionary:obj];
+                    [results addObject:modelObject];
+                }
+            }
+            else
+            {
+                [results addObject:obj];
+            }
+        }
+        else
+        {
+            [results addObject:obj];
+        }
         bson_del(data);
     }
     tcfree(r);

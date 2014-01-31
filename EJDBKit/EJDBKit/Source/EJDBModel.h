@@ -12,6 +12,9 @@
 
 @interface EJDBModel : NSObject<BSONArchiving,EJDBDocument>
 @property (copy,nonatomic,readonly) NSString *oid;
-@property (strong,nonatomic,readonly) EJDBDatabase *database;
+@property (weak,nonatomic) EJDBDatabase *database;
 @property (weak,nonatomic) id<EJDBDocument>modelObject;
+
+- (id)initWithDatabase:(EJDBDatabase *)database;
+
 @end

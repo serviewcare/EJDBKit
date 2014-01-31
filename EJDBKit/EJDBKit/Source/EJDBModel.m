@@ -2,14 +2,53 @@
 #import "EJDBDatabase.h"
 #import <objc/objc-runtime.h>
 
-//static char EJDBModelPropertiesInfoKey;
+
+typedef NS_OPTIONS(int, EJDBModelPropertyType)
+{
+    EJDBModelPropertyTypeScalar,
+    EJDBModelPropertyTypeObject
+};
+
+
+@interface EJDBModelProperty : NSObject
+@property (assign,nonatomic) EJDBModelPropertyType propertyType;
+@property (copy,nonatomic) NSString *typeEncoding;
+- (NSNumber *)defaultValueForNilNumberScalar;
+@end
+
+@implementation EJDBModelProperty
+
+- (NSNumber *)defaultValueForNilNumberScalar
+{
+    NSNumber *defaultValue;
+    
+    if ([_typeEncoding isEqualToString:@"i"])
+    {
+        defaultValue = [NSNumber numberWithInt:0];
+    }
+    else if ([_typeEncoding isEqualToString:@"q"])
+    {
+        defaultValue = [NSNumber numberWithLongLong:0];
+    }
+    else if ([_typeEncoding isEqualToString:@"B"])
+    {
+        defaultValue = [NSNumber numberWithBool:NO];
+    }
+    else if ([_typeEncoding isEqualToString:@"f"])
+    {
+        defaultValue = [NSNumber numberWithFloat:0.];
+    }
+    else if ([_typeEncoding isEqualToString:@"d"])
+    {
+        defaultValue = [NSNumber numberWithDouble:0.];
+    }
+
+    return defaultValue;
+}
+@end
 
 @interface EJDBModel ()
-@property (nonatomic,readonly) NSDictionary *propertyGetters;
-@property (nonatomic,readonly) NSDictionary *propertySetters;
-@property (nonatomic,readonly) NSDictionary *propertyTypes;
-@property (nonatomic,readonly) NSDictionary *modelInfo;
-@property (nonatomic) NSMutableDictionary *values;
+@property (nonatomic,readonly) NSDictionary *saveableProperties;
 @end
 
 @implementation EJDBModel
@@ -20,7 +59,16 @@
     if (self)
     {
         [self parseProperties];
-        
+    }
+    return self;
+}
+
+- (id)initWithDatabase:(EJDBDatabase *)database
+{
+    self = [self init];
+    if (self)
+    {
+        _database = database;
     }
     return self;
 }
@@ -30,45 +78,9 @@
     return NSStringFromClass([self class]);
 }
 
-/*
-+ (BOOL)resolveInstanceMethod:(SEL)sel
-{
-    NSString *selectorString = NSStringFromSelector(sel);
-    NSDictionary *modelInfo = (NSDictionary *)objc_getAssociatedObject([self class],&EJDBModelPropertiesInfoKey);
-    
-    for (NSDictionary *info in modelInfo)
-    {
-        if ([info[@"setter"]isEqualToString:selectorString])
-        {
-            class_addMethod([self class], sel, (IMP)modelObjectSetterIMP, "v@:@");
-            return YES;
-        }
-        else if ([info[@"getter"] isEqualToString:selectorString])
-        {
-            class_addMethod([self class], sel, (IMP)modelObjectGetterIMP, "@@:");
-        }
-    }
-    return [super resolveInstanceMethod:sel];
-}
-
-void modelObjectSetterIMP(id self, SEL _cmd,id<EJDBDocument>model)
-{
-    NSLog(@"collection name for class is %@",[model collectionName]);
-    NSLog(@"set my model object self is %@ _cmd is %@",self,NSStringFromSelector(_cmd));
-}
-
-id<EJDBDocument> modelObjectGetterIMP(id self, SEL _cmd)
-{
-    return nil;
-}
-*/
-
 - (void)parseProperties
 {
-    NSMutableDictionary *propertyGetters = [NSMutableDictionary dictionary];
-    NSMutableDictionary *propertySetters = [NSMutableDictionary dictionary];
-    NSMutableDictionary *propertyTypes = [NSMutableDictionary dictionary];
-    NSMutableDictionary *modelInfo = [NSMutableDictionary dictionary];
+    NSMutableDictionary *saveableProperties = [NSMutableDictionary dictionary];
     Class klass = [self class];
     while (klass != [NSObject class])
     {
@@ -78,53 +90,27 @@ id<EJDBDocument> modelObjectGetterIMP(id self, SEL _cmd)
         {
             objc_property_t property = properties[i];
             char *dynamic = property_copyAttributeValue(property, "D");
-            if (dynamic)
+            if (!dynamic)
             {
-                free(dynamic);
                 NSString *propertyName = [NSString stringWithUTF8String:property_getName(property)];
                 
-                if ([self checkIfReadOnlyProperty:property])
+                if (![self isReadOnlyProperty:property])
                 {
-                    free(properties);
-                    @throw [NSException exceptionWithName:@"EJDBKitUnsupportedDynamicPropertyAttribute!"
-                                                   reason:[NSString stringWithFormat:@"The property: %@ contains a readonly attribute!",propertyName]
-                                                 userInfo:nil];
-                    return;
+                    [self savePropertyTypeFromProperty:property withName:propertyName intoDictionary:saveableProperties];
                 }
-                
-                /*
-                Class ejdbModelClass = [self classForEJDBModelProperty:property];
-                if (ejdbModelClass)
-                {
-                    [self loadModelGetterAndSetterForClass:ejdbModelClass withPropertyName:propertyName intoDictionary:modelInfo];
-                    continue;
-                }
-                */
-                
-                if (![self loadPropertyTypeFromProperty:property withName:propertyName intoDictionary:propertyTypes])
-                {
-                    free(properties);
-                    @throw [NSException exceptionWithName:@"EJDBKitUnsupportedDynamicPropertyType!"
-                                                   reason:[NSString stringWithFormat:@"The property: %@ is an unsupported type!",propertyName]
-                                                 userInfo:nil];
-                    return;
-                }
-                [self loadGetterFromProperty:property withName:propertyName intoDictionary:propertyGetters];
-                [self loadSetterFromProperty:property withName:propertyName intoDictionary:propertySetters];
+            }
+            else
+            {
+                free(dynamic);
             }
         }
         free(properties);
         klass = [klass superclass];
     }
-    _propertyGetters = propertyGetters;
-    _propertySetters = propertySetters;
-    _propertyTypes = propertyTypes;
-    _modelInfo = modelInfo;
-    _values = [[NSMutableDictionary alloc] init];
-    //objc_setAssociatedObject([self class], &EJDBModelPropertiesInfoKey, _modelInfo, OBJC_ASSOCIATION_ASSIGN);
+    _saveableProperties = saveableProperties;
 }
 
-- (BOOL)checkIfReadOnlyProperty:(objc_property_t)property
+- (BOOL)isReadOnlyProperty:(objc_property_t)property
 {
     BOOL isReadOnly = NO;
     char *readonly = property_copyAttributeValue(property, "R");
@@ -136,271 +122,76 @@ id<EJDBDocument> modelObjectGetterIMP(id self, SEL _cmd)
     return isReadOnly;
 }
 
-- (Class)classForEJDBModelProperty:(objc_property_t)property
+- (BOOL)savePropertyTypeFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
 {
-    Class ejdbModelClass = nil;
+    BOOL isSupportedType = NO;
     char *type = property_copyAttributeValue(property, "T");
     if (type)
     {
-        NSString *typeString = [NSString stringWithUTF8String:type];
-        if ([typeString hasPrefix:@"@"])
+        EJDBModelPropertyType propertyType;
+        NSString *typeString;
+        NSString *typeEncodingString = [NSString stringWithUTF8String:type];
+        if (![typeEncodingString hasPrefix:@"@"])
         {
-            NSString *classString = [typeString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"@\""]];
-            Class klass = NSClassFromString(classString);
-            if ([klass isSubclassOfClass:[EJDBModel class]]) ejdbModelClass = klass;
-        }
-        free(type);
-    }
-    return ejdbModelClass;
-}
-
-- (BOOL)loadPropertyTypeFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
-{
-    BOOL isSupportedType = YES;
-    char *type = property_copyAttributeValue(property, "T");
-    if (type)
-    {
-        NSString *typeString = [NSString stringWithUTF8String:type];
-        if (![typeString hasPrefix:@"@"])
-        {
-            if (![typeString isEqualToString:@"i"] && ![typeString isEqualToString:@"q"] &&
-                ![typeString isEqualToString:@"B"] && ![typeString isEqualToString:@"f"] &&
-                ![typeString isEqualToString:@"d"])
+            if ([typeEncodingString isEqualToString:@"i"] || [typeEncodingString isEqualToString:@"q"] ||
+                [typeEncodingString isEqualToString:@"B"] || [typeEncodingString isEqualToString:@"f"] ||
+                [typeEncodingString isEqualToString:@"d"])
             {
-                isSupportedType = NO;
+                typeString = typeEncodingString;
+                propertyType = EJDBModelPropertyTypeScalar;
+                isSupportedType = YES;
             }
         }
         else
         {
-            NSString *classString = [typeString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"@\""]];
+            NSString *classString = [typeEncodingString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"@\""]];
+            
             Class klass =  NSClassFromString(classString);
-            if (![klass isSubclassOfClass:[NSString class]] && ![klass isSubclassOfClass:[NSNumber class]] &&
-                ![klass isSubclassOfClass:[NSDate class]] && ![klass isSubclassOfClass:[NSDictionary class]] &&
-                ![klass isSubclassOfClass:[NSArray class]] && ![klass isSubclassOfClass:[NSData class]] && ![klass isSubclassOfClass:[EJDBModel class]])
+            if ([klass isSubclassOfClass:[NSString class]] || [klass isSubclassOfClass:[NSNumber class]] ||
+                [klass isSubclassOfClass:[NSDate class]] || [klass isSubclassOfClass:[NSDictionary class]] ||
+                [klass isSubclassOfClass:[NSArray class]] || [klass isSubclassOfClass:[NSData class]] || [klass isSubclassOfClass:[EJDBModel class]])
             {
-                isSupportedType = NO;
+                typeString = classString;
+                propertyType = EJDBModelPropertyTypeObject;
+                isSupportedType = YES;
             }
         }
         if (isSupportedType)
         {
-            [dictionary setObject:typeString forKey:propertyName];
+            EJDBModelProperty *modelProperty = [[EJDBModelProperty alloc]init];
+            modelProperty.propertyType = propertyType;
+            modelProperty.typeEncoding = [typeString copy];
+            [dictionary setObject:modelProperty forKey:propertyName];
         }
         free(type);
     }
     return isSupportedType;
 }
 
-- (void)loadModelGetterAndSetterForClass:(Class)modelClass withPropertyName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
+- (id)valueForKey:(NSString *)key
 {
-    NSString *aGetSelector = [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1)
-                                                                   withString:[[propertyName substringToIndex:1] uppercaseString]];
-    aGetSelector = [NSString stringWithFormat:@"get%@:",aGetSelector];
-    
-    NSString *aSetSelector = [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1)
-                                                               withString:[[propertyName substringToIndex:1] uppercaseString]];
-    aSetSelector = [NSString stringWithFormat:@"set%@:",aSetSelector];
-    NSDictionary *modelInfo = @{@"getter" : aGetSelector,@"setter":aSetSelector,@"className": modelClass};
-    [dictionary setObject:propertyName forKey:modelInfo];
-}
-
-
-- (void)loadGetterFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
-{
-    char *getterName = property_copyAttributeValue(property, "G");
-    if (getterName)
-    {
-        [dictionary setObject:propertyName forKey:[NSString stringWithUTF8String:getterName]];
-        free(getterName);
-    }
-    else
-    {
-        [dictionary setObject:propertyName forKey:propertyName];
-    }
-
-}
-
-- (void)loadSetterFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
-{
-    char *setterName = property_copyAttributeValue(property, "S");
-    if (setterName)
-    {
-        [dictionary setObject:propertyName forKey:[NSString stringWithUTF8String:setterName]];
-        free(setterName);
-    }
-    else
-    {
-        NSString *selector = [propertyName stringByReplacingCharactersInRange:NSMakeRange(0, 1)
-                                                                   withString:[[propertyName substringToIndex:1] uppercaseString]];
-        selector = [NSString stringWithFormat:@"set%@:",selector];
-        [dictionary setObject:propertyName forKey:selector];
-    }
-
-}
-
-- (id)dynamicValueForKey:(NSString *)key
-{
-    return [self.values objectForKey:key];
-}
-
-- (void)setDynamicValue:(id)value forKey:(NSString *)key
-{
-    if (value == nil) {
-        [self.values setObject:[NSNull null] forKey:key];
-    } else {
-        [self.values setObject:value forKey:key];
-    }
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
-    NSString *selectorAsString = NSStringFromSelector(aSelector);
-    NSString *propertyName = nil;
-    
-    // Getter
-    propertyName = [self.propertyGetters objectForKey:selectorAsString];
-    if (propertyName)
-    {
-        NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
-        return [NSMethodSignature signatureWithObjCTypes:
-                [[NSString stringWithFormat:@"%@@:", propertyType] UTF8String]];
-    }
-    
-    // Setter
-    propertyName = [self.propertySetters objectForKey:selectorAsString];
-    if (propertyName)
-    {
-        NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
-        return [NSMethodSignature signatureWithObjCTypes:
-                [[NSString stringWithFormat:@"v@:%@", propertyType] UTF8String]];
-    }
-    
-    return [super methodSignatureForSelector:aSelector];
-}
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation
-{
-    NSString *selectorAsString = NSStringFromSelector([anInvocation selector]);
-    NSString *propertyName = nil;
-    
-    // Getter
-    propertyName = [self.propertyGetters objectForKey:selectorAsString];
-    if (propertyName)
-    {
-        NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
-        
-        if (![propertyType hasPrefix:@"@"])
-        {
-            [self fetchPrimitiveValueForPropertyName:propertyName invocation:anInvocation];
-            return;
-        }
-        else
-        {
-            id value = [self dynamicValueForKey:propertyName];
-            if (value == nil) value = [NSNull null];
-            [anInvocation setReturnValue:&value];
-            [anInvocation retainArguments];
-            return;
-        }
-    }
-    
-    // Setter
-    propertyName = [self.propertySetters objectForKey:selectorAsString];
-    if (propertyName)
-    {
-        NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
-        
-        if (![propertyType hasPrefix:@"@"])
-        {
-            [self savePrimitiveValueForPropertyName:propertyName invocation:anInvocation];
-            return;
-        }
-        else
-        {
-            __unsafe_unretained id value = nil;
-            [anInvocation getArgument:&value atIndex:2];
-            [self setDynamicValue:value forKey:propertyName];
-            return;
-        }
-    }
-    [super forwardInvocation:anInvocation];
-}
-
-- (void)fetchPrimitiveValueForPropertyName:(NSString *)propertyName invocation:(NSInvocation *)anInvocation
-{
-    NSNumber *aNumber = [self dynamicValueForKey:propertyName];
-    NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
-    
-    if ([propertyType isEqualToString:@"i"])
-    {
-        int value = [aNumber intValue];
-        [anInvocation setReturnValue:&value];
-    }
-    else if ([propertyType isEqualToString:@"q"])
-    {
-        long long value = [aNumber longLongValue];
-        [anInvocation setReturnValue:&value];
-    }
-    else if ([propertyType isEqualToString:@"B"])
-    {
-        bool value = [aNumber boolValue];
-        [anInvocation setReturnValue:&value];
-    }
-    else if ([propertyType isEqualToString:@"f"])
-    {
-        float value = [aNumber floatValue];
-        [anInvocation setReturnValue:&value];
-    }
-    else if ([propertyType isEqualToString:@"d"])
-    {
-        double value = [aNumber doubleValue];
-        [anInvocation setReturnValue:&value];
-    }
-}
-
-- (void)savePrimitiveValueForPropertyName:(NSString *)propertyName invocation:(NSInvocation *)anInvocation
-{
-    NSString *propertyType = [self.propertyTypes objectForKey:propertyName];
-    
-    if ([propertyType isEqualToString:@"i"])
-    {
-        int value;
-        [anInvocation getArgument:&value atIndex:2];
-        [self setDynamicValue:[NSNumber numberWithInt:value] forKey:propertyName];
-    }
-    else if ([propertyType isEqualToString:@"q"])
-    {
-        long long value;
-        [anInvocation getArgument:&value atIndex:2];
-        [self setDynamicValue:[NSNumber numberWithLongLong:value] forKey:propertyName];
-    }
-    else if ([propertyType isEqualToString:@"B"])
-    {
-        bool value;
-        [anInvocation getArgument:&value atIndex:2];
-        [self setDynamicValue:[NSNumber numberWithBool:value] forKey:propertyName];
-    }
-    else if ([propertyType isEqualToString:@"f"])
-    {
-        float value;
-        [anInvocation getArgument:&value atIndex:2];
-        [self setDynamicValue:[NSNumber numberWithFloat:value] forKey:propertyName];
-    }
-    else if ([propertyType isEqualToString:@"d"])
-    {
-        double value;
-        [anInvocation getArgument:&value atIndex:2];
-        [self setDynamicValue:[NSNumber numberWithDouble:value] forKey:propertyName];
-    }
+    id value = [super valueForKey:key];
+    return value == nil ? [NSNull null] : value;
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
-    [self setDynamicValue:value forKey:key];
+    if (value == nil) value = [NSNull null];
+    [super setValue:value forKey:key];
 }
 
-- (id)valueForKey:(NSString *)key
+- (void)setNilValueForKey:(NSString *)key
 {
-    return [self dynamicValueForKey:key];
+    EJDBModelProperty *modelProperty = _saveableProperties[key];
+    
+    if (modelProperty.propertyType != EJDBModelPropertyTypeObject)
+    {
+        [self setValue:[modelProperty defaultValueForNilNumberScalar] forKey:key];
+    }
+    else
+    {
+        [super setNilValueForKey:key];
+    }
 }
 
 #pragma mark - BSONArchiving delegate methods
@@ -418,13 +209,35 @@ id<EJDBDocument> modelObjectGetterIMP(id self, SEL _cmd)
 - (NSDictionary *)toDictionary
 {
     NSMutableDictionary *propertyKeysAndValues = [NSMutableDictionary dictionary];
-    for (NSString *key in [_propertyGetters keyEnumerator])
+    for (NSString *key in _saveableProperties.keyEnumerator)
     {
-        NSMethodSignature *signature = [self methodSignatureForSelector:NSSelectorFromString(_propertyGetters[key])];
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-        [invocation setSelector:NSSelectorFromString(_propertyGetters[key])];
-        [self forwardInvocation:invocation];
-        propertyKeysAndValues[key] = [self dynamicValueForKey:key] == nil ? [NSNull null] : self.values[key];
+        EJDBModelProperty *modelProperty = _saveableProperties[key];
+        if (modelProperty.propertyType == EJDBModelPropertyTypeObject)
+        {
+            Class class = NSClassFromString(modelProperty.typeEncoding);
+            if ([class isSubclassOfClass:[EJDBModel class]])
+            {
+                id object = [self valueForKey:key];
+                if (![object isEqual:[NSNull null]] && [object oid] != nil)
+                {
+                    id oid = [object oid];
+                    id collectionName = [object collectionName] == nil ? [NSNull null] : [object collectionName];
+                    propertyKeysAndValues[key] = @{@"_id": oid, @"collectionName" : collectionName, @"type" : [object type]};
+                }
+                else
+                {
+                    propertyKeysAndValues[key] = [NSNull null];
+                }
+            }
+            else
+            {
+                propertyKeysAndValues[key] = [self valueForKey:key];
+            }
+        }
+        else
+        {
+            propertyKeysAndValues[key] = [self valueForKey:key];
+        }
     }
     propertyKeysAndValues[@"type"] = [self type];
     return [NSDictionary dictionaryWithDictionary:propertyKeysAndValues];
@@ -432,53 +245,44 @@ id<EJDBDocument> modelObjectGetterIMP(id self, SEL _cmd)
 
 - (void)fromDictionary:(NSDictionary *)dictionary
 {
-    for (NSString  *key in [dictionary keyEnumerator])
+    for (NSString *key in [dictionary keyEnumerator])
     {
-        NSArray *keys = [_propertySetters allKeysForObject:key];
-        if ([keys count] > 0)
+        if ([key isEqualToString:@"_id"])
         {
-            if ([[dictionary valueForKey:key] isEqual:[NSNull null]]) continue;
-            NSMethodSignature *signature = [self methodSignatureForSelector:NSSelectorFromString(keys[0])];
-            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-            [invocation setSelector:NSSelectorFromString(keys[0])];
-            NSString *type = _propertyTypes[key];
-            if (![type hasPrefix:@"@"])
+            _oid = dictionary[key];
+        }
+        else if (![key isEqualToString:@"type"])
+        {
+            id value;
+            EJDBModelProperty *modelProperty = _saveableProperties[key];
+            if (modelProperty.propertyType == EJDBModelPropertyTypeObject)
             {
-                if ([type isEqualToString:@"i"])
+                Class class = NSClassFromString(modelProperty.typeEncoding);
+                if ([class isSubclassOfClass:[EJDBModel class]])
                 {
-                    int value = [[dictionary valueForKey:key] intValue];
-                    [invocation setArgument:&value atIndex:2];
+                    NSDictionary *modelInfo = dictionary[key];
+                    if ([modelInfo isEqual:[NSNull null]]) continue;
+                    if([modelInfo[@"_id"] isEqual:[NSNull null]] || [modelInfo[@"collectionName"] isEqual:[NSNull null]]) continue;
+                    if (_database)
+                    {
+                        EJDBCollection *collection = [EJDBCollection collectionWithName:modelInfo[@"collectionName"] db:_database];
+                        NSDictionary *modelObjectDict = [collection fetchObjectWithOID:modelInfo[@"_id"]];
+                        id modelObject = [[class alloc]initWithDatabase:_database];
+                        [modelObject fromDictionary:modelObjectDict];
+                        value = modelObject;
+                    }
                 }
-                else if ([type isEqualToString:@"q"])
+                else
                 {
-                    long long value = [[dictionary valueForKey:key] longLongValue];
-                    [invocation setArgument:&value atIndex:2];
-                }
-                else if([type isEqualToString:@"B"])
-                {
-                    bool value = [[dictionary valueForKey:key]boolValue];
-                    [invocation setArgument:&value atIndex:2];
-                }
-                else if([type isEqualToString:@"f"])
-                {
-                    float value = [[dictionary valueForKey:key]floatValue];
-                    [invocation setArgument:&value atIndex:2];
-                }
-                else if([type isEqualToString:@"d"])
-                {
-                    double value = [[dictionary valueForKey:key]doubleValue];
-                    [invocation setArgument:&value atIndex:2];
+                    value = dictionary[key];
                 }
             }
             else
             {
-                __unsafe_unretained id value = [dictionary valueForKey:key];
-                [invocation setArgument:&value atIndex:2];
+                value = dictionary[key];
             }
-            [self forwardInvocation:invocation];
+            [self setValue:value forKey:key];
         }
     }
-    _oid = dictionary[@"oid"];
 }
-
 @end

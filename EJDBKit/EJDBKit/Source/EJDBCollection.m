@@ -73,7 +73,7 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
 
 + (BOOL)isValidOID:(NSString *)OID
 {
-    if (!OID) return NO;
+    if (!OID || [OID isEqual:[NSNull null]]) return NO;
     const char *oidCString = [OID cStringUsingEncoding:NSUTF8StringEncoding];
     if (!ejdbisvalidoidstr(oidCString)) return NO;
     return YES;
@@ -122,24 +122,31 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
             oidStr = [dictionary objectForKey:@"_id"];
         }
         
-        if (oidStr)
+        if (![oidStr isEqual:[NSNull null]] && oidStr != nil)
         {
             if (![EJDBCollection isValidOID:oidStr]) return NO;
             const char *oidCString = [oidStr cStringUsingEncoding:NSUTF8StringEncoding];
             bson_oid_from_string(&oid, oidCString);
         }
+        else
+        {
+            bson_oid_gen(&oid);
+            char oidCString[24];
+            bson_oid_to_string(&oid, oidCString);
+            dictionaryToSave[@"_id"] = [NSString stringWithCString:oidCString encoding:NSUTF8StringEncoding];
+        }
         
         BSONEncoder *bsonObject = [[BSONEncoder alloc]init];
-        [bsonObject encodeDictionary:dictionaryToSave];
+        [bsonObject encodeDictionary:[NSDictionary dictionaryWithDictionary:dictionaryToSave]];
         [bsonObject finish];
 
         BOOL success = ejdbsavebson(_collection, bsonObject.bson, &oid);
         if (success)
         {
             id savedObject;
-            if (!oidStr)
+            if (!oidStr || [oidStr isEqual:[NSNull null]])
             {
-                char str[25];
+                char str[24];
                 bson_oid_to_string(&oid, str);
                 oidStr = [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
                 if (isArchivable)
@@ -157,6 +164,7 @@ NSString * const EJDBCollectionObjectRemovedNotification = @"EJDBCollectionObjec
             {
                 savedObject = isArchivable ? object : dictionaryToSave;
             }
+
             NSNotification *notification = [NSNotification notificationWithName:EJDBCollectionObjectSavedNotification
                                                                          object:savedObject
                                                                        userInfo:nil];
