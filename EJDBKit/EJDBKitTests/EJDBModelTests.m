@@ -2,62 +2,7 @@
 #import "EJDBDatabase+DBTestExtensions.h"
 #import "EJDBQuery.h"
 #import "EJDBModel.h"
-
-@class TestRelatedObject;
-
-@interface TestSupportedObject : EJDBModel
-@property (copy,nonatomic) NSString *aString;
-@property (copy,nonatomic) NSString *ignoredProperty;
-@property (strong,nonatomic) NSNumber *aNumber;
-@property (strong,nonatomic) NSDictionary *aDict;
-@property (strong,nonatomic) NSArray *anArray;
-@property (strong,nonatomic) NSDate *aDate;
-@property (strong,nonatomic) NSData *someData;
-@property (strong,nonatomic) TestRelatedObject *relatedObj;
-@property (nonatomic) int anInteger;
-@property (nonatomic) bool aBool;
-@property (nonatomic) float aFloat;
-@property (nonatomic) double aDouble;
-@property (nonatomic) long long aLongLong;
-@end
-
-@implementation TestSupportedObject
-@dynamic ignoredProperty;
-@end
-
-
-@interface TestRelatedObject : EJDBModel
-@property (copy,nonatomic) NSString *name;
-@end
-
-@implementation TestRelatedObject
-@end
-
-
-@interface TestObjectUnsupportedPropertyAttribute : EJDBModel
-@property (readonly) int aReadonlyProperty;
-@end
-
-@implementation TestObjectUnsupportedPropertyAttribute
-@dynamic aReadonlyProperty;
-@end
-
-@interface TestObjectUnsupportedPrimitiveProperty : EJDBModel
-@property (nonatomic) short aShort;
-@end
-
-@implementation TestObjectUnsupportedPrimitiveProperty
-@dynamic aShort;
-@end
-
-@interface TestObjectUnsupportedObjectProperty : EJDBModel
-@property (strong,nonatomic) NSSet *aSet;
-@end
-
-@implementation TestObjectUnsupportedObjectProperty
-@dynamic aSet;
-@end
-
+#import "EJDBModelFixtures.h"
 
 @interface EJDBModelTests : XCTestCase
 
@@ -112,29 +57,6 @@
     TestSupportedObject *testObj;
     XCTAssertNoThrow(testObj = [[TestSupportedObject alloc]init],@"Initializing a valid ejdbmodel object should not throw exception!");
 }
-
-/*
-- (void)testInitializingObjectWithUnsupportedPropertyAttributeThrowsException
-{
-    TestObjectUnsupportedPropertyAttribute *testObj;
-    XCTAssertThrows(testObj = [[TestObjectUnsupportedPropertyAttribute alloc]init],
-                    @"Initializing an ejdbmodel with an unsupported dynamic property attribute should throw exception!");
-}
-
-- (void)testInitialzingObjectWithUnsupportedPrimitivePropertyTypeThrowsException
-{
-    TestObjectUnsupportedPrimitiveProperty *testObj;
-    XCTAssertThrows(testObj = [[TestObjectUnsupportedPrimitiveProperty alloc]init],
-                    @"Initializing an ejdbmodel with an unsupported primitive property type should throw exception!");
-}
-
-- (void)testInitializingObjectWithUnsupportedObjectTypeThrowsException
-{
-    TestObjectUnsupportedObjectProperty *testObj;
-    XCTAssertThrows(testObj = [[TestObjectUnsupportedObjectProperty alloc]init],
-                    @"Initializing an ejdbmodel with an unsupported object property type should throw exception!");
-}
-*/
 
 - (void)testSupportedPrimitiveAndObjectTypes
 {
@@ -192,7 +114,7 @@
 {
     TestSupportedObject *testObj = [[TestSupportedObject alloc]init];
     BOOL success = [_collection saveObject:testObj];
-    XCTAssertTrue(success, @"Saving empty supported object to collection should succed!");
+    XCTAssertTrue(success, @"Saving empty supported object to collection should succeed!");
 }
 
 - (void)testRetrievingEmptySupportedObjectFromCollectionSucceeds
@@ -212,7 +134,6 @@
 
 - (void)testRetrievingFilledSupportedObjectFromCollectionSucceeds
 {
-    
     TestRelatedObject *relatedObject = [[TestRelatedObject alloc]initWithDatabase:_db];
     relatedObject.name = @"First Name Last Name";
     [_relatedCollection saveObject:relatedObject];
@@ -222,7 +143,7 @@
     EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
     TestSupportedObject *fetchedObject = [query fetchObject];
     NSTimeInterval timeInterval = round([fetchedObject.aDate timeIntervalSinceDate:objectToSave.aDate]);
-    XCTAssertTrue( timeInterval == 0, @"object to save date and fetched object date time intervals should have 0 seconds between them!");
+    XCTAssertTrue(timeInterval == 0, @"object to save date and fetched object date time intervals should have 0 seconds between them!");
     XCTAssertTrue(fetchedObject.anInteger == objectToSave.anInteger, @"fetched integer value should be 100!");
     XCTAssertTrue(fetchedObject.aBool == objectToSave.aBool, @"fetched bool value should be true!");
     XCTAssertTrue(fetchedObject.aFloat == objectToSave.aFloat, @"fetched float value should be 123.456!");
@@ -235,5 +156,25 @@
     XCTAssertTrue([fetchedObject.someData isEqualToData:objectToSave.someData], @"fetched data object value should be equal to saved data value!");
     XCTAssertTrue([fetchedObject.relatedObj.oid isEqual:objectToSave.relatedObj.oid], @"fetched related object value should be equal to saved related object value!");
 }
+
+- (void)testSavingAndRetrievingArrayOfRelatedObjectsSucceeds
+{
+    TestRelatedObject *relObj1 = [[TestRelatedObject alloc]initWithDatabase:_db];
+    relObj1.name = @"related object 1";
+    TestRelatedObject *relObj2 = [[TestRelatedObject alloc]initWithDatabase:_db];
+    relObj2.name = @"related object 2";
+    [_relatedCollection saveObjects:@[relObj1,relObj2]];
+    TestSupportedObject *model = [[TestSupportedObject alloc]initWithDatabase:_db];
+    model.relatedObjects = @[relObj1,relObj2];
+    [_collection saveObject:model];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:_collection query:nil];
+    TestSupportedObject *fetchedObject = [query fetchObject];
+    XCTAssertTrue([fetchedObject.relatedObjects count] == 2, @"Array of related objects count should be exactly 2!");
+    XCTAssertTrue([[fetchedObject.relatedObjects[0] oid] isEqual:relObj1.oid], @"related object 1 should exactly equal fetched related object 1!");
+    XCTAssertTrue([[fetchedObject.relatedObjects[1] oid] isEqual:relObj2.oid], @"related object 2 should exactly equal fetched related object 2!");
+}
+
+
+
 
 @end

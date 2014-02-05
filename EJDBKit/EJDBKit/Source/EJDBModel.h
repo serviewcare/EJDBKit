@@ -7,6 +7,7 @@
 @protocol EJDBDocument <NSObject>
 
 - (NSString *)collectionName;
+- (NSArray *)joinableModelArrayProperties;
 
 @end
 

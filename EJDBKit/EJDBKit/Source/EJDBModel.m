@@ -1,5 +1,7 @@
 #import "EJDBModel.h"
 #import "EJDBDatabase.h"
+#import "EJDBQueryBuilder.h"
+#import "EJDBQuery.h"
 #import <objc/objc-runtime.h>
 
 
@@ -76,6 +78,11 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
 - (NSString *)collectionName
 {
     return NSStringFromClass([self class]);
+}
+
+- (NSArray *)joinableModelArrayProperties
+{
+    return @[];
 }
 
 - (void)parseProperties
@@ -194,6 +201,42 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     }
 }
 
+- (id)modelRepresentationFromModel:(EJDBModel *)model
+{
+    if ([model isEqual:[NSNull null]] || ![model oid]) return [NSNull null];
+    id collectionName = [model collectionName] == nil ? [NSNull null] : [model collectionName];
+    return @{@"_id": [model oid], @"collectionName" : collectionName, @"type" : [model type]};
+}
+
+- (id)modelFromRepresentation:(NSDictionary *)representation forClass:(Class)class
+{
+    if([representation[@"_id"] isEqual:[NSNull null]] || [representation[@"collectionName"] isEqual:[NSNull null]] || !_database) return nil;
+    EJDBCollection *collection = [EJDBCollection collectionWithName:representation[@"collectionName"] db:_database];
+    NSDictionary *modelObjectDict = [collection fetchObjectWithOID:representation[@"_id"]];
+    id modelObject = [[class alloc]initWithDatabase:_database];
+    [modelObject fromDictionary:modelObjectDict];
+    return modelObject;
+}
+
+- (NSArray *)joinedModelsFromArray:(NSArray *)array
+{
+    if ([array count] == 0) return array;
+    
+    NSDictionary *firstObject = array[0];
+    NSString *collectionName = firstObject[@"collectionName"];
+    NSMutableArray *oids = [NSMutableArray array];
+    for (id object in array)
+    {
+        [oids addObject:object[@"_id"]];
+    }
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc]init];
+    [builder path:@"_id" in:[NSArray arrayWithArray:oids]];
+    EJDBCollection *collection = [_database collectionWithName:collectionName];
+    EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:collection queryBuilder:builder];
+    NSArray *fetchedObjects = [query fetchObjects];
+    return fetchedObjects;
+}
+
 #pragma mark - BSONArchiving delegate methods
 
 - (NSString *)type
@@ -218,16 +261,30 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
             if ([class isSubclassOfClass:[EJDBModel class]])
             {
                 id object = [self valueForKey:key];
-                if (![object isEqual:[NSNull null]] && [object oid] != nil)
+                propertyKeysAndValues[key] = [self modelRepresentationFromModel:object];
+            }
+            else if ([class isSubclassOfClass:[NSArray class]])
+            {
+                NSArray *array = [self valueForKey:key];
+                if ([array isEqual:[NSNull null]])
                 {
-                    id oid = [object oid];
-                    id collectionName = [object collectionName] == nil ? [NSNull null] : [object collectionName];
-                    propertyKeysAndValues[key] = @{@"_id": oid, @"collectionName" : collectionName, @"type" : [object type]};
+                    propertyKeysAndValues[key] = array;
+                    continue;
                 }
-                else
+                NSMutableArray *modelObjects = [NSMutableArray array];
+                for (id object in array)
                 {
-                    propertyKeysAndValues[key] = [NSNull null];
+                    if ([object isKindOfClass:[EJDBModel class]])
+                    {
+                        id modelRepresentation = [self modelRepresentationFromModel:object];
+                        [modelObjects addObject:modelRepresentation];
+                    }
+                    else
+                    {
+                        [modelObjects addObject:object];
+                    }
                 }
+                propertyKeysAndValues[key] = [NSArray arrayWithArray:modelObjects];
             }
             else
             {
@@ -239,6 +296,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
             propertyKeysAndValues[key] = [self valueForKey:key];
         }
     }
+    
     propertyKeysAndValues[@"type"] = [self type];
     return [NSDictionary dictionaryWithDictionary:propertyKeysAndValues];
 }
@@ -258,18 +316,40 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
             if (modelProperty.propertyType == EJDBModelPropertyTypeObject)
             {
                 Class class = NSClassFromString(modelProperty.typeEncoding);
-                if ([class isSubclassOfClass:[EJDBModel class]])
+                if (![dictionary[key] isEqual:[NSNull null]] && [class isSubclassOfClass:[EJDBModel class]])
                 {
                     NSDictionary *modelInfo = dictionary[key];
-                    if ([modelInfo isEqual:[NSNull null]]) continue;
-                    if([modelInfo[@"_id"] isEqual:[NSNull null]] || [modelInfo[@"collectionName"] isEqual:[NSNull null]]) continue;
-                    if (_database)
+                    id modelObject = [self modelFromRepresentation:modelInfo forClass:class];
+                    if (!modelObject) continue;
+                    value = modelObject;
+                }
+                else if (![dictionary[key] isEqual:[NSNull null]] && [class isSubclassOfClass:[NSArray class]])
+                {
+                    if ([[self joinableModelArrayProperties] containsObject:key])
                     {
-                        EJDBCollection *collection = [EJDBCollection collectionWithName:modelInfo[@"collectionName"] db:_database];
-                        NSDictionary *modelObjectDict = [collection fetchObjectWithOID:modelInfo[@"_id"]];
-                        id modelObject = [[class alloc]initWithDatabase:_database];
-                        [modelObject fromDictionary:modelObjectDict];
-                        value = modelObject;
+                        value = [self joinedModelsFromArray:dictionary[key]];
+                    }
+                    else
+                    {
+                        NSMutableArray *values = [NSMutableArray array];
+                        NSArray *array = dictionary[key];
+                        for (id object in array)
+                        {
+                            id anObject;
+                            if ([object isKindOfClass:[NSDictionary class]])
+                            {
+                                if ([object objectForKey:@"type"] && [object objectForKey:@"collectionName"])
+                                {
+                                    anObject = [self modelFromRepresentation:object forClass:class];
+                                }
+                                [value addObject:anObject];
+                            }
+                            else
+                            {
+                                [values addObject:object];
+                            }
+                        }
+                        value = [NSArray arrayWithArray:values];
                     }
                 }
                 else
