@@ -10,6 +10,9 @@
 @interface EJDBQueryTests ()
 @property (strong,nonatomic) EJDBDatabase *db;
 @property (strong,nonatomic) EJDBCollection *collection;
+@property (strong,nonatomic) EJDBCollection *carsCollection;
+@property (strong,nonatomic) EJDBCollection *ordersCollection;
+@property (strong,nonatomic) EJDBCollection *topcarsCollection;
 @end
 
 
@@ -20,12 +23,18 @@
     [super setUp];
     _db = [EJDBDatabase createAndOpenDb];
     _collection = [_db ensureCollectionWithName:@"foo" error:NULL];
+    _carsCollection = [_db ensureCollectionWithName:@"cars" error:NULL];
+    _ordersCollection = [_db ensureCollectionWithName:@"orders" error:NULL];
+    _topcarsCollection = [_db ensureCollectionWithName:@"topcars" error:NULL];
 }
 
 - (void)tearDown
 {
     [EJDBDatabase closeAndDeleteDb:_db];
     _collection = nil;
+    _carsCollection = nil;
+    _ordersCollection = nil;
+    _topcarsCollection = nil;
     [super tearDown];
 }
 
@@ -129,6 +138,37 @@
     XCTAssertTrue([results count] == 2, @"Fetched objects count should be exactly 2!");
     XCTAssertTrue([query recordCount] == 2, @"Record counts should be exactly 2!");
 }
+
+- (void)testJoinCarsToOrderWithQueryBuilder
+{
+    [_carsCollection saveObjects:[EJDBTestFixtures carDictionaries]];
+    [_ordersCollection saveObjects:[EJDBTestFixtures ordersDictionaries]];
+    [_topcarsCollection saveObject:[EJDBTestFixtures topCarsDictionary]];
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc] init];
+    [builder path:@"car" addCollectionToJoin:@"cars"];
+    EJDBQuery *ordersQuery = [[EJDBQuery alloc] initWithCollection:_ordersCollection queryBuilder:builder];
+    NSArray *fetchedObjects = [ordersQuery fetchObjects];
+    XCTAssertTrue([fetchedObjects count] == 3, @"Fetched object count should be exactly 3 for cars to orders join query!");
+    XCTAssertNotNil(fetchedObjects[0][@"car"], @"Fetched object[0] car dictionary should not be nil!");
+    XCTAssertEqualObjects(fetchedObjects[0][@"car"][@"model"], @"Honda Accord", @"Fetched object[0] car[model] should equal Honda Accord!");
+}
+
+- (void)testJoinCarsToTopCarsWithQueryBuilder
+{
+    [_carsCollection saveObjects:[EJDBTestFixtures carDictionaries]];
+    [_ordersCollection saveObjects:[EJDBTestFixtures ordersDictionaries]];
+    [_topcarsCollection saveObject:[EJDBTestFixtures topCarsDictionary]];
+    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc]init];
+    [builder path:@"cars" joinCollectionNamed:@"cars"];
+    [builder path:@"month" matches:@"June"];
+    EJDBQuery *topcarsQuery = [[EJDBQuery alloc]initWithCollection:_topcarsCollection queryBuilder:builder];
+    NSArray *fetchedObjects = [topcarsQuery fetchObjects];
+    XCTAssertTrue([fetchedObjects count] == 1, @"Fetched object count should be exactly 1 for cars to top cars join query!");
+    XCTAssertTrue([fetchedObjects[0][@"cars"] count] == 2, @"Fetched object[0][cars] count should be exactly 2!");
+    XCTAssertEqualObjects(fetchedObjects[0][@"cars"][0][@"model"], @"Toyota Camry", @"Fetched object[0] car[0][model] should equal Toyota Camry!");
+}
+
+
 
 - (void)testFetchObjectsWithFIQueryBuilder
 {

@@ -218,6 +218,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return modelObject;
 }
 
+
 - (NSArray *)joinedModelsFromArray:(NSArray *)array
 {
     if ([array count] == 0) return array;
@@ -229,13 +230,23 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     {
         [oids addObject:object[@"_id"]];
     }
+    
     EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc]init];
-    [builder path:@"_id" in:[NSArray arrayWithArray:oids]];
+    [builder path:@"_id" in:[NSArray arrayWithArray:oids]];    
     EJDBCollection *collection = [_database collectionWithName:collectionName];
     EJDBQuery *query = [[EJDBQuery alloc]initWithCollection:collection queryBuilder:builder];
     NSArray *fetchedObjects = [query fetchObjects];
     return fetchedObjects;
 }
+
+
+/*
+- (NSArray *)joinedModelsFromArray:(NSArray *)array
+{
+    
+    return nil;
+}
+*/
 
 #pragma mark - BSONArchiving delegate methods
 

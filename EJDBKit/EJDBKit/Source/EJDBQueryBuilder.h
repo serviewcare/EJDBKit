@@ -20,6 +20,14 @@
 */
 - (NSDictionary *)hints;
 /**
+ The dictionary representation of joins built so far.
+ @returns joins - An NSDictionary representation of the built joins.
+ @since - v0.6.0
+*/
+- (NSDictionary *)joinDictionary;
+
+
+/**
  Match the value parameter against the value of the field path.
  @param path - The field path whose value will be matched against the provided parameter.
  @param value - The value that will be used for matching.
@@ -147,12 +155,22 @@
 */
 - (void)path:(NSString *)path elementsMatch:(EJDBQueryBuilder *)builder;
 /**
+ This method is deprecated and will be removed in a future release! Use path:addCollectionToJoin instead!
  Join a collection with the provided collection name.
  @param path - The field path whose OID(s) point to the OID(s) of the collection with the specified name.
  @param collectionName - The name of the collection to be joined.
  @since - v0.3.0
 */
-- (void)path:(NSString *)path joinCollectionNamed:(NSString *)collectionName;
+- (void)path:(NSString *)path joinCollectionNamed:(NSString *)collectionName __deprecated;
+
+/**
+ Add a collection name to the join dictionary.
+ @param path - The field path whose OID(s) point to the OID(s) of the collection with the specified name.
+ @param collectionName - The name of the collection to be joined.
+ @since - v0.6.0
+*/
+- (void)path:(NSString *)path addCollectionToJoin:(NSString *)collectionName;
+
 /**
  And join. Please see: http://docs.mongodb.org/manual/reference/operator/and/#op._S_and
  @param subqueries - The subqueries for the and join. Should be an array of querybuilder objects.

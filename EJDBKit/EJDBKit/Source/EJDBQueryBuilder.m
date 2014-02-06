@@ -4,6 +4,7 @@
 @interface EJDBQueryBuilder ()
 @property (strong,nonatomic) NSMutableDictionary *query;
 @property (strong,nonatomic) NSMutableDictionary *hints;
+@property (strong,nonatomic) NSMutableDictionary *joinDictionary;
 @end
 
 @implementation EJDBQueryBuilder
@@ -15,6 +16,7 @@
     {
         _query = [NSMutableDictionary dictionary];
         _hints = [NSMutableDictionary dictionary];
+        _joinDictionary = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -27,6 +29,11 @@
 - (NSDictionary *)hints
 {
     return [NSDictionary dictionaryWithDictionary:_hints];
+}
+
+- (NSDictionary *)joinDictionary
+{
+    return [NSDictionary dictionaryWithDictionary:_joinDictionary];
 }
 
 - (void)path:(NSString *)path matches:(id)value
@@ -119,9 +126,16 @@
     [_query setObject:@{@"$elemMatch" : builder.query} forKey:path];
 }
 
+/* TODO: REMOVE ME IN 0.7.0!!! */
 - (void)path:(NSString *)path joinCollectionNamed:(NSString *)collectionName
 {
-    [_query setObject:@{path : @{@"$join": collectionName}} forKey:@"$do"];
+    [self path:path addCollectionToJoin:collectionName];
+}
+
+- (void)path:(NSString *)path addCollectionToJoin:(NSString *)collectionName
+{
+    _joinDictionary[path] = @{@"$join": collectionName};
+    _query[@"$do"] = _joinDictionary;
 }
 
 - (void)andJoin:(NSArray *)subqueries

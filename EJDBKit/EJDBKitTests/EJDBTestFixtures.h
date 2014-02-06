@@ -14,6 +14,9 @@
 @interface EJDBTestFixtures : NSObject
 
 + (NSArray *)simpleDictionaries;
++ (NSArray *)carDictionaries;
++ (NSArray *)ordersDictionaries;
++ (NSDictionary *)topCarsDictionary;
 + (NSArray *)complexDictionaries;
 + (CustomArchivableClass *)validArchivableClass;
 + (BogusOIDClass *)bogusOIDClass;

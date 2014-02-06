@@ -1,5 +1,6 @@
 #import <XCTest/XCTest.h>
 #import "EJDBDatabase+DBTestExtensions.h"
+#import "EJDBQueryBuilder.h"
 #import "EJDBQuery.h"
 #import "EJDBModel.h"
 #import "EJDBModelFixtures.h"
@@ -163,7 +164,9 @@
     relObj1.name = @"related object 1";
     TestRelatedObject *relObj2 = [[TestRelatedObject alloc]initWithDatabase:_db];
     relObj2.name = @"related object 2";
-    [_relatedCollection saveObjects:@[relObj1,relObj2]];
+    TestRelatedObject *relObj3 = [[TestRelatedObject alloc]initWithDatabase:_db];
+    relObj3.name = @"unrelated object 3";
+    [_relatedCollection saveObjects:@[relObj1,relObj2,relObj3]];
     TestSupportedObject *model = [[TestSupportedObject alloc]initWithDatabase:_db];
     model.relatedObjects = @[relObj1,relObj2];
     [_collection saveObject:model];
@@ -173,8 +176,5 @@
     XCTAssertTrue([[fetchedObject.relatedObjects[0] oid] isEqual:relObj1.oid], @"related object 1 should exactly equal fetched related object 1!");
     XCTAssertTrue([[fetchedObject.relatedObjects[1] oid] isEqual:relObj2.oid], @"related object 2 should exactly equal fetched related object 2!");
 }
-
-
-
 
 @end

@@ -52,6 +52,45 @@
     return @[obj1,obj2,obj3];
 }
 
++ (NSArray *)carDictionaries
+{
+    NSDictionary *obj1 = @{@"_id" : @"50fe0a9935cf1e0300000000" ,@"model" : @"Honda Accord", @"year" : @2005};
+    NSDictionary *obj2 = @{@"_id" : @"50fe0a9935cf1e0300000001",@"model" : @"Toyota Corolla", @"year" : @2011};
+    NSDictionary *obj3 = @{@"_id" : @"50fe0a9935cf1e0300000002",@"model" : @"Toyota Camry", @"year" : @2008};
+    return @[obj1,obj2,obj3];
+}
+
++ (NSArray *)ordersDictionaries
+{
+    NSDictionary *obj1 = @{@"_id" : @"50fe0f3735cf1e0300000003",@"car" : @"50fe0a9935cf1e0300000000", @"pickUpDate" : @"2013052007",@"returnDate" : @"2013052718", @"customer" : @"andy"};
+    NSDictionary *obj2 = @{@"_id" : @"50fe0f3735cf1e0300000004",@"car" : @"50fe0a9935cf1e0300000002", @"pickUpDate" : @"2013051116",@"returnDate" : @"2013051513", @"customer" : @"john"};
+    NSDictionary *obj3 = @{@"_id" : @"50fe0f3735cf1e0300000005",@"car" : @"50fe0a9935cf1e0300000002", @"pickUpDate" : @"2013051517",@"returnDate" : @"2013052112", @"customer" : @"antony"};
+
+    return @[obj1,obj2,obj3];
+}
+
++ (NSDictionary *)topCarsDictionary
+{
+    NSDictionary *obj1 = @{@"_id" : @"50fe106b35cf1e0300000006",@"month" : @"June",@"cars" : @[@"50fe0a9935cf1e0300000002",@"50fe0a9935cf1e0300000000"]};
+    return obj1;
+}
+
++ (NSArray *)multiCollectionDictionaries
+{
+    NSArray *simpleDictionaries = [self simpleDictionaries];
+    NSMutableArray *multiCollectionDictionaries = [NSMutableArray array];
+    
+    for (NSDictionary *dict in simpleDictionaries)
+    {
+        
+    }
+    
+    
+    return multiCollectionDictionaries;
+}
+
+
+
 + (NSArray *)complexDictionaries
 {
     NSDictionary *obj1 = @{

@@ -156,5 +156,4 @@
                                     };
     XCTAssertTrue([builtHints isEqualToDictionary:expectedHints], @"Built hints should equal expected hints!");    
 }
-
 @end
