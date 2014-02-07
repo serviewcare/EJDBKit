@@ -2,7 +2,7 @@
 #import "EJDBDatabase.h"
 #import "EJDBQueryBuilder.h"
 #import "EJDBQuery.h"
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 
 
 typedef NS_OPTIONS(int, EJDBModelPropertyType)

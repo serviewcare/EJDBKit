@@ -35,6 +35,7 @@
 		528F17CB17C7A48D006BE069 /* EJDBQueryBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 528F17CA17C7A48D006BE069 /* EJDBQueryBuilderTests.m */; };
 		528F17CC17C7A76D006BE069 /* EJDBQueryBuilder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 528F17C617C794C1006BE069 /* EJDBQueryBuilder.h */; };
 		5294231317A274C4007FFD63 /* EJDBDatabaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5294231217A274C4007FFD63 /* EJDBDatabaseTests.m */; };
+		529ABD6F18A5549A0011EFA4 /* EJDBModel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52B1397B189190C200E7F85D /* EJDBModel.h */; };
 		52A2365818A4FD4D0021D6A5 /* EJDBQueryFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2365718A4FD4D0021D6A5 /* EJDBQueryFixtures.m */; };
 		52B1397D189190C200E7F85D /* EJDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 52B1397C189190C200E7F85D /* EJDBModel.m */; };
 		52B1397F189190D500E7F85D /* EJDBModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52B1397E189190D500E7F85D /* EJDBModelTests.m */; };
@@ -66,6 +67,7 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				529ABD6F18A5549A0011EFA4 /* EJDBModel.h in CopyFiles */,
 				527BC0481881F708009115F8 /* EJDBQueryBuilderDelegate.h in CopyFiles */,
 				528F17CC17C7A76D006BE069 /* EJDBQueryBuilder.h in CopyFiles */,
 				528F17C517C7906B006BE069 /* EJDBQueryOrderByHint.h in CopyFiles */,
@@ -307,7 +309,7 @@
 				52EC76DC179F31B000EEC86D /* Sources */,
 				52EC76DD179F31B000EEC86D /* Frameworks */,
 				52EC76DE179F31B000EEC86D /* Resources */,
-				52EC76DF179F31B000EEC86D /* ShellScript */,
+				529ABD6E18A5532B0011EFA4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -325,7 +327,7 @@
 		52EC76C8179F31B000EEC86D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = john;
 			};
 			buildConfigurationList = 52EC76CB179F31B000EEC86D /* Build configuration list for PBXProject "EJDBKit" */;
@@ -360,6 +362,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		529ABD6E18A5532B0011EFA4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call.\n# You'll need lcov for this to work though (you can install it with brew).\n\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
+		};
 		52C93CD817EAE1E600C01F50 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -372,19 +387,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "##################################################################################\n# This script makes a fat binary based on the current architecture in an effort\n# to minimize the size of the lipo'd archive file.\n# NOTE: You must launch ejdb-build.sh once before running this or else it will FAIL!!!!\n# To make things as simple as possible just run the script with no arguments\n# and all architectures will be built.\n##################################################################################\n\nEJDB_DIR=`pwd`/ejdb\n\nif [ $CURRENT_ARCH = \"i386\" -o $CURRENT_ARCH = \"x86_64\" ]\nthen\n#lipo for simulator\nxcrun -sdk iphoneos lipo -arch i386 ${EJDB_DIR}/build/i386/lib/libtcejdb.a -arch x86_64 ${EJDB_DIR}/build/x86_64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nelse\n#lipo for device\nxcrun -sdk iphoneos lipo -arch armv7 ${EJDB_DIR}/build/armv7/lib/libtcejdb.a -arch armv7s ${EJDB_DIR}/build/armv7s/lib/libtcejdb.a -arch arm64 ${EJDB_DIR}/build/arm64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nfi\n";
-		};
-		52EC76DF179F31B000EEC86D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Incredibly ugly,quick,dirty but useful script to help generate coverage docs with one command line call.\n# You'll need lcov for this to work though (you can install it with brew).\n\n[ -d ${SRCROOT}/coverage ] || mkdir ${SRCROOT}/coverage\nBUILDER_SCRIPT=${SRCROOT}/coverage/build_appcoverage.sh\nCOVOBJ_DIR=${OBJECT_FILE_DIR_normal}/${CURRENT_ARCH}\n\n[ -f ${BUILDER_SCRIPT} ] && rm ${BUILDER_SCRIPT}\necho \"#!/bin/sh\" >> ${BUILDER_SCRIPT}\necho \"lcov --capture --directory ${COVOBJ_DIR}  \\\\\" >> ${BUILDER_SCRIPT}\necho \"--output-file coverage.info \" >> ${BUILDER_SCRIPT}\necho \"lcov -r coverage.info vendor/* /usr/include/\\* System/* --output-file coverage.info\" >> ${BUILDER_SCRIPT}\necho \"genhtml coverage.info --output-directory ${SRCROOT}/coverage/Coverage\" >> ${BUILDER_SCRIPT}\nchmod +x ${BUILDER_SCRIPT}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -449,7 +451,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -473,6 +474,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -480,7 +482,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -496,6 +497,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

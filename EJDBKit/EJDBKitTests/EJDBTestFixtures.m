@@ -75,21 +75,6 @@
     return obj1;
 }
 
-+ (NSArray *)multiCollectionDictionaries
-{
-    NSArray *simpleDictionaries = [self simpleDictionaries];
-    NSMutableArray *multiCollectionDictionaries = [NSMutableArray array];
-    
-    for (NSDictionary *dict in simpleDictionaries)
-    {
-        
-    }
-    
-    
-    return multiCollectionDictionaries;
-}
-
-
 
 + (NSArray *)complexDictionaries
 {
