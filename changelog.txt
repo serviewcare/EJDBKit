@@ -1,25 +1,25 @@
-
-Feb 7, 2013 - v0.6.1 (The double doh!!! release)
-- Added import statement to EJDBKit (doh!)
-- Added reference to EJDBModel class in Mac project (double doh!).
-- Apologies!!! :)
---------------------------------------------------------------------
-Feb 7, 2013 - v0.6.0
+Feb 7, 2014 - v0.6.2 (The triple doh!!! release)
 - Introduced new EJDBModel class for more convenient saving of models to db.
 - fixed query builder collection join bugs.
 - removed ejdbkittests64 scheme as it was no longer necessary. Simple cmd+U testing works now for all archs.
 - fixed a build setting bug in iOS demo that caused the demo to fail when launching 64 bit arch demo.
+- Added EJDBModel to copy files phase.
+- Changed objc runtime import statement that will avoid build failure when compiling for device.
+- Added import statement to EJDBKit (doh!)
+- Added reference to EJDBModel class in Mac project (double doh!).
+- Promise to make a pre-release checklist to avoid embarrassing mistakes such as the ones made today...Triple DOH!!!!
+- Apologies for pain I may have caused if any. In my defense, we still aren't 1.0 yet! ;-)
 -----------------------------------
-Jan 21, 2013 - v0.5.1 
+Jan 21, 2014 - v0.5.1 
 - fixed a case statement fallthrough bug in BSONDecoder (damn breaks!).
 - clarified nsdate encoding/decoding.
 -----------------------------------
-Jan 12, 2013 - v0.5.0
+Jan 12, 2014 - v0.5.0
 - added convenience methods to Database, Collection and Query classes to allow for use of query builders.
 - gitignore cleanup and wrangling.
 - update mac project.
 -----------------------------------
-Jan 11, 2013 - v0.4.4
+Jan 11, 2014 - v0.4.4
 - gitignore cleanup
 - readded xccheckout to work properly with xcode5.
 -----------------------------------

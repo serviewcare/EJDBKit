@@ -6,16 +6,18 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
-Feb 7, 2013 - v0.6.1 (The double doh!!! release)
-- Added import statement to EJDBKit (doh!)
-- Added reference to EJDBModel class in Mac project (double doh!).
-- Apologies!!! :)
+Feb 7, 2014  - v0.6.2 (The triple doh!!! release)
 
-Feb 7, 2013 - v0.6.0 (IMPORTANT UPDATE!!!)
 - Introduced new EJDBModel class for more convenient saving of models to db.
 - fixed query builder collection join bugs.
 - removed ejdbkittests64 scheme as it was no longer necessary. Simple cmd+U testing works now for all archs.
 - fixed a build setting bug in iOS demo that caused the demo to fail when launching 64 bit arch demo.
+- Added EJDBModel to copy files phase.
+- Changed objc runtime import statement that will avoid build failure when compiling for device.
+- Added import statement to EJDBKit (doh!)
+- Added reference to EJDBModel class in Mac project (double doh!).
+- Promise to make a pre-release checklist to avoid embarrassing mistakes such as the ones made today...Triple DOH!!!!
+- Apologies for pain I may have caused if any. In my defense, we still aren't 1.0 yet! ;-)
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
