@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "EJDBQueryBuilderDelegate.h"
+#import "EJDBModel.h"
 #import "EJDBDatabase.h"
 #import "EJDBCollection.h"
 #import "EJDBQuery.h"
