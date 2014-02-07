@@ -6,6 +6,11 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
+Feb 7, 2013 - v0.6.1 (The double doh!!! release)
+- Added import statement to EJDBKit (doh!)
+- Added reference to EJDBModel class in Mac project (double doh!).
+- Apologies!!! :)
+
 Feb 7, 2013 - v0.6.0 (IMPORTANT UPDATE!!!)
 - Introduced new EJDBModel class for more convenient saving of models to db.
 - fixed query builder collection join bugs.
