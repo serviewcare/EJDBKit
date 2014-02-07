@@ -4,7 +4,7 @@
 @interface EJDBQueryBuilder ()
 @property (strong,nonatomic) NSMutableDictionary *query;
 @property (strong,nonatomic) NSMutableDictionary *hints;
-@property (strong,nonatomic) NSMutableDictionary *joinDictionary;
+@property (strong,nonatomic) NSMutableDictionary *joins;
 @end
 
 @implementation EJDBQueryBuilder
@@ -16,7 +16,7 @@
     {
         _query = [NSMutableDictionary dictionary];
         _hints = [NSMutableDictionary dictionary];
-        _joinDictionary = [NSMutableDictionary dictionary];
+        _joins = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -31,9 +31,9 @@
     return [NSDictionary dictionaryWithDictionary:_hints];
 }
 
-- (NSDictionary *)joinDictionary
+- (NSDictionary *)joins
 {
-    return [NSDictionary dictionaryWithDictionary:_joinDictionary];
+    return [NSDictionary dictionaryWithDictionary:_joins];
 }
 
 - (void)path:(NSString *)path matches:(id)value
@@ -134,8 +134,8 @@
 
 - (void)path:(NSString *)path addCollectionToJoin:(NSString *)collectionName
 {
-    _joinDictionary[path] = @{@"$join": collectionName};
-    _query[@"$do"] = _joinDictionary;
+    _joins[path] = @{@"$join": collectionName};
+    _query[@"$do"] = _joins;
 }
 
 - (void)andJoin:(NSArray *)subqueries

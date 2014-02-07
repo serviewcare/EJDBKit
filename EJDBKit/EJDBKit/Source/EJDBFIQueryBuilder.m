@@ -3,20 +3,22 @@
 
 @implementation EJDBFIQueryBuilder
 
-- (id)initWithDictionary:(NSDictionary *)dict hints:(NSDictionary *)hints
+
+- (id)initWithDictionary:(NSDictionary *)dict hints:(NSDictionary *)hints joins:(NSDictionary *)joins
 {
     self = [super init];
     if (self)
     {
         _query = dict;
         _hints = hints;
+        _joins = joins;
     }
     return self;
 }
 
 + (EJDBFIQueryBuilder *)build
 {
-   return [[EJDBFIQueryBuilder alloc]initWithDictionary:[NSDictionary dictionary] hints:[NSDictionary dictionary]];
+   return [[EJDBFIQueryBuilder alloc]initWithDictionary:[NSDictionary dictionary] hints:[NSDictionary dictionary] joins:[NSDictionary dictionary]];
 }
 
 - (PathValueBlock)match
@@ -24,7 +26,7 @@
     return ^(NSString *path,id obj) {
        NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [result setObject:obj forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:result hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:result hints:self.hints joins:self.joins];
     };
 }
 
@@ -33,7 +35,7 @@
     return ^(NSString *path, id obj) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:[self applyOperator:@"$not" toObject:obj] forKey:path];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -42,7 +44,7 @@
     return ^(NSString *path, NSString *substring) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:[self applyOperator:@"$icase" toObject:substring] forKey:path];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -51,7 +53,7 @@
     return ^(NSString *path, NSString *substring) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:[self applyOperator:@"$begin" toObject:substring] forKey:path];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -61,7 +63,7 @@
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         NSDictionary *begin = [self applyOperator:@"$begin" toObject:substring];
         [results setObject:[self applyOperator:@"$not" toObject:begin] forKey:path];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -70,7 +72,7 @@
     return ^(NSString *path, NSNumber *number) {
        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$gt" toObject:number] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -79,7 +81,7 @@
     return ^(NSString *path, NSNumber *number) {
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$gte" toObject:number] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -88,7 +90,7 @@
     return ^(NSString *path, NSNumber *number) {
        NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$lt" toObject:number] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -97,7 +99,7 @@
     return ^(NSString *path, NSNumber *number) {
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$lte" toObject:number] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -106,7 +108,7 @@
     return ^(NSString *path, id obj) {
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$bt" toObject:obj] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -115,7 +117,7 @@
     return ^(NSString *path, id obj) {
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$in" toObject:obj] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -125,7 +127,7 @@
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
       NSDictionary *in = [self applyOperator:@"$in" toObject:obj];
       [results setObject:[self applyOperator:@"$icase" toObject:in] forKey:path];
-      return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+      return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -134,7 +136,7 @@
      return ^(NSString *path, id obj) {
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$nin" toObject:obj] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };   
 }
 
@@ -144,7 +146,7 @@
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
       NSDictionary *inQuery = [self applyOperator:@"$nin" toObject:obj];
       [results setObject:[self applyOperator:@"$icase" toObject:inQuery] forKey:path];
-      return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+      return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -154,7 +156,7 @@
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
       NSNumber *yes = [NSNumber numberWithBool:YES];
        [results setObject:[self applyOperator:@"$exists" toObject:yes] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -164,7 +166,7 @@
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
       NSNumber *no = [NSNumber numberWithBool:NO];
        [results setObject:[self applyOperator:@"$exists" toObject:no] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -173,7 +175,7 @@
     return ^(NSString *path, id obj) {
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$strand" toObject:obj] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -182,7 +184,7 @@
     return ^(NSString *path, id obj) {
       NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
        [results setObject:[self applyOperator:@"$stror" toObject:obj] forKey:path];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -191,17 +193,40 @@
     return ^(NSString *path, EJDBFIQueryBuilder *builder) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:[self applyOperator:@"$elemMatch" toObject:builder.query] forKey:path];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
+/* TODO: REMOVE ME IN 0.7.0!!! */
 - (PathBlock)joinCollection
 {
     return ^(NSString *collectionName)
     {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:[self applyOperator:@"$join" toObject:collectionName] forKey:@"$do"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
+    };
+}
+
+- (StringsBlock)addJoinToCollection
+{
+    return ^(NSString *path, NSString *collectionName)
+    {
+        NSMutableDictionary *query = [NSMutableDictionary dictionaryWithDictionary:self.query];
+        NSMutableDictionary *joins;
+        if (self.joins)
+        {
+            joins = [NSMutableDictionary dictionaryWithDictionary:self.joins];
+        }
+        else
+        {
+            joins = [NSMutableDictionary dictionary];
+        }
+        joins[path] = [self applyOperator:@"$join" toObject:collectionName];
+        _joins = [NSDictionary dictionaryWithDictionary:joins];
+        query[@"$do"] = _joins;
+        _query = [NSDictionary dictionaryWithDictionary:query];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:self.hints joins:self.joins];
     };
 }
 
@@ -215,7 +240,7 @@
            [subqueriesArray addObject:builder.query];
        }
       [results setObject:[NSArray arrayWithArray:subqueriesArray] forKey:@"$and"];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -229,7 +254,7 @@
            [subqueriesArray addObject:builder.query];
        }
       [results setObject:[NSArray arrayWithArray:subqueriesArray] forKey:@"$or"];
-       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+       return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -239,7 +264,7 @@
         NSString *projectionPath = [path stringByAppendingString:@".$"];
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:@1 forKey:projectionPath];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -248,7 +273,7 @@
     return ^(NSDictionary *dictionary) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:dictionary forKey:@"$set"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -257,7 +282,7 @@
     return ^(NSArray *keys) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:keys forKey:@"$unset"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -266,7 +291,7 @@
     return ^(NSDictionary *dictionary) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:dictionary forKey:@"$upsert"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -275,7 +300,7 @@
     return ^(NSDictionary *dictionary) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:dictionary forKey:@"$inc"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -284,7 +309,7 @@
     return ^{
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:@YES forKey:@"$dropall"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -293,7 +318,7 @@
     return ^(NSDictionary *dictionary) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:dictionary forKey:@"$addToSet"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -302,7 +327,7 @@
     return ^(NSDictionary *dictionary) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:dictionary forKey:@"$addToSetAll"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -311,7 +336,7 @@
     return ^(NSDictionary *dictionary) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:dictionary forKey:@"$pull"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -320,7 +345,7 @@
     return ^(NSDictionary *dictionary) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:dictionary forKey:@"$pullAll"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -329,7 +354,7 @@
     return ^(NSString *path, NSString *collectionName) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.query];
         [results setObject:@{path : @{@"$join": collectionName}} forKey:@"$do"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:results hints:self.hints joins:self.joins];
     };
 }
 
@@ -340,7 +365,7 @@
     return ^(NSNumber *number) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.hints];
         [results setObject:number forKey:@"$max"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results]];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results] joins:self.joins];
     };
 }
 
@@ -349,7 +374,7 @@
     return ^(NSNumber *number) {
         NSMutableDictionary *results = [NSMutableDictionary dictionaryWithDictionary:self.hints];
         [results setObject:number forKey:@"$skip"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results]];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results] joins:self.joins];
     };
 }
 
@@ -363,7 +388,7 @@
             [fieldsDictionary setObject:@1 forKey:field];
         }
         [results setObject:[NSDictionary dictionaryWithDictionary:fieldsDictionary] forKey:@"$fields"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results]];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results] joins:self.joins];
     };
 }
 
@@ -378,7 +403,7 @@
                                   forKey:orderByHint.path];
         }
         [results setObject:[NSDictionary dictionaryWithDictionary:orderByDictionary] forKey:@"$orderby"];
-        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results]];
+        return [[EJDBFIQueryBuilder alloc]initWithDictionary:self.query hints:[NSDictionary dictionaryWithDictionary:results] joins:self.joins];
     };
 }
 

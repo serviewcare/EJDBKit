@@ -16,4 +16,8 @@
 */
 - (NSDictionary *)hints;
 
+/**
+ This should return a properly formatted ejdb join dictionary.
+*/
+- (NSDictionary *)joins;
 @end

@@ -24,9 +24,7 @@
  @returns joins - An NSDictionary representation of the built joins.
  @since - v0.6.0
 */
-- (NSDictionary *)joinDictionary;
-
-
+- (NSDictionary *)joins;
 /**
  Match the value parameter against the value of the field path.
  @param path - The field path whose value will be matched against the provided parameter.

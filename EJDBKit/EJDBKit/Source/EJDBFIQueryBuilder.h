@@ -58,6 +58,12 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
  @since - v0.3.0
  */
 @property (strong,nonatomic,readonly) NSDictionary *hints;
+/**
+ The dictionary representation of joins built so far.
+ @returns joins - An NSDictionary representation of the built joins.
+ @since - v0.6.0
+*/
+@property (strong,nonatomic,readonly) NSDictionary *joins;
 
 /**
  The class method that should be used to build queries. You can chain multiple block calls like so:
@@ -212,12 +218,21 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
 - (PathValueBlock)elemsMatch;
 
 /**
+ This method is severely broken and will be removed in v0.7.0!! Use addJoinToCollection instead!
  Join a collection with the provided collection name.
  @param path - The field path whose OID(s) point to the OID(s) of the collection with the specified name.
  @param collectionName - The name of the collection to be joined.
  @since - v0.3.0
 */
-- (PathBlock)joinCollection;
+- (PathBlock)joinCollection __deprecated;
+
+/**
+ Join a collection with the provided collection name.
+ @param path - The field path whose OID(s) point to the OID(s) of the collection with the specified name.
+ @param collectionName - The name of the collection to be joined.
+ @since - v0.6.0
+*/
+- (StringsBlock)addJoinToCollection;
 
 /**
  And join. Please see: http://docs.mongodb.org/manual/reference/operator/and/#op._S_and

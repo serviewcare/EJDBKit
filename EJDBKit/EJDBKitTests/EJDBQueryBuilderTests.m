@@ -1,63 +1,9 @@
 #import "EJDBQueryBuilderTests.h"
+#import "EJDBQueryFixtures.h"
 #import "EJDBQueryBuilder.h"
 #import "EJDBQueryOrderByHint.h"
 
 @implementation EJDBQueryBuilderTests
-
-- (NSDictionary *)complexQuery
-{
-    return
-    @{
-      @"a" : @"strvalue",
-      @"b" : @{@"$not": @"strvalue"},
-      @"c" : @{@"$icase": @"strvalue"},
-      @"d" : @{@"$begin": @"somebegin"},
-      @"e" : @{@"$not" : @{@"$begin" : @"notbegin"}},
-      @"f" : @{@"$gt" : @1},
-      @"g" : @{@"$gte" : @1},
-      @"h" : @{@"$lt": @10},
-      @"i" : @{@"$lte": @10},
-      @"j" : @{@"$bt" : @[@1,@5]},
-      @"k" : @{@"$in" : @[@1,@2,@3]},
-      @"l" : @{@"$icase" : @{@"$in" : @[@"d",@"e",@"f"]}},
-      @"m" : @{@"$nin" : @[@1,@2,@3]},
-      @"n" : @{@"$icase" : @{@"$nin" : @[@"d",@"e",@"f"]}},
-      @"o" : @{@"$exists" : @YES},
-      @"p" : @{@"$exists" : @NO},
-      @"q" : @{@"$strand" : @[@"g",@"h",@"i"]},
-      @"r" : @{@"$stror": @[@"g",@"h",@"i"]},
-      @"s" : @{@"$elemMatch": @{@"aa": @"someValue",@"bb" : @10,@"cc":@{@"$not":@20}}}
-      };
-}
-
-- (EJDBQueryBuilder *)testBuilderObject
-{
-    EJDBQueryBuilder *builder = [[EJDBQueryBuilder alloc] init];
-    [builder path:@"a" matches:@"strvalue"];
-    [builder path:@"b" notMatches:@"strvalue"];
-    [builder path:@"c" matchesIgnoreCase:@"strvalue"];
-    [builder path:@"d" beginsWith:@"somebegin"];
-    [builder path:@"e" notBeginsWith:@"notbegin"];
-    [builder path:@"f" greaterThan:@1];
-    [builder path:@"g" greaterThanOrEqualTo:@1];
-    [builder path:@"h" lessThan:@10];
-    [builder path:@"i" lessThanOrEqualTo:@10];
-    [builder path:@"j" between:@[@1,@5]];
-    [builder path:@"k" in:@[@1,@2,@3]];
-    [builder path:@"l" inIgnoreCase:@[@"d",@"e",@"f"]];
-    [builder path:@"m" notIn:@[@1,@2,@3]];
-    [builder path:@"n" notInIgnoreCase:@[@"d",@"e",@"f"]];
-    [builder path:@"o" exists:YES];
-    [builder path:@"p" exists:NO];
-    [builder path:@"q" stringAllIn:@[@"g",@"h",@"i"]];
-    [builder path:@"r" stringAnyIn:@[@"g",@"h",@"i"]];
-    EJDBQueryBuilder *elemsBuilder = [[EJDBQueryBuilder alloc]init];
-    [elemsBuilder path:@"aa" matches:@"someValue"];
-    [elemsBuilder path:@"bb" matches:@10];
-    [elemsBuilder path:@"cc" notMatches:@20];
-    [builder path:@"s" elementsMatch:elemsBuilder];
-    return builder;
-}
 
 - (void)testSimpleQuery
 {
@@ -97,15 +43,15 @@
 
 - (void)testComplexQuery
 {
-    EJDBQueryBuilder *builder = [self testBuilderObject];
+    EJDBQueryBuilder *builder = [EJDBQueryFixtures testQueryBuilderObject];
     NSDictionary *builtQuery = builder.query;
-    NSDictionary *expectedQuery = [self complexQuery];
+    NSDictionary *expectedQuery = [EJDBQueryFixtures complexQuery];
     XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
 }
 
 - (void)testComplexQueryWithAndOrJoin
 {
-    EJDBQueryBuilder *builder = [self testBuilderObject];
+    EJDBQueryBuilder *builder = [EJDBQueryFixtures testQueryBuilderObject];
     EJDBQueryBuilder *match1 = [[EJDBQueryBuilder alloc]init];
     [match1 path:@"t" matches:@1];
     [match1 path:@"u" matches:@2];
@@ -118,7 +64,7 @@
     [join2 orJoin:@[match2]];
     [builder andJoin:@[join1,join2]];
     NSDictionary *builtQuery = builder.query;
-    NSMutableDictionary *complexQueryAndOrJoin = [NSMutableDictionary dictionaryWithDictionary:[self complexQuery]];
+    NSMutableDictionary *complexQueryAndOrJoin = [NSMutableDictionary dictionaryWithDictionary:[EJDBQueryFixtures complexQuery]];
     [complexQueryAndOrJoin setObject:@[
      @{@"$or": @[@{@"t": @1,@"u":@2}]},
      @{@"$or": @[@{@"v": @3,@"w":@4}]}
@@ -126,6 +72,24 @@
                               forKey:@"$and"];
     NSDictionary *expectedQuery = [NSDictionary dictionaryWithDictionary:complexQueryAndOrJoin];
     XCTAssertTrue([builtQuery isEqualToDictionary:expectedQuery], @"Built query should equal expected query!");
+}
+
+- (void)testJoinToCollectionQuery
+{
+    EJDBQueryBuilder *carJoinBuilder = [[EJDBQueryBuilder alloc]init];
+    [carJoinBuilder path:@"car" addCollectionToJoin:@"cars"];
+    XCTAssertEqualObjects(carJoinBuilder.query, [EJDBQueryFixtures carsJoin], @"Generated do dictionary should equal expected do dictionary!");
+    XCTAssertEqualObjects(carJoinBuilder.joins, [EJDBQueryFixtures carsJoin][@"$do"], @"Generated joins dictionary should equal expected joins dictionary!");
+}
+
+- (void)testJoinToCollectionQueryWithCriteria
+{
+    EJDBQueryBuilder *carJoinBuilder = [[EJDBQueryBuilder alloc]init];
+    [carJoinBuilder path:@"month" matches:@"June"];
+    [carJoinBuilder path:@"car" addCollectionToJoin:@"cars"];
+    XCTAssertTrue([carJoinBuilder.query count] == 2, @"Generated query should have exactly 2 keys!");
+    XCTAssertNotNil(carJoinBuilder.query[@"$do"], @"Generated query should contain a $do entry!");
+    XCTAssertNotNil(carJoinBuilder.query[@"month"], @"Generated query should contain a month entry!");
 }
 
 - (void)testProjection
