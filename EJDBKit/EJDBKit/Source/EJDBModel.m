@@ -239,15 +239,6 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return fetchedObjects;
 }
 
-
-/*
-- (NSArray *)joinedModelsFromArray:(NSArray *)array
-{
-    
-    return nil;
-}
-*/
-
 #pragma mark - BSONArchiving delegate methods
 
 - (NSString *)type
