@@ -7,11 +7,13 @@
 
 typedef NS_OPTIONS(int, EJDBModelPropertyType)
 {
-    EJDBModelPropertyTypeScalar,
-    EJDBModelPropertyTypeObject
+    EJDBModelPropertyTypeScalar, // The property is a scalar (primitive) type.
+    EJDBModelPropertyTypeObject // The property is an object type.
 };
 
-
+/*
+    This class is for private use only! It was created to allow for primitive type handling. It may be moved into a seperate file in the future.
+*/
 @interface EJDBModelProperty : NSObject
 @property (assign,nonatomic) EJDBModelPropertyType propertyType;
 @property (copy,nonatomic) NSString *typeEncoding;
@@ -50,7 +52,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
 @end
 
 @interface EJDBModel ()
-@property (nonatomic,readonly) NSDictionary *saveableProperties;
+@property (nonatomic,readonly) NSDictionary *saveableProperties; //We are tracking our saveable properties in this dictionary.
 @end
 
 @implementation EJDBModel
@@ -85,6 +87,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return @[];
 }
 
+/* Walk through our properties and save information about supported ones ignoring the rest.*/
 - (void)parseProperties
 {
     NSMutableDictionary *saveableProperties = [NSMutableDictionary dictionary];
@@ -117,6 +120,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     _saveableProperties = saveableProperties;
 }
 
+/* check to see if the property is readonly or not. */
 - (BOOL)isReadOnlyProperty:(objc_property_t)property
 {
     BOOL isReadOnly = NO;
@@ -129,6 +133,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return isReadOnly;
 }
 
+/* save supported primitive and object types. Ignore the rest. */
 - (BOOL)savePropertyTypeFromProperty:(objc_property_t)property withName:(NSString *)propertyName intoDictionary:(NSMutableDictionary *)dictionary
 {
     BOOL isSupportedType = NO;
@@ -201,6 +206,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     }
 }
 
+/* create an nsdictionary model representation based on the model passed in the argument. */
 - (id)modelRepresentationFromModel:(EJDBModel *)model
 {
     if ([model isEqual:[NSNull null]] || ![model oid]) return [NSNull null];
@@ -208,6 +214,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return @{@"_id": [model oid], @"collectionName" : collectionName, @"type" : [model type]};
 }
 
+/* create a model from the dictionary representation and class passed in the arguments. */
 - (id)modelFromRepresentation:(NSDictionary *)representation forClass:(Class)class
 {
     if([representation[@"_id"] isEqual:[NSNull null]] || [representation[@"collectionName"] isEqual:[NSNull null]] || !_database) return nil;
@@ -218,7 +225,8 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return modelObject;
 }
 
-
+/* create an array of ejdbmodels from the models representation array passed in the argument. We aren't actually joining here but instead querying the other collection
+ based on the oids contained in the passed array. */
 - (NSArray *)joinedModelsFromArray:(NSArray *)array
 {
     if ([array count] == 0) return array;
@@ -251,6 +259,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return @"oid";
 }
 
+/* This is a bit hairy and will probably need to be cleaned up but it works at this point. */
 - (NSDictionary *)toDictionary
 {
     NSMutableDictionary *propertyKeysAndValues = [NSMutableDictionary dictionary];
@@ -303,6 +312,7 @@ typedef NS_OPTIONS(int, EJDBModelPropertyType)
     return [NSDictionary dictionaryWithDictionary:propertyKeysAndValues];
 }
 
+/* This is a bit hairy and will probably need to be cleaned up but it works at this point. */
 - (void)fromDictionary:(NSDictionary *)dictionary
 {
     for (NSString *key in [dictionary keyEnumerator])

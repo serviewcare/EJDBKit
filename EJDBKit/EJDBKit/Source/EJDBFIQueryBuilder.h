@@ -219,6 +219,7 @@ typedef EJDBFIQueryBuilder*(^AndOrJoinBlock)(NSArray *subqueries);
 
 /**
  This method is severely broken and will be removed in v0.7.0!! Use addJoinToCollection instead!
+ 
  Join a collection with the provided collection name.
  @param path - The field path whose OID(s) point to the OID(s) of the collection with the specified name.
  @param collectionName - The name of the collection to be joined.

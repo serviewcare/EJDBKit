@@ -1,4 +1,10 @@
 
+Feb 7, 2013 - v0.6.0
+- Introduced new EJDBModel class for more convenient saving of models to db.
+- fixed query builder collection join bugs.
+- removed ejdbkittests64 scheme as it was no longer necessary. Simple cmd+U testing works now for all archs.
+- fixed a build setting bug in iOS demo that caused the demo to fail when launching 64 bit arch demo.
+-----------------------------------
 Jan 21, 2013 - v0.5.1 
 - fixed a case statement fallthrough bug in BSONDecoder (damn breaks!).
 - clarified nsdate encoding/decoding.

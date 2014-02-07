@@ -154,6 +154,7 @@
 - (void)path:(NSString *)path elementsMatch:(EJDBQueryBuilder *)builder;
 /**
  This method is deprecated and will be removed in a future release! Use path:addCollectionToJoin instead!
+ 
  Join a collection with the provided collection name.
  @param path - The field path whose OID(s) point to the OID(s) of the collection with the specified name.
  @param collectionName - The name of the collection to be joined.

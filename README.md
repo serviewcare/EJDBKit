@@ -6,15 +6,11 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
-Jan 21, 2013 - v0.5.1 (IMPORTANT UPDATE!!!)               
-- fixed a case statement fallthrough bug in BSONDecoder (damn breaks!). This affects decoding of BSON_LONG types only and might give unexpected values because of the fallthrough to double.
- My apologies for this minute, yet significant bug. Having said that, the framework is still pre 1.0 so there are still some dragons about! :)       
-- clarified nsdate encoding/decoding.
-
-Jan 12, 2013 - v0.5.0
-- added convenience methods to Database, Collection and Query classes to allow for use of query builders.          
-- gitignore cleanup and wrangling.
-- update mac project.
+Feb 7, 2013 - v0.6.0 (IMPORTANT UPDATE!!!)
+- Introduced new EJDBModel class for more convenient saving of models to db.
+- fixed query builder collection join bugs.
+- removed ejdbkittests64 scheme as it was no longer necessary. Simple cmd+U testing works now for all archs.
+- fixed a build setting bug in iOS demo that caused the demo to fail when launching 64 bit arch demo.
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
@@ -28,14 +24,12 @@ please do let me know! One more thing...enjoy!!!!
 Xcode support
 ===================
 
-From 0.4.0 and onwards only Xcode 5 or greater is supported.
-If you still use or need Xcode 4 you can clone/download the 0.3.2 release.
+Only Xcode 5 or greater is supported.
 
 Unit test support
 ===================
 
-Unit tests use the new XCTest framework which means in order for the tests to run you must
-have your sim or device >= iOS v7.0!
+Unit tests use the XCTest framework so tests won't work for versions prior to iOS 7!
 
 Feature Requests
 ====================
