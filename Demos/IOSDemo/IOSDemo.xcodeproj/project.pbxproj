@@ -58,13 +58,6 @@
 			remoteGlobalIDString = 52EC76CF179F31B000EEC86D;
 			remoteInfo = EJDBKit;
 		};
-		52629CBB180D986D000D9629 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 52290A4717AA87E200634082 /* EJDBKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5297C23117E1BD3800E27F7E;
-			remoteInfo = EJDBKitTests64;
-		};
 		5278406517A85D7F005A9EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5278403217A85D7F005A9EE1 /* Project object */;
@@ -140,7 +133,6 @@
 			children = (
 				52290A4D17AA87E200634082 /* libEJDBKit.a */,
 				52290A4F17AA87E200634082 /* EJDBKitTests.xctest */,
-				52629CBC180D986D000D9629 /* EJDBKitTests64.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -319,13 +311,6 @@
 			remoteRef = 52290A4E17AA87E200634082 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		52629CBC180D986D000D9629 /* EJDBKitTests64.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = EJDBKitTests64.xctest;
-			remoteRef = 52629CBB180D986D000D9629 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -497,7 +482,7 @@
 		5278407317A85D7F005A9EE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IOSDemo/IOSDemo-Prefix.pch";
 				INFOPLIST_FILE = "IOSDemo/IOSDemo-Info.plist";
@@ -514,7 +499,7 @@
 		5278407417A85D7F005A9EE1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IOSDemo/IOSDemo-Prefix.pch";
 				INFOPLIST_FILE = "IOSDemo/IOSDemo-Info.plist";
