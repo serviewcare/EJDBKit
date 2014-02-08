@@ -1,3 +1,8 @@
+
+
+Feb 8, 2014 - v0.6.3
+- Created an aggregate target to allow for building universal library for iOS.
+-----------------------------------
 Feb 7, 2014 - v0.6.2 (The triple doh!!! release)
 - Introduced new EJDBModel class for more convenient saving of models to db.
 - fixed query builder collection join bugs.
