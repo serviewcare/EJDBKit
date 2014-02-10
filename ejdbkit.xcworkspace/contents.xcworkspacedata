@@ -4,4 +4,7 @@
    <FileRef
       location = "group:EJDBKit/EJDBKit.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:EJDBKit/EJDBKit-Mac/EJDBKit-Mac.xcodeproj">
+   </FileRef>
 </Workspace>
