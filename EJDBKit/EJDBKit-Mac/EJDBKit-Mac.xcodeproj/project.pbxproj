@@ -536,7 +536,7 @@
 				LD_DYLIB_INSTALL_NAME = "@executable_path/../Frameworks/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/john/src/myIOSProjects/EJDBKitProject/EJDBKit/EJDBKit/ejdb/lib,
+					"$(SRCROOT)/../ejdb/lib",
 				);
 				PRODUCT_NAME = EJDBKit;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
@@ -563,7 +563,7 @@
 				LD_DYLIB_INSTALL_NAME = "@executable_path/../Frameworks/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/john/src/myIOSProjects/EJDBKitProject/EJDBKit/EJDBKit/ejdb/lib,
+					"$(SRCROOT)/../ejdb/lib",
 				);
 				PRODUCT_NAME = EJDBKit;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../ejdb/include\"/**";
