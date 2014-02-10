@@ -25,6 +25,7 @@
 		5213E2E217A4635C00E47033 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
 		5213E2E417A4637400E47033 /* libtcejdb.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
 		521BBB6217CF533500920BE4 /* import in Resources */ = {isa = PBXBuildFile; fileRef = 521BBB6117CF533500920BE4 /* import */; };
+		522531B018A8D34D00D9A37A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
 		522909DA17AA745800634082 /* EJDBKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9A117A520D70014A63A /* EJDBKit.h */; };
 		522909DC17AA770900634082 /* tcejdb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 522909DB17AA770900634082 /* tcejdb */; };
 		522909DD17AA778100634082 /* EJDBDatabase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99F17A520D70014A63A /* EJDBDatabase.h */; };
@@ -160,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				522531B018A8D34D00D9A37A /* libz.dylib in Frameworks */,
 				52EC76D4179F31B000EEC86D /* Foundation.framework in Frameworks */,
 				5213E2E217A4635C00E47033 /* libtcejdb.a in Frameworks */,
 			);
