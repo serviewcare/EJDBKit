@@ -10,6 +10,8 @@
 		5238F6A317EB563E00C2E2A6 /* tcejdb in Resources */ = {isa = PBXBuildFile; fileRef = 5238F6A217EB563E00C2E2A6 /* tcejdb */; };
 		5238F6A517EB71C500C2E2A6 /* import in Resources */ = {isa = PBXBuildFile; fileRef = 5238F6A017EB560E00C2E2A6 /* import */; };
 		524B1266188339AA00F94B4B /* EJDBQueryBuilderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 524B1265188339AA00F94B4B /* EJDBQueryBuilderDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5262CDFA18A8E8EE009E2BC3 /* EJDBQueryFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 5262CDF918A8E8EE009E2BC3 /* EJDBQueryFixtures.m */; };
+		5262CDFB18A8E960009E2BC3 /* EJDBTestFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 5262CDF618A8E89F009E2BC3 /* EJDBTestFixtures.m */; };
 		526317C518A544BE00B27642 /* EJDBModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 526317C318A544BE00B27642 /* EJDBModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		526317C618A544BE00B27642 /* EJDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 526317C418A544BE00B27642 /* EJDBModel.m */; };
 		52C93DA717EB19EC00C01F50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52C93DA517EB19EC00C01F50 /* InfoPlist.strings */; };
@@ -43,7 +45,6 @@
 		52C93E5117EB299500C01F50 /* ejdblogo3.png in Resources */ = {isa = PBXBuildFile; fileRef = 52C93E4517EB299500C01F50 /* ejdblogo3.png */; };
 		52C93E5217EB299500C01F50 /* EJDBQueryBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C93E4717EB299500C01F50 /* EJDBQueryBuilderTests.m */; };
 		52C93E5317EB299500C01F50 /* EJDBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C93E4917EB299500C01F50 /* EJDBQueryTests.m */; };
-		52C93E5417EB299500C01F50 /* EJDBTestFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C93E4B17EB299500C01F50 /* EJDBTestFixtures.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,10 @@
 		5238F6A017EB560E00C2E2A6 /* import */ = {isa = PBXFileReference; lastKnownFileType = folder; name = import; path = ../../EJDBKitTests/import; sourceTree = "<group>"; };
 		5238F6A217EB563E00C2E2A6 /* tcejdb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tcejdb; path = ../../ejdb/include/tcejdb; sourceTree = "<group>"; };
 		524B1265188339AA00F94B4B /* EJDBQueryBuilderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBQueryBuilderDelegate.h; sourceTree = "<group>"; };
+		5262CDF518A8E89F009E2BC3 /* EJDBTestFixtures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EJDBTestFixtures.h; path = ../../EJDBKitTests/EJDBTestFixtures.h; sourceTree = "<group>"; };
+		5262CDF618A8E89F009E2BC3 /* EJDBTestFixtures.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EJDBTestFixtures.m; path = ../../EJDBKitTests/EJDBTestFixtures.m; sourceTree = "<group>"; };
+		5262CDF818A8E8EE009E2BC3 /* EJDBQueryFixtures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EJDBQueryFixtures.h; path = ../../EJDBKitTests/EJDBQueryFixtures.h; sourceTree = "<group>"; };
+		5262CDF918A8E8EE009E2BC3 /* EJDBQueryFixtures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EJDBQueryFixtures.m; path = ../../EJDBKitTests/EJDBQueryFixtures.m; sourceTree = "<group>"; };
 		526317C318A544BE00B27642 /* EJDBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBModel.h; sourceTree = "<group>"; };
 		526317C418A544BE00B27642 /* EJDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBModel.m; sourceTree = "<group>"; };
 		52C93D9917EB19EC00C01F50 /* EJDBKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EJDBKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,8 +114,6 @@
 		52C93E4717EB299500C01F50 /* EJDBQueryBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EJDBQueryBuilderTests.m; path = ../../EJDBKitTests/EJDBQueryBuilderTests.m; sourceTree = "<group>"; };
 		52C93E4817EB299500C01F50 /* EJDBQueryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EJDBQueryTests.h; path = ../../EJDBKitTests/EJDBQueryTests.h; sourceTree = "<group>"; };
 		52C93E4917EB299500C01F50 /* EJDBQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EJDBQueryTests.m; path = ../../EJDBKitTests/EJDBQueryTests.m; sourceTree = "<group>"; };
-		52C93E4A17EB299500C01F50 /* EJDBTestFixtures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EJDBTestFixtures.h; path = ../../EJDBKitTests/EJDBTestFixtures.h; sourceTree = "<group>"; };
-		52C93E4B17EB299500C01F50 /* EJDBTestFixtures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EJDBTestFixtures.m; path = ../../EJDBKitTests/EJDBTestFixtures.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,10 +215,12 @@
 				52C93E4517EB299500C01F50 /* ejdblogo3.png */,
 				52C93E4617EB299500C01F50 /* EJDBQueryBuilderTests.h */,
 				52C93E4717EB299500C01F50 /* EJDBQueryBuilderTests.m */,
+				5262CDF818A8E8EE009E2BC3 /* EJDBQueryFixtures.h */,
+				5262CDF918A8E8EE009E2BC3 /* EJDBQueryFixtures.m */,
 				52C93E4817EB299500C01F50 /* EJDBQueryTests.h */,
 				52C93E4917EB299500C01F50 /* EJDBQueryTests.m */,
-				52C93E4A17EB299500C01F50 /* EJDBTestFixtures.h */,
-				52C93E4B17EB299500C01F50 /* EJDBTestFixtures.m */,
+				5262CDF518A8E89F009E2BC3 /* EJDBTestFixtures.h */,
+				5262CDF618A8E89F009E2BC3 /* EJDBTestFixtures.m */,
 				52C93DB817EB19EC00C01F50 /* Supporting Files */,
 			);
 			path = "EJDBKit-MacTests";
@@ -412,11 +417,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5262CDFA18A8E8EE009E2BC3 /* EJDBQueryFixtures.m in Sources */,
 				52C93E5017EB299500C01F50 /* EJDBFIQueryBuilderTests.m in Sources */,
 				52C93E5217EB299500C01F50 /* EJDBQueryBuilderTests.m in Sources */,
+				5262CDFB18A8E960009E2BC3 /* EJDBTestFixtures.m in Sources */,
 				52C93E5317EB299500C01F50 /* EJDBQueryTests.m in Sources */,
 				52C93E4D17EB299500C01F50 /* EJDBCollectionTests.m in Sources */,
-				52C93E5417EB299500C01F50 /* EJDBTestFixtures.m in Sources */,
 				52C93E4E17EB299500C01F50 /* EJDBDatabase+DBTestExtensions.m in Sources */,
 				52C93E4C17EB299500C01F50 /* BSONEncoderDecoderTests.m in Sources */,
 				52C93E4F17EB299500C01F50 /* EJDBDatabaseTests.m in Sources */,
