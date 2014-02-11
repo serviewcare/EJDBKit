@@ -1,4 +1,7 @@
-
+Feb 11, 2014 - v0.6.5
+- Removed aggregate build phase for universal library. It just wasn't working correctly for 
+all archs and is not a huge priority at the moment. Might revisit later.
+-----------------------------------
 Feb 10, 2014 - v0.6.4
 - Placed a reference to EJDBKit-Mac project into the main workspace to allow for more straight forward
 building of mac framework.
