@@ -1,3 +1,7 @@
+
+March 13, 2014 - v0.6.6
+- Upgraded to Xcode 5.1.
+-----------------------------------
 Feb 11, 2014 - v0.6.5
 - Removed aggregate build phase for universal library. It just wasn't working correctly for 
 all archs and is not a huge priority at the moment. Might revisit later.

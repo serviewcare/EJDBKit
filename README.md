@@ -6,17 +6,8 @@ The EJDBKit framework is an attempt at wrapping the [EJDB](https://github.com/So
 Current Status
 =================
 
-Feb 11, 2014 - v0.6.5
-
-- Removed aggregate build phase for universal library. It just wasn't working correctly for 
-all archs and is not a huge priority at the moment. Might revisit later.
-
-Feb 10, 2014 - v0.6.4
-
-- Placed a reference to EJDBKit-Mac project into the main workspace to allow for more straight forward
-building of mac framework.
-
-- Cleaned up hard coded search paths for mac project.
+March 13, 2014 - v0.6.6
+- Upgraded to Xcode 5.1.
 
 I will try to make future releases as painless as possible (minimal code changes on your end, if any)
 but I can't guarantee complete shelter from pain until at least version 1.0. :)
@@ -30,7 +21,7 @@ please do let me know! One more thing...enjoy!!!!
 Xcode support
 ===================
 
-Only Xcode 5 or greater is supported.
+Only Xcode 5.1 or greater is supported.
 
 Unit test support
 ===================
