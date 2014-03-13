@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5213BBFE179F4DBA00E34A62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
 		5213E2E217A4635C00E47033 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
 		5213E2E417A4637400E47033 /* libtcejdb.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
 		521BBB6217CF533500920BE4 /* import in Resources */ = {isa = PBXBuildFile; fileRef = 521BBB6117CF533500920BE4 /* import */; };
-		522531B018A8D34D00D9A37A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213BBFD179F4DBA00E34A62 /* libz.dylib */; };
 		522909DA17AA745800634082 /* EJDBKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E9A117A520D70014A63A /* EJDBKit.h */; };
 		522909DC17AA770900634082 /* tcejdb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 522909DB17AA770900634082 /* tcejdb */; };
 		522909DD17AA778100634082 /* EJDBDatabase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5237E99F17A520D70014A63A /* EJDBDatabase.h */; };
@@ -40,6 +38,7 @@
 		52A2365818A4FD4D0021D6A5 /* EJDBQueryFixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2365718A4FD4D0021D6A5 /* EJDBQueryFixtures.m */; };
 		52B1397D189190C200E7F85D /* EJDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 52B1397C189190C200E7F85D /* EJDBModel.m */; };
 		52B1397F189190D500E7F85D /* EJDBModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52B1397E189190D500E7F85D /* EJDBModelTests.m */; };
+		52C2996A18D1A3BE00E98CD2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52C2996818D19EE000E98CD2 /* libz.dylib */; };
 		52D916B817A3AB7900B0060D /* BSONEncoderDecoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */; };
 		52D916BB17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D916BA17A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.m */; };
 		52D916BD17A414DE00B0060D /* ejdblogo3.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D916BC17A414DE00B0060D /* ejdblogo3.png */; };
@@ -86,7 +85,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5213BBFD179F4DBA00E34A62 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5213E2E117A4635C00E47033 /* libtcejdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtcejdb.a; path = ejdb/lib/libtcejdb.a; sourceTree = "<group>"; };
 		521BBB6117CF533500920BE4 /* import */ = {isa = PBXFileReference; lastKnownFileType = folder; path = import; sourceTree = "<group>"; };
 		522909DB17AA770900634082 /* tcejdb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tcejdb; path = ejdb/include/tcejdb; sourceTree = "<group>"; };
@@ -126,6 +124,7 @@
 		52B1397B189190C200E7F85D /* EJDBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EJDBModel.h; sourceTree = "<group>"; };
 		52B1397C189190C200E7F85D /* EJDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBModel.m; sourceTree = "<group>"; };
 		52B1397E189190D500E7F85D /* EJDBModelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EJDBModelTests.m; sourceTree = "<group>"; };
+		52C2996818D19EE000E98CD2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		52D916B617A3AB7900B0060D /* BSONEncoderDecoderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoderDecoderTests.h; sourceTree = "<group>"; };
 		52D916B717A3AB7900B0060D /* BSONEncoderDecoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoderDecoderTests.m; sourceTree = "<group>"; };
 		52D916B917A3FDBB00B0060D /* EJDBDatabase+DBTestExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EJDBDatabase+DBTestExtensions.h"; sourceTree = "<group>"; };
@@ -147,7 +146,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				522531B018A8D34D00D9A37A /* libz.dylib in Frameworks */,
 				52EC76D4179F31B000EEC86D /* Foundation.framework in Frameworks */,
 				5213E2E217A4635C00E47033 /* libtcejdb.a in Frameworks */,
 			);
@@ -157,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5213BBFE179F4DBA00E34A62 /* libz.dylib in Frameworks */,
+				52C2996A18D1A3BE00E98CD2 /* libz.dylib in Frameworks */,
 				52EC76E5179F31B000EEC86D /* UIKit.framework in Frameworks */,
 				52EC76E6179F31B000EEC86D /* Foundation.framework in Frameworks */,
 				52EC76E9179F31B000EEC86D /* libEJDBKit.a in Frameworks */,
@@ -218,8 +216,8 @@
 		52EC76D2179F31B000EEC86D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52C2996818D19EE000E98CD2 /* libz.dylib */,
 				5213E2E117A4635C00E47033 /* libtcejdb.a */,
-				5213BBFD179F4DBA00E34A62 /* libz.dylib */,
 				52EC76D3179F31B000EEC86D /* Foundation.framework */,
 				52EC76E4179F31B000EEC86D /* UIKit.framework */,
 			);
@@ -508,7 +506,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
@@ -519,7 +517,7 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 					"\"$(SRCROOT)\"",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -536,7 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/EJDBKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EJDBKit/EJDBKit-Prefix.pch";
@@ -547,7 +545,7 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 					"\"$(SRCROOT)\"",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
