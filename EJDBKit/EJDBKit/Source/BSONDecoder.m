@@ -126,9 +126,9 @@
 - (NSString *)decodeOIDFromIterator:(bson_iterator)iterator
 {
     bson_oid_t *oid = bson_iterator_oid(&iterator);
-    char str[24];
+    char str[32];
     bson_oid_to_string(oid, str);
-    return [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
+    return [[NSString alloc] initWithBytes:str length:24 encoding:NSASCIIStringEncoding];
 }
 
 - (NSNumber *)decodeNumberFromIterator:(bson_iterator)iterator type:(bson_type)type
