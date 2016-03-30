@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 # A modified version of the cross compiler script from:
 # http://tinsuke.wordpress.com/2011/02/17/how-to-cross-compiling-libraries-for-ios-armv6armv7i386/
 # Yes, it's sloppy...and Yes, it needs some love but for now it will have to do.
 
 IOS_BASE_SDK=""
-IOS_DEPLOY_TGT=""
+IOS_DEPLOY_TGT="7.0"
 
 export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
 IOS_DEVROOT="${DEVELOPER_DIR}/Platforms/iPhoneOS.platform/Developer"
@@ -80,6 +80,15 @@ setenv_x86_64_mac()
         setenv_all
 }
 
+setenv_i386()
+{
+        unsetenv
+        export DEVROOT=$IOS_SIM_DEVROOT
+        export SDKROOT=$DEVROOT/SDKs/iPhoneSimulator$IOS_BASE_SDK.sdk
+        export CFLAGS="-arch i386 -pipe -no-cpp-precomp -isysroot $SDKROOT -miphoneos-version-min=$IOS_DEPLOY_TGT"
+        setenv_all
+}
+
 install_armv7()
 {
         rm -rf $OUTDIR/build/armv7
@@ -119,6 +128,45 @@ install_arm64()
         make install
 }
 
+install_x86_64()
+{
+        rm -rf $OUTDIR/build/x86_64
+        mkdir $OUTDIR/build/x86_64
+        mkdir $OUTDIR/build/x86_64/lib
+        make clean 2> /dev/null
+        make distclean 2> /dev/null
+        setenv_x86_64
+        ./configure --host=arm-apple-darwin7 --enable-shared=no --prefix=$OUTDIR/build/x86_64
+        make
+        make install        
+}
+
+install_x86_64_mac()
+{
+        rm -rf $OUTDIR/build/x86_64_mac
+        mkdir $OUTDIR/build/x86_64_mac
+        mkdir $OUTDIR/build/x86_64_mac/lib
+        make clean 2> /dev/null
+        make distclean 2> /dev/null
+        setenv_x86_64_mac
+        ./configure --host=x86_64 --enable-shared=no --prefix=$OUTDIR/build/x86_64_mac
+        make
+        make install
+}
+
+install_i386()
+{
+        rm -rf $OUTDIR/build/i386
+        mkdir $OUTDIR/build/i386
+        mkdir $OUTDIR/build/i386/lib
+        make clean 2> /dev/null
+        make distclean 2> /dev/null
+        setenv_i386
+        ./configure --enable-shared=no --prefix=$OUTDIR/build/i386
+        make
+        make install        
+}
+
 unset OUTDIR
 OUTDIR="`pwd`/ejdb"
 
@@ -150,6 +198,9 @@ then
   install_armv7
   install_armv7s
   install_arm64
+  install_x86_64
+  install_x86_64_mac
+  install_i386
 else
   for arg
   do
