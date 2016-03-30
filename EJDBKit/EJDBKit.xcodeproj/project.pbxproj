@@ -6,6 +6,29 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		364A24EB1CAC62740019B9B1 /* UniversalLib */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 364A24EE1CAC62740019B9B1 /* Build configuration list for PBXAggregateTarget "UniversalLib" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = UniversalLib;
+			productName = UniversalLib;
+		};
+		36B488F71CAC66F10049B6F2 /* U1 */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 36B488FA1CAC66F10049B6F2 /* Build configuration list for PBXAggregateTarget "U1" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = U1;
+			productName = U1;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5213E2E217A4635C00E47033 /* libtcejdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
 		5213E2E417A4637400E47033 /* libtcejdb.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5213E2E117A4635C00E47033 /* libtcejdb.a */; };
@@ -329,6 +352,14 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = john;
+				TargetAttributes = {
+					364A24EB1CAC62740019B9B1 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					36B488F71CAC66F10049B6F2 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
 			};
 			buildConfigurationList = 52EC76CB179F31B000EEC86D /* Build configuration list for PBXProject "EJDBKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -344,6 +375,8 @@
 			targets = (
 				52EC76CF179F31B000EEC86D /* EJDBKit */,
 				52EC76E0179F31B000EEC86D /* EJDBKitTests */,
+				364A24EB1CAC62740019B9B1 /* UniversalLib */,
+				36B488F71CAC66F10049B6F2 /* U1 */,
 			);
 		};
 /* End PBXProject section */
@@ -386,7 +419,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "##################################################################################\n# This script makes a fat binary based on the current architecture in an effort\n# to minimize the size of the lipo'd archive file.\n# NOTE: You must launch ejdb-build.sh once before running this or else it will FAIL!!!!\n# To make things as simple as possible just run the script with no arguments\n# and all architectures will be built.\n##################################################################################\n\nEJDB_DIR=`pwd`/ejdb\n\nif [ $CURRENT_ARCH = \"i386\" -o $CURRENT_ARCH = \"x86_64\" ]\nthen\n#lipo for simulator\nxcrun -sdk iphoneos lipo -arch i386 ${EJDB_DIR}/build/i386/lib/libtcejdb.a -arch x86_64 ${EJDB_DIR}/build/x86_64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nelse\n#lipo for device\nxcrun -sdk iphoneos lipo -arch armv7 ${EJDB_DIR}/build/armv7/lib/libtcejdb.a -arch armv7s ${EJDB_DIR}/build/armv7s/lib/libtcejdb.a -arch arm64 ${EJDB_DIR}/build/arm64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a\nfi\n";
+			shellScript = "##################################################################################\n# This script makes a fat binary based on the current architecture in an effort\n# to minimize the size of the lipo'd archive file.\n# NOTE: You must launch ejdb-build.sh once before running this or else it will FAIL!!!!\n# To make things as simple as possible just run the script with no arguments\n# and all architectures will be built.\n##################################################################################\n\nEJDB_DIR=`pwd`/ejdb\n\nxcrun -sdk iphoneos lipo -arch i386 ${EJDB_DIR}/build/i386/lib/libtcejdb.a -arch x86_64 ${EJDB_DIR}/build/x86_64/lib/libtcejdb.a -arch armv7 ${EJDB_DIR}/build/armv7/lib/libtcejdb.a -arch armv7s ${EJDB_DIR}/build/armv7s/lib/libtcejdb.a -arch arm64 ${EJDB_DIR}/build/arm64/lib/libtcejdb.a -create -output ${EJDB_DIR}/lib/libtcejdb.a";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -447,6 +480,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		364A24EC1CAC62740019B9B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		364A24ED1CAC62740019B9B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		36B488F81CAC66F10049B6F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		36B488F91CAC66F10049B6F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		52EC76F3179F31B000EEC86D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -605,6 +666,23 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		364A24EE1CAC62740019B9B1 /* Build configuration list for PBXAggregateTarget "UniversalLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				364A24EC1CAC62740019B9B1 /* Debug */,
+				364A24ED1CAC62740019B9B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		36B488FA1CAC66F10049B6F2 /* Build configuration list for PBXAggregateTarget "U1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36B488F81CAC66F10049B6F2 /* Debug */,
+				36B488F91CAC66F10049B6F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		52EC76CB179F31B000EEC86D /* Build configuration list for PBXProject "EJDBKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
