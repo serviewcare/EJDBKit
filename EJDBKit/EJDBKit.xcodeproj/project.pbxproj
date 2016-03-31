@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		3618A2421CAC7F8B0021BB54 /* Fat */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3618A2431CAC7F8B0021BB54 /* Build configuration list for PBXAggregateTarget "Fat" */;
+			buildPhases = (
+				3618A2461CAC7FAB0021BB54 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Fat;
+			productName = Fat;
+		};
 		364A24EB1CAC62740019B9B1 /* UniversalLib */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 364A24EE1CAC62740019B9B1 /* Build configuration list for PBXAggregateTarget "UniversalLib" */;
@@ -353,6 +364,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = john;
 				TargetAttributes = {
+					3618A2421CAC7F8B0021BB54 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 					364A24EB1CAC62740019B9B1 = {
 						CreatedOnToolsVersion = 7.3;
 					};
@@ -377,6 +391,7 @@
 				52EC76E0179F31B000EEC86D /* EJDBKitTests */,
 				364A24EB1CAC62740019B9B1 /* UniversalLib */,
 				36B488F71CAC66F10049B6F2 /* U1 */,
+				3618A2421CAC7F8B0021BB54 /* Fat */,
 			);
 		};
 /* End PBXProject section */
@@ -395,6 +410,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3618A2461CAC7FAB0021BB54 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target EJDBKit ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target EJDBKit -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+		};
 		529ABD6E18A5532B0011EFA4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -480,6 +508,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3618A2441CAC7F8B0021BB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					arm64,
+					armv7,
+					x86_64,
+					armv7s,
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+			};
+			name = Debug;
+		};
+		3618A2451CAC7F8B0021BB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					arm64,
+					armv7,
+					x86_64,
+					armv7s,
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+			};
+			name = Release;
+		};
 		364A24EC1CAC62740019B9B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -578,12 +638,14 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 					"\"$(SRCROOT)\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
@@ -606,12 +668,14 @@
 					"\"$(SRCROOT)/ejdb/lib\"",
 					"\"$(SRCROOT)\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/ejdb/include\"/**";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
@@ -666,6 +730,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3618A2431CAC7F8B0021BB54 /* Build configuration list for PBXAggregateTarget "Fat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3618A2441CAC7F8B0021BB54 /* Debug */,
+				3618A2451CAC7F8B0021BB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		364A24EE1CAC62740019B9B1 /* Build configuration list for PBXAggregateTarget "UniversalLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -682,6 +754,7 @@
 				36B488F91CAC66F10049B6F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		52EC76CB179F31B000EEC86D /* Build configuration list for PBXProject "EJDBKit" */ = {
 			isa = XCConfigurationList;
